@@ -1,0 +1,768 @@
+[
+    {
+        "id": "1",
+        "title": {
+            "fa": "جنایت و مکافات",
+            "en": "Crime and Punishment"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "انتشارات خوارزمی",
+            "en": "Kharazmi Pub"
+        },
+        "translator": {
+            "fa": "مهری آهی",
+            "en": "Mehri Ahi"
+        },
+        "pages": 650,
+        "totalPrice": 120000,
+        "isFamous": true,
+        "salesSite": 5320,
+        "salesIran": 310000,
+        "salesWorld": 85000000,
+        "desc": {
+            "fa": "شاهکار روان‌شناختی فئودور داستایوفسکی درباره جنایت، عذاب وجدان، ایمان و رستگاری. رمان کلاسیک ادبیات روس که همچنان یکی از پرمخاطب‌ترین آثار جهان است.",
+            "en": "Dostoevsky’s psychological masterpiece on crime, conscience, faith and redemption. A cornerstone of Russian literature and one of the most widely read novels in the world."
+        },
+        "bio": {
+            "fa": "«جنایت و مکافات» (۱۸۶۶) شاهکار بی‌بدیل فئودور داستایوفسکی و یکی از مهم‌ترین رمان‌های روان‌شناختی تاریخ ادبیات است. داستان دانشجویی فقیر به نام راسکولنیکف را روایت می‌کند که با نظریه‌ای خطرناک درباره‌ی «انسان برتر» مرتکب قتلی می‌شود و سپس با عذاب وجدان، پلیس، عشق و ایمان دست‌وپنجه نرم می‌کند. این رمان کاوشی عمیق در گناه، رستگاری، فقر و معنای عدالت است و نقطه شروع ایده‌آل برای آشنایی با دنیای داستایوفسکی به‌شمار می‌رود. نسخه PDF ترجمه‌شده‌ی این اثر در PDF مارکت در دسترس است.",
+            "en": "Crime and Punishment (1866) is Fyodor Dostoevsky’s undisputed masterpiece and one of the most important psychological novels ever written. It follows the poor student Raskolnikov, who commits a murder driven by a dangerous theory of the “extraordinary man” and then struggles with guilt, the police, love and faith. The novel is a profound exploration of sin, redemption, poverty and the meaning of justice, and remains the ideal starting point for readers new to Dostoevsky. A high-quality Persian PDF edition is available on PDF Market."
+        }
+    },
+    {
+        "id": "7",
+        "title": {
+            "fa": "برادران کارامازوف",
+            "en": "The Brothers Karamazov"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر نیلوفر",
+            "en": "Niloufar Pub"
+        },
+        "translator": {
+            "fa": "صالح حسینی",
+            "en": "Saleh Hosseini"
+        },
+        "pages": 980,
+        "totalPrice": 145000,
+        "isFamous": true,
+        "salesSite": 4100,
+        "salesIran": 185000,
+        "salesWorld": 25000000,
+        "desc": {
+            "fa": "اوج کار داستایوفسکی؛ رمان فلسفی درباره‌ی ایمان، شک، خانواده، آزادی اراده و معنای رنج. یکی از بزرگ‌ترین آثار ادبیات جهان.",
+            "en": "Dostoevsky’s crowning achievement; a philosophical novel on faith, doubt, family, free will and the meaning of suffering. One of the greatest works in world literature."
+        },
+        "bio": {
+            "fa": "«برادران کارامازوف» (۱۸۸۰) آخرین و کامل‌ترین رمان فئودور داستایوفسکی است. داستان سه برادر و پدرشان را روایت می‌کند و از خلال قتل، دادگاه و مناظره‌های فلسفی، پرسش‌های بنیادین درباره‌ی خدا، اخلاق و آزادی انسان را پیش می‌کشد. بسیاری آن را بزرگ‌ترین رمان تاریخ ادبیات می‌دانند. نسخه PDF با ترجمه‌ی فارسی در PDF مارکت موجود است.",
+            "en": "The Brothers Karamazov (1880) is Fyodor Dostoevsky’s final and most complete novel. It follows three brothers and their father, and through murder, trial and philosophical debate raises fundamental questions about God, morality and human freedom. Many regard it as the greatest novel ever written. A high-quality Persian PDF is available on PDF Market."
+        }
+    },
+    {
+        "id": "8",
+        "title": {
+            "fa": "ابله",
+            "en": "The Idiot"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر نی",
+            "en": "Ney Pub"
+        },
+        "translator": {
+            "fa": "سروش حبیبی",
+            "en": "Soroush Habibi"
+        },
+        "pages": 720,
+        "totalPrice": 125000,
+        "isFamous": true,
+        "salesSite": 3800,
+        "salesIran": 142000,
+        "salesWorld": 18000000,
+        "desc": {
+            "fa": "پرتره‌ای از انسان خوب و معصوم در جهانی فاسد؛ رمان روان‌شناختی و عاطفی درباره‌ی زیبایی، عشق و تراژدی.",
+            "en": "A portrait of a good and innocent man in a corrupt world; a psychological and emotional novel about beauty, love and tragedy."
+        },
+        "bio": {
+            "fa": "«ابله» (۱۸۶۹) داستان شاهزاده میشکین است؛ مردی ساده و نیک‌سرشت که پس از درمان در سوئیس به روسیه بازمی‌گردد و در میان جامعه‌ای ریاکار و قدرت‌طلب گرفتار می‌شود. داستایوفسکی در این رمان ایده «انسان مثبت زیبا» را می‌آزماید و نشان می‌دهد چگونه نیکی خالص در جهان واقعی می‌تواند به تراژدی بینجامد. نسخه PDF در PDF مارکت در دسترس است.",
+            "en": "The Idiot (1869) tells the story of Prince Myshkin, a simple and kind-hearted man who returns to Russia after treatment in Switzerland and becomes entangled in a hypocritical, power-hungry society. Dostoevsky tests the idea of the “positively beautiful man” and shows how pure goodness can lead to tragedy in the real world. Persian PDF available on PDF Market."
+        }
+    },
+    {
+        "id": "9",
+        "title": {
+            "fa": "شیاطین (تسخیرشدگان)",
+            "en": "Demons"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر ماهی",
+            "en": "Mahi Pub"
+        },
+        "translator": {
+            "fa": "رضا رضایی",
+            "en": "Reza Rezaei"
+        },
+        "pages": 780,
+        "totalPrice": 130000,
+        "isFamous": true,
+        "salesSite": 2900,
+        "salesIran": 98000,
+        "salesWorld": 12000000,
+        "desc": {
+            "fa": "رمان سیاسی و ایدئولوژیک درباره‌ی افراط‌گرایی، انقلاب و ویرانی روحی یک نسل. یکی از پیش‌گویانه‌ترین آثار داستایوفسکی.",
+            "en": "A political and ideological novel about extremism, revolution and the spiritual ruin of a generation. One of Dostoevsky’s most prophetic works."
+        },
+        "bio": {
+            "fa": "«شیاطین» یا «تسخیرشدگان» (۱۸۷۲) رمانی است درباره‌ی گروهی از انقلابیون رادیکال در یک شهر استانی روسیه که ایدئولوژی‌شان به خشونت و خودویرانگری می‌انجامد. داستایوفسکی با الهام از واقعه‌ی واقعی نچایف، خطر ایدئولوژی‌های مطلق‌گرا و تهی شدن اخلاق را به تصویر می‌کشد. نسخه PDF ترجمه‌شده در PDF مارکت موجود است.",
+            "en": "Demons (The Possessed, 1872) follows a group of radical revolutionaries in a Russian provincial town whose ideology leads to violence and self-destruction. Inspired by the real Nechayev affair, Dostoevsky portrays the danger of absolute ideologies and the collapse of morality. Persian PDF available on PDF Market."
+        }
+    },
+    {
+        "id": "10",
+        "title": {
+            "fa": "یادداشت‌های زیرزمینی",
+            "en": "Notes from Underground"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر مرکز",
+            "en": "Markaz Pub"
+        },
+        "translator": {
+            "fa": "رحیم قاسمیان",
+            "en": "Rahim Ghasemian"
+        },
+        "pages": 180,
+        "totalPrice": 65000,
+        "isFamous": true,
+        "salesSite": 5200,
+        "salesIran": 210000,
+        "salesWorld": 22000000,
+        "desc": {
+            "fa": "مانیفست فلسفی و روان‌شناختی داستایوفسکی؛ ورود کوتاه و قدرتمند به ذهن انسان مدرن، آزادی و رنج آگاهی.",
+            "en": "Dostoevsky’s philosophical and psychological manifesto; a short, powerful entry into the modern mind, freedom and the pain of consciousness."
+        },
+        "bio": {
+            "fa": "«یادداشت‌های زیرزمینی» (۱۸۶۴) یکی از کوتاه‌ترین و در عین حال تأثیرگذارترین آثار داستایوفسکی است. روایت اول‌شخص مردی منزوی که علیه عقل‌گرایی، پیشرفت و جامعه‌ی مدرن طغیان می‌کند. این کتاب نقطه عطفی در ادبیات اگزیستانسیالیستی به‌شمار می‌رود و نقطه شروع عالی برای آشنایی با دنیای داستایوفسکی است. نسخه PDF در PDF مارکت.",
+            "en": "Notes from Underground (1864) is one of Dostoevsky’s shortest and most influential works. A first-person account of an isolated man rebelling against rationalism, progress and modern society. It is a landmark of existential literature and an excellent starting point for Dostoevsky. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "11",
+        "title": {
+            "fa": "قمارباز",
+            "en": "The Gambler"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر نیلوفر",
+            "en": "Niloufar Pub"
+        },
+        "translator": {
+            "fa": "صالح حسینی",
+            "en": "Saleh Hosseini"
+        },
+        "pages": 220,
+        "totalPrice": 70000,
+        "isFamous": true,
+        "salesSite": 3100,
+        "salesIran": 125000,
+        "salesWorld": 9000000,
+        "desc": {
+            "fa": "رمان کوتاه درباره‌ی اعتیاد به قمار، عشق وسواس‌گونه و تباهی؛ نوشته‌شده در اوج فشار مالی خودِ داستایوفسکی.",
+            "en": "A short novel about gambling addiction, obsessive love and ruin; written at the height of Dostoevsky’s own financial pressure."
+        },
+        "bio": {
+            "fa": "«قمارباز» (۱۸۶۶) داستان الکسی ایوانوویچ را روایت می‌کند که در یک شهر آبگرم اروپایی اسیر عشق و میز رولت می‌شود. داستایوفسکی این رمان را در شرایطی نوشت که خودش به‌شدت مقروض و معتاد قمار بود؛ به همین دلیل صحنه‌های رولت و روان‌شناسی اعتیاد در آن بسیار زنده و واقعی‌اند. نسخه PDF در PDF مارکت.",
+            "en": "The Gambler (1866) follows Alexei Ivanovich, who becomes trapped by love and the roulette table in a European spa town. Dostoevsky wrote it while heavily in debt and addicted to gambling himself, which gives the roulette scenes and psychology of addiction striking authenticity. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "12",
+        "title": {
+            "fa": "شب‌های روشن",
+            "en": "White Nights"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر جامی",
+            "en": "Jami Pub"
+        },
+        "translator": {
+            "fa": "جلال آل‌احمد",
+            "en": "Jalal Al-e-Ahmad"
+        },
+        "pages": 95,
+        "totalPrice": 45000,
+        "isFamous": true,
+        "salesSite": 6800,
+        "salesIran": 280000,
+        "salesWorld": 15000000,
+        "desc": {
+            "fa": "داستان کوتاه و شاعرانه درباره‌ی تنهایی، عشق یک‌طرفه و چهار شب روشن در سن‌پترزبورگ. یکی از محبوب‌ترین آثار داستایوفسکی.",
+            "en": "A short, poetic story of loneliness, unrequited love and four white nights in St. Petersburg. One of Dostoevsky’s most beloved works."
+        },
+        "bio": {
+            "fa": "«شب‌های روشن» (۱۸۴۸) روایت یک خیال‌پرداز تنها در سن‌پترزبورگ است که در چهار شب سفید تابستانی با دختری به نام ناستنکا آشنا می‌شود و عشق کوتاه و تلخش را تجربه می‌کند. این اثر غنایی‌ترین و احساسی‌ترین نوشته‌ی داستایوفسکی است و برای خوانندگان تازه‌کار نقطه‌ی شروع بسیار مناسبی به‌شمار می‌رود. نسخه PDF در PDF مارکت.",
+            "en": "White Nights (1848) follows a lonely dreamer in St. Petersburg who meets a girl named Nastenka over four white summer nights and experiences a brief, bittersweet love. It is Dostoevsky’s most lyrical and emotional work and an excellent entry point for new readers. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "13",
+        "title": {
+            "fa": "همزاد",
+            "en": "The Double"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر مرکز",
+            "en": "Markaz Pub"
+        },
+        "translator": {
+            "fa": "پرویز شهدی",
+            "en": "Parviz Shahdi"
+        },
+        "pages": 200,
+        "totalPrice": 60000,
+        "isFamous": true,
+        "salesSite": 2400,
+        "salesIran": 72000,
+        "salesWorld": 5000000,
+        "desc": {
+            "fa": "کاوشی تاریک در دوگانگی شخصیت، پارانویا و فروپاشی روانی؛ یکی از پیشگامان ادبیات روان‌شناختی مدرن.",
+            "en": "A dark exploration of split personality, paranoia and psychological collapse; a forerunner of modern psychological literature."
+        },
+        "bio": {
+            "fa": "«همزاد» (۱۸۴۶) داستان کارمند دون‌پایه‌ای به نام گولیادکین است که با نسخه‌ی دوم و موفق‌تر خودش روبه‌رو می‌شود و به‌تدریج عقلش را از دست می‌دهد. این رمان کوتاه یکی از نخستین آثار جدی درباره‌ی دوپارگی شخصیت در ادبیات جهان است و تأثیر عمیقی بر نویسندگان بعدی گذاشت. نسخه PDF در PDF مارکت.",
+            "en": "The Double (1846) follows the lowly clerk Golyadkin, who encounters a more successful version of himself and gradually loses his mind. This short novel is one of the earliest serious treatments of split personality in world literature and deeply influenced later writers. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "14",
+        "title": {
+            "fa": "خانه‌ی اموات",
+            "en": "The House of the Dead"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "انتشارات خوارزمی",
+            "en": "Kharazmi Pub"
+        },
+        "translator": {
+            "fa": "محمد قاضی",
+            "en": "Mohammad Ghazi"
+        },
+        "pages": 420,
+        "totalPrice": 95000,
+        "isFamous": true,
+        "salesSite": 2100,
+        "salesIran": 65000,
+        "salesWorld": 7000000,
+        "desc": {
+            "fa": "روایت نیمه‌خودزندگینامه‌ای از سال‌های تبعید و کار اجباری در سیبری؛ تصویری تکان‌دهنده از رنج، انسانیت و امید.",
+            "en": "A semi-autobiographical account of years of exile and hard labour in Siberia; a searing portrait of suffering, humanity and hope."
+        },
+        "bio": {
+            "fa": "«یادداشت‌هایی از خانه‌ی مردگان» (۱۸۶۱–۶۲) بر اساس تجربه‌ی واقعی چهار سال کار اجباری داستایوفسکی در سیبری نوشته شده است. از خلال زندگی زندانیان، جنایتکاران و انسان‌های شکسته، تصویری بی‌رحمانه و در عین حال انسانی از رنج و امکان رستگاری ارائه می‌دهد. این اثر نقطه عطفی در نگاه او به انسان و ایمان بود. نسخه PDF در PDF مارکت.",
+            "en": "Notes from the House of the Dead (1861–62) is based on Dostoevsky’s own four years of hard labour in Siberia. Through the lives of prisoners, criminals and broken people it offers a ruthless yet humane portrait of suffering and the possibility of redemption. The work marked a turning point in his view of humanity and faith. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "15",
+        "title": {
+            "fa": "مردم فقیر",
+            "en": "Poor Folk"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر چشمه",
+            "en": "Cheshmeh Pub"
+        },
+        "translator": {
+            "fa": "عبدالحسین شریفیان",
+            "en": "Abdolhossein Sharifian"
+        },
+        "pages": 250,
+        "totalPrice": 70000,
+        "isFamous": true,
+        "salesSite": 1900,
+        "salesIran": 58000,
+        "salesWorld": 4500000,
+        "desc": {
+            "fa": "نخستین رمان داستایوفسکی؛ رمان نامه‌نگاری درباره‌ی فقر، کرامت انسانی و عشق خاموش در سن‌پترزبورگ.",
+            "en": "Dostoevsky’s first novel; an epistolary novel about poverty, human dignity and quiet love in St. Petersburg."
+        },
+        "bio": {
+            "fa": "«مردم فقیر» (۱۸۴۶) نخستین رمان منتشرشده‌ی داستایوفسکی است که او را یک‌شبه مشهور کرد. از طریق نامه‌های کارمند فقیر ماکار دووشکین و دختر جوان واروارا، زندگی سخت طبقات پایین سن‌پترزبورگ و حس کرامت در میان محرومیت به تصویر کشیده می‌شود. نسخه PDF در PDF مارکت.",
+            "en": "Poor Folk (1846) was Dostoevsky’s first published novel and made him famous overnight. Through the letters of the poor clerk Makar Devushkin and the young girl Varvara, it depicts the hard life of St. Petersburg’s lower classes and the sense of dignity amid deprivation. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "16",
+        "title": {
+            "fa": "جوان خام",
+            "en": "The Adolescent"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر نی",
+            "en": "Ney Pub"
+        },
+        "translator": {
+            "fa": "سروش حبیبی",
+            "en": "Soroush Habibi"
+        },
+        "pages": 680,
+        "totalPrice": 115000,
+        "isFamous": true,
+        "salesSite": 1600,
+        "salesIran": 42000,
+        "salesWorld": 3500000,
+        "desc": {
+            "fa": "رمان بلوغ و هویت؛ داستان پسر نوجوان در جست‌وجوی پدر، معنا و جایگاه خود در جامعه‌ی آشفته‌ی روسیه.",
+            "en": "A novel of coming of age and identity; the story of a teenage boy searching for his father, meaning and place in a turbulent Russian society."
+        },
+        "bio": {
+            "fa": "«جوان خام» یا «نوجوان» (۱۸۷۵) روایت آرگادی دولگوروکی است؛ پسری نامشروع که در آستانه‌ی بزرگسالی به سن‌پترزبورگ می‌آید تا پدر طبیعی‌اش را بیابد و «ایده»ی خود را در زندگی محقق کند. رمان به موضوعاتی چون جاه‌طلبی، خانواده، پول و شکل‌گیری شخصیت می‌پردازد. نسخه PDF در PDF مارکت.",
+            "en": "The Adolescent (A Raw Youth, 1875) follows Arkady Dolgoruky, an illegitimate son who comes to St. Petersburg on the threshold of adulthood to find his natural father and realize his “idea” in life. The novel deals with ambition, family, money and the formation of character. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "17",
+        "title": {
+            "fa": "شوهری ابدی",
+            "en": "The Eternal Husband"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر مرکز",
+            "en": "Markaz Pub"
+        },
+        "translator": {
+            "fa": "پرویز شهدی",
+            "en": "Parviz Shahdi"
+        },
+        "pages": 210,
+        "totalPrice": 65000,
+        "isFamous": true,
+        "salesSite": 1750,
+        "salesIran": 48000,
+        "salesWorld": 4000000,
+        "desc": {
+            "fa": "داستان پرتنش درباره‌ی خیانت، حسادت و رابطه‌ی عجیب میان شوهر و معشوق سابق همسرش.",
+            "en": "A tense story of betrayal, jealousy and the strange relationship between a husband and his wife’s former lover."
+        },
+        "bio": {
+            "fa": "«شوهری ابدی» (۱۸۷۰) رمان کوتاهی است درباره‌ی ولاچانینوف و شوهر زنی که سال‌ها پیش با او رابطه داشته. بازگشت شوهر و بازی روانی میان این دو مرد، یکی از دقیق‌ترین کاوش‌های داستایوفسکی در حسادت، گناه و روان‌شناسی روابط است. نسخه PDF در PDF مارکت.",
+            "en": "The Eternal Husband (1870) is a short novel about Velchaninov and the husband of a woman with whom he had an affair years earlier. The husband’s return and the psychological game between the two men is one of Dostoevsky’s most precise explorations of jealousy, guilt and the psychology of relationships. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "18",
+        "title": {
+            "fa": "نیه‌توچکا نِزوانووا",
+            "en": "Netochka Nezvanova"
+        },
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "authorId": "au1",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک و روانشناختی",
+            "en": "Classic Psychological Fiction"
+        },
+        "genreGroup": "classic_literature",
+        "category": "fiction",
+        "publisher": {
+            "fa": "انتشارات خوارزمی",
+            "en": "Kharazmi Pub"
+        },
+        "translator": {
+            "fa": "مهری آهی",
+            "en": "Mehri Ahi"
+        },
+        "pages": 280,
+        "totalPrice": 75000,
+        "isFamous": true,
+        "salesSite": 1200,
+        "salesIran": 31000,
+        "salesWorld": 2500000,
+        "desc": {
+            "fa": "رمان ناتمام درباره‌ی کودکی و نوجوانی دختری رنج‌کشیده؛ کاوشی در خانواده، هنر و آسیب‌های روانی.",
+            "en": "An unfinished novel about the childhood and adolescence of a suffering girl; an exploration of family, art and psychological wounds."
+        },
+        "bio": {
+            "fa": "«نیه‌توچکا نِزوانووا» (۱۸۴۹) رمانی ناتمام است که داستایوفسکی پیش از دستگیری و تبعید شروع کرده بود. داستان زندگی دختری به نام نیه‌توچکا را از کودکی تا نوجوانی دنبال می‌کند و به موضوعاتی چون خانواده‌ی بیمار، نبوغ هنری و رنج عاطفی می‌پردازد. نسخه PDF در PDF مارکت.",
+            "en": "Netochka Nezvanova (1849) is an unfinished novel that Dostoevsky began before his arrest and exile. It follows the life of a girl named Netochka from childhood into adolescence and deals with a diseased family, artistic genius and emotional suffering. Persian PDF on PDF Market."
+        }
+    },
+    {
+        "id": "2",
+        "title": {
+            "fa": "شازده کوچولو",
+            "en": "The Little Prince"
+        },
+        "author": {
+            "fa": "آنتوان دو سنت‌اگزوپری",
+            "en": "Antoine de Saint-Exupéry"
+        },
+        "authorId": "au2",
+        "genre": {
+            "fa": "داستان فلسفی و معناگرایی",
+            "en": "Philosophical Fiction"
+        },
+        "genreGroup": "philosophy_meaning",
+        "category": "philosophy",
+        "publisher": {
+            "fa": "انتشارات امیرکبیر",
+            "en": "Amirkabir Pub"
+        },
+        "translator": {
+            "fa": "احمد شاملو",
+            "en": "Ahmad Shamlou"
+        },
+        "pages": 112,
+        "totalPrice": 45000,
+        "isFamous": true,
+        "salesSite": 4890,
+        "salesIran": 250000,
+        "salesWorld": 140000000,
+        "desc": {
+            "fa": "شاهکار جاودانه ادبیات جهان درباره نگاه کودکان به حقیقت و عشق.",
+            "en": "Timeless masterpiece exploring life, love, and childhood innocence."
+        },
+        "bio": {
+            "fa": "«شازده کوچولو» خوانده‌شده‌ترین و پرترجمه‌ترین کتاب فرانسوی‌زبان در جهان است.",
+            "en": "The Little Prince is one of the most translated and celebrated books in history, meditating gently on love and devotion."
+        }
+    },
+    {
+        "id": "3",
+        "title": {
+            "fa": "قلعه حیوانات",
+            "en": "Animal Farm"
+        },
+        "author": {
+            "fa": "جورج اورول",
+            "en": "George Orwell"
+        },
+        "authorId": "au3",
+        "genre": {
+            "fa": "رمان سیاسی و پادآرمان‌شهر",
+            "en": "Political Dystopian Satire"
+        },
+        "genreGroup": "political_dystopian",
+        "category": "fiction",
+        "publisher": {
+            "fa": "نشر ماهی",
+            "en": "Mahi Pub"
+        },
+        "translator": {
+            "fa": "کاوه میرعباسی",
+            "en": "Kaveh Mirabbasi"
+        },
+        "pages": 160,
+        "totalPrice": 65000,
+        "isFamous": true,
+        "salesSite": 4120,
+        "salesIran": 190000,
+        "salesWorld": 25000000,
+        "desc": {
+            "fa": "تمثیل شگفت‌انگیز از انقلاب، قدرت‌طلبی و استحاله آرمان‌ها.",
+            "en": "Brilliant political allegory on power, corruption, and revolution."
+        },
+        "bio": {
+            "fa": "جورج اورول در قالب سرگذشت تمثیلی حیوانات یک مزرعه، ظهور استبداد را به تصویر می‌کشد.",
+            "en": "George Orwell’s allegorical novella exposes the corruption of socialist ideals into tyrannical rule."
+        }
+    },
+    {
+        "id": "4",
+        "title": {
+            "fa": "عادت‌های اتمی",
+            "en": "Atomic Habits"
+        },
+        "author": {
+            "fa": "جیمز کلیر",
+            "en": "James Clear"
+        },
+        "authorId": "au4",
+        "genre": {
+            "fa": "موفقیت و رشد فردی",
+            "en": "Personal Growth & Success"
+        },
+        "genreGroup": "self_help",
+        "category": "success",
+        "publisher": {
+            "fa": "نشر نوین (همکار رسمی)",
+            "en": "Novin Pub"
+        },
+        "translator": {
+            "fa": "هادی بهمنی",
+            "en": "Hadi Bahmani"
+        },
+        "pages": 320,
+        "totalPrice": 95000,
+        "isFamous": true,
+        "salesSite": 3980,
+        "salesIran": 110000,
+        "salesWorld": 15000000,
+        "desc": {
+            "fa": "راهنمایی اثبات‌شده برای ایجاد عادت‌های خوب و ترک عادت‌های بد.",
+            "en": "An easy and proven way to build good habits and break bad ones."
+        },
+        "bio": {
+            "fa": "یکی از پرفروش‌ترین کتاب‌های قرن حاضر که نشان می‌دهد تحولات ماندگار حاصل انباشت عادت‌های کوچک ۱ درصدی روزانه‌اند.",
+            "en": "A globally acclaimed modern classic offering practical systems to reshape habits and compound daily actions."
+        }
+    },
+    {
+        "id": "5",
+        "title": {
+            "fa": "بوف کور",
+            "en": "The Blind Owl"
+        },
+        "author": {
+            "fa": "صادق هدایت",
+            "en": "Sadegh Hedayat"
+        },
+        "authorId": "au5",
+        "genre": {
+            "fa": "ادبیات مدرن و سوررئال",
+            "en": "Surrealist Literature"
+        },
+        "genreGroup": "surrealist_literature",
+        "category": "literature",
+        "publisher": {
+            "fa": "انتشارات جاویدان",
+            "en": "Javidan Press"
+        },
+        "translator": {
+            "fa": "نسخه اصلی فارسی",
+            "en": "Original Persian Edition"
+        },
+        "pages": 144,
+        "totalPrice": 50000,
+        "isFamous": true,
+        "salesSite": 2650,
+        "salesIran": 320000,
+        "salesWorld": 2500000,
+        "desc": {
+            "fa": "اوج داستان‌نویسی مدرن ایران و برجسته‌ترین اثر سوررئالیستی شرق.",
+            "en": "Peak of modern Persian fiction and a world-renowned surrealist classic."
+        },
+        "bio": {
+            "fa": "«بوف کور» شناخته‌شده‌ترین رمان مدرن ایرانی در دنیاست؛ کاوشی تاریک و عمیق در لایه‌های روح و روان انسان.",
+            "en": "The magnum opus of modern Iranian literature, recognized globally for its haunting and surreal psychological depth."
+        }
+    },
+    {
+        "id": "6",
+        "title": {
+            "fa": "انسان در جستجوی معنی",
+            "en": "Man's Search for Meaning"
+        },
+        "author": {
+            "fa": "ویکتور فرانکل",
+            "en": "Viktor Frankl"
+        },
+        "authorId": "au6",
+        "genre": {
+            "fa": "فلسفه و روانشناسی امید",
+            "en": "Philosophy & Psychology of Hope"
+        },
+        "genreGroup": "philosophy_meaning",
+        "category": "psychology",
+        "publisher": {
+            "fa": "اختصاصی PDF مارکت",
+            "en": "PDF Market Exclusive"
+        },
+        "translator": {
+            "fa": "مهین میلانی",
+            "en": "Mahin Milani"
+        },
+        "pages": 180,
+        "totalPrice": 75000,
+        "isFamous": true,
+        "salesSite": 3450,
+        "salesIran": 130000,
+        "salesWorld": 16000000,
+        "desc": {
+            "fa": "روایت جاودانه روانشناسی امید و اراده برای بقا.",
+            "en": "Psychological exploration of hope and purposeful survival."
+        },
+        "bio": {
+            "fa": "خاطرات ویکتور فرانکل از اردوگاه کار اجباری آشویتس و بنیان‌گذاری معنادرمانی.",
+            "en": "A profound psychological memoir of survival, illustrating how meaning sustains life through suffering."
+        }
+    },
+    {
+        "id": "19",
+        "salesSite": 0,
+        "salesIran": 0,
+        "salesWorld": 0,
+        "title": {
+            "fa": "بیچارگان",
+            "en": "The Wretched"
+        },
+        "authorId": "au1",
+        "author": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "genreGroup": "classic_literature",
+        "genre": {
+            "fa": "شاهکارهای کلاسیک ادبیات جهان",
+            "en": "Classic World Literature"
+        },
+        "category": "psychology",
+        "publisher": {
+            "fa": "نشر نی",
+            "en": "Nashr-e Ney"
+        },
+        "translator": {
+            "fa": "خشایار دیهیمی",
+            "en": "Khashayar Deihimi"
+        },
+        "pages": 210,
+        "totalPrice": 100000,
+        "isFamous": false,
+        "desc": {
+            "fa": "«بیچارگان» نخستین رمان فئودور داستایفسکی است که در سال ۱۸۴۶ منتشر شد و او را یک‌شبه به چهره‌ای شناخته‌شده در ادبیات روس تبدیل کرد. رمان به شکل نامه‌نگاری نوشته شده و ماجرای مکار دِووشکین، کارمند فقیر و میانسال پترزبورگ، و وارنکا، دختر جوان و بی‌پناه، را روایت می‌کند. این دو در نامه‌هایشان از فقر، تنهایی، آبروداری و محبتی ساده و دردناک می‌گویند. کتاب نگاهی انسانی و بی‌پرده به زندگی فرودستان شهر دارد و پایه‌ی بسیاری از مضمون‌های آثار بعدی داستایفسکی است.",
+            "en": "Poor Folk (1846) is Fyodor Dostoevsky’s debut novel, written in letters between Makar Devushkin, a poor middle-aged clerk in St. Petersburg, and Varvara, a young woman with no one to rely on. Through their correspondence it paints a tender, painful portrait of poverty, loneliness and dignity, and it announced themes that would run through all of Dostoevsky’s later work."
+        },
+        "bio": {
+            "fa": "«بیچارگان» نخستین رمان فئودور داستایفسکی است. او آن را در سال‌های ۱۸۴۴ و ۱۸۴۵، در ۲۴ سالگی، نوشت. رمان در سال ۱۸۴۶ در مجموعه‌ای ادبی در سن‌پترزبورگ منتشر شد. دوستش گریگورویچ دست‌نوشته را به نکراسوف، شاعر و ناشر، داد. نکراسوف و بلینسکی، منتقد پرنفوذ آن زمان، شب‌هنگام آن را خواندند و ستایش کردند. بلینسکی آن را نشانه‌ی ظهور استعدادی تازه در ادبیات روس دانست و داستایفسکی یک‌شبه شناخته شد.\r\n\r\nرمان به شکل نامه‌نگاری روایت می‌شود. مکار دِووشکین، کارمند میانسال و تنگ‌دست، و وارنکا، دختر جوان و بی‌پناه، در همسایگی هم زندگی می‌کنند و برای هم نامه می‌نویسند. مکار با آن‌که خودش به‌زحمت می‌گذراند، از حقوق ناچیزش برای وارنکا خرج می‌کند. وارنکا هم با گذشته‌ای تلخ و آینده‌ای نامطمئن دست‌وپنجه نرم می‌کند. نامه‌ها دنیای کوچک و پرحسرت آدم‌هایی را نشان می‌دهد که از فقر خجالت می‌کشند و با این حال کرامت انسانی خود را حفظ می‌کنند.\r\n\r\n«بیچارگان» با سنت رئالیسم اجتماعی روسیه و نویسندگانی مثل گوگول و پوشکین پیوند دارد. مکار در متن رمان از «شنل» گوگول و «متصدی ایستگاه» پوشکین حرف می‌زند و با آن‌ها همدردی می‌کند. با این حال داستایفسکی صدای خودش را پیدا می‌کند. او به جای ریشخند، نگاهی همدلانه به درون آدم‌های ساده دارد. همین نگاه روان‌شناختی بعدها در «جنایت و مکافات»، «ابله» و «برادران کارامازوف» به اوج رسید. این کتاب برای کسی که می‌خواهد داستایفسکی را از آغاز راهش بشناسد، ورودی کوتاه و تأثیرگذار است.",
+            "en": "Poor Folk is Fyodor Dostoevsky’s first novel, written in 1844–45 when he was 24 and published in St. Petersburg in 1846. Dostoevsky’s friend Grigorovich passed the manuscript to the poet and publisher Nekrasov, who read it overnight with the critic Belinsky. Belinsky praised it as the arrival of a new talent in Russian literature, and Dostoevsky became known almost overnight.\r\n\r\nThe novel is told in letters between Makar Devushkin, a poor middle-aged clerk, and Varvara, a young woman with no one to rely on. Makar spends from his meagre salary to help her, and Varvara struggles with a bitter past and an uncertain future. Their letters trace a small, aching world of people who are ashamed of their poverty yet keep their human dignity.\r\n\r\nThe book belongs to the Russian tradition of social realism, and Makar even reads and reacts to Gogol’s “The Overcoat” and Pushkin’s “The Station Master”. But Dostoevsky already has his own voice. Instead of mockery he offers sympathy for ordinary people’s inner lives, a psychological depth that later reached its height in “Crime and Punishment”, “The Idiot” and “The Brothers Karamazov”. It is a short, powerful way into Dostoevsky at the start of his career."
+        },
+        "pdf": {
+            "file": "b19-e5252fe216b7.pdf",
+            "name": "بیچارگان - فئودور داستایفسکی.pdf",
+            "size": 2458271,
+            "at": "2026-10-11 09:12"
+        }
+    }
+]

@@ -1,0 +1,68 @@
+# آدرس‌های تمیز: author-hedayat.html  ->  author.php?slug=hedayat
+DirectoryIndex index.php index.html
+RewriteEngine On
+RewriteRule ^index\.html$ index.php [L]
+RewriteRule ^author-([a-z0-9-]+)\.html$ author.php?slug=$1 [L,QSA]
+# نسخه‌ی انگلیسی: en-author-hedayat.html و en.html (صفحه‌ی اصلی انگلیسی)
+RewriteRule ^en-author-([a-z0-9-]+)\.html$ author.php?slug=$1 [L,QSA]
+RewriteRule ^en\.html$ index.php [L]
+# صفحه‌ی مستقل هر کتاب: book-1-crime-and-punishment.html  و  en-book-1-crime-and-punishment.html
+RewriteRule ^book-([a-z0-9]+)(-[a-z0-9-]*)?\.html$ book.php?id=$1 [L,QSA]
+RewriteRule ^en-book-([a-z0-9]+)(-[a-z0-9-]*)?\.html$ book.php?id=$1 [L,QSA]
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+RewriteRule ^robots\.txt$ robots.php [L]
+
+# جلوگیری از دیدن مستقیم فایل تنظیمات ادمین و پشتیبان‌ها
+<Files "admin-config.php">
+  Require all denied
+</Files>
+<Files "reset-config.php">
+  Require all denied
+</Files>
+RedirectMatch 403 ^/(.*/)?data/otp/
+RedirectMatch 403 ^/(.*/)?data/backups/
+<Files "changelog.json">
+  Require all denied
+</Files>
+
+# جلوگیری از دانلود مستقیم فایل‌های داده (سایت خودش از سمت سرور می‌خونه)
+<FilesMatch "\.json$">
+  Require all denied
+</FilesMatch>
+
+# فایل‌های داخلی پنل ادمین فقط توسط admin.php روی سرور خوانده می‌شن؛ از بیرون (مرورگر/گوگل) بسته‌ان
+<FilesMatch "^(admin-(content|feedback|history|storage|featured)|pdf-check|lib)\.php$">
+  Require all denied
+</FilesMatch>
+
+# صفحه‌های مدیریتی و بازیابی رمز در نتایج گوگل نیان (بدون اینکه اسمشون توی robots.txt لو بره)
+<IfModule mod_headers.c>
+  <FilesMatch "^(admin.*|reset-password)\.(php|js)$">
+    Header set X-Robots-Tag "noindex, nofollow"
+  </FilesMatch>
+</IfModule>
+
+# فشرده‌سازی متن‌ها (صفحه، ظاهر، برنامه): حجم دانلود حدود ۷۵٪ کمتر می‌شه
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json application/xml text/xml image/svg+xml
+</IfModule>
+
+# اجازه‌ی آپلود PDF تا ۱۰۰ مگابایت (روی Apache با mod_php؛ اگر خطای 500 دادی این بلوک را پاک کن و php.ini را عوض کن)
+<IfModule mod_php.c>
+  php_value upload_max_filesize 100M
+  php_value post_max_size 105M
+  php_value max_execution_time 300
+  php_value max_input_time 300
+</IfModule>
+<IfModule mod_php7.c>
+  php_value upload_max_filesize 100M
+  php_value post_max_size 105M
+  php_value max_execution_time 300
+  php_value max_input_time 300
+</IfModule>
+<IfModule mod_php8.c>
+  php_value upload_max_filesize 100M
+  php_value post_max_size 105M
+  php_value max_execution_time 300
+  php_value max_input_time 300
+</IfModule>

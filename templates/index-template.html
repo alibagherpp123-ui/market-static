@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}" dir="{{DIR}}">
+<head>
+<script>(function(){['copy','cut','paste','contextmenu','selectstart'].forEach(function(t){window.addEventListener(t,function(e){e.stopImmediatePropagation();},true);});})();</script>
+<link rel="preconnect" href="https://rpvpzhyxngxqztjcwcss.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" id="viewportMeta">
+  <meta name="theme-color" content="#faf6f0">
+  <!-- تشخیص «دستگاه PC»: ویندوز همیشه PC حساب می‌شه (حتی لپ‌تاپ لمسی که کروم ماوسش رو «لمسی» گزارش می‌کنه)
+       و بقیه‌ی دستگاه‌ها وقتی ماوس‌دار باشن. روی PC آیکون «نسخه رایانه‌ای» نشون داده نمی‌شه، مستقل از
+       عرض پنجره. روی گوشی (حتی با «Desktop site» مرورگر) این کلاس اضافه نمی‌شه و آیکون می‌مونه. -->
+  <script>
+    (function () {
+      try {
+        var isWindows = /Windows NT/i.test(navigator.userAgent);
+        var hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        if (isWindows || hasMouse) document.documentElement.classList.add('is-pc-device');
+      } catch (e) {}
+    })();
+  </script>
+  <!-- سوییچ اختصاصی «نسخه رایانه‌ای» سایت: مستقل از تنظیم «Desktop site» خودِ مرورگره؛
+       انتخاب کاربر در localStorage ذخیره می‌شه و همین‌جا، قبل از رندر باقیِ صفحه، اعمال می‌شه
+       تا با رفرش یا باز کردن دوباره‌ی سایت هیچ‌وقت گم نشه و پرشی هم در ظاهر صفحه دیده نشه. -->
+  <script>
+    // تشخیص یکپارچه‌ی «ظاهر/تعامل دسکتاپی»: قبلاً چند بخش از ظاهر سایت (مثل انیمیشن نرم باز شدن
+    // مودال‌ها و اسکرول‌بار باریک دسکتاپی) فقط با مدیاکوئری (hover: hover) and (pointer: fine)
+    // فعال می‌شدن؛ یعنی فقط PC واقعی رو تشخیص می‌دادن. وقتی کاربر موبایل «نسخه رایانه‌ای» رو روشن
+    // می‌کرد، عرض صفحه به ۹۸۰px تغییر می‌کرد ولی چون گوشی همچنان لمسی بود (hover: none, pointer: coarse)
+    // این بخش‌ها با وجود «نسخه رایانه‌ای» هیچ‌وقت مثل PC واقعی نمی‌شدن. این تابع هر دو حالت (PC واقعی
+    // یا نسخه‌ی رایانه‌ای اجباری) رو یکسان تشخیص می‌ده و کلاس desktop-ui-active رو روی <html> می‌ذاره؛
+    // قانون‌های CSS که قبلاً داخل اون مدیاکوئری بودن حالا بر اساس همین کلاس اعمال می‌شن.
+    function syncDesktopUIClass() {
+      try {
+        var realDesktopPointer = window.matchMedia('(min-width: 769px) and (hover: hover) and (pointer: fine)').matches;
+        var forced = document.documentElement.classList.contains('force-desktop-mode');
+        document.documentElement.classList.toggle('desktop-ui-active', realDesktopPointer || forced);
+      } catch (e) {}
+    }
+    (function () {
+      try {
+        try { localStorage.removeItem('pdf_market_force_desktop_mode'); } catch (e2) {}   // انتخاب قدیمیِ ماندگار پاک می‌شود: سایت در موبایل همیشه با ظاهر موبایل باز می‌شود
+        if (sessionStorage.getItem('pdf_market_force_desktop_mode') === '1' && !document.documentElement.classList.contains('is-pc-device')) {
+          document.getElementById('viewportMeta').setAttribute('content', 'width=980');
+          document.documentElement.classList.add('force-desktop-mode');
+        }
+      } catch (e) {}
+      syncDesktopUIClass();
+    })();
+  </script>
+  <!-- رفع باگ فلش دکمه‌ی «ورود/ثبت‌نام» موقع رفرش صفحه (مخصوصاً موبایل):
+       تا قبل از این fix، تشخیص «کاربر لاگین کرده یا نه» فقط توسط initUserAuthState() انجام می‌شد
+       که پایین صفحه (بعد از پارس کل body) اجرا می‌شه؛ در نتیجه یک لحظه، دکمه‌ی پیش‌فرض HTML
+       («ورود/ثبت‌نام») رندر می‌شد و بعد به دکمه‌ی «پنل کاربری» تعویض می‌شد = همون پرش/دیلی‌ای که
+       کاربر می‌دید. این اسکریپت همینجا توی <head>، قبل از رندر body، فقط چک می‌کنه که آیا نشست
+       معتبری در localStorage هست یا نه و بر همون اساس یک کلاس روی <html> می‌ذاره؛ قانون CSS بالا
+       (html.has-user-session ...) همون لحظه‌ی اول رندر جای دو دکمه رو درست عوض می‌کنه، بدون اینکه
+       منتظر بمونیم initUserAuthState() اجرا بشه. خودِ initUserAuthState() هنوز هم لازمه (چون
+       اطلاعات کامل کاربر - نام، کیف پول، تاریخچه و ...- رو از دیتابیس می‌خونه و پر می‌کنه)؛ این
+       اسکریپت فقط ظاهر اولیه‌ی دکمه رو درست می‌کنه تا دیگه فلش دیده نشه. -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('pdf_market_active_session')) {
+          document.documentElement.classList.add('has-user-session');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <!-- رفع باگ فلش «بسته شدن لحظه‌ای» پنل شخصی / درباره‌ما / سبد خرید موقع رفرش صفحه (توضیح کامل‌تر
+       بالای قانون‌های CSS مربوطه است). این اسکریپت فقط تشخیص می‌ده که، طبق sessionStorage، کدوم
+       مودال قبل از رفرش باز بوده و آیا اصلاً مجازه (مثلاً پنل شخصی فقط وقتی نشست معتبر باشه بازیابی
+       می‌شه)، و کلاس مربوطه رو روی <html> می‌ذاره. تصمیم نهایی و پر کردن محتوای دقیق مودال هنوز هم
+       توسط همون کد قبلیِ انتهای صفحه انجام می‌شه؛ این فقط از فلش «بسته → باز» جلوگیری می‌کنه. -->
+  <script>
+    (function () {
+      try {
+        var openModal = sessionStorage.getItem('pdf_market_open_modal');
+        var hasSession = !!localStorage.getItem('pdf_market_active_session');
+        var cls = null;
+        if ((openModal === 'panel' || openModal === 'panel_about') && hasSession) {
+          cls = 'restore-user-panel';
+        } else if (openModal === 'about') {
+          cls = 'restore-about-modal';
+        } else if (openModal === 'cart') {
+          cls = 'restore-cart-modal';
+        }
+        if (cls) document.documentElement.classList.add(cls);
+      } catch (e) {}
+    })();
+  </script>
+  {{SEO_HEAD}}
+  <!-- تصمیم نهایی درباره‌ی فونت: قبلاً فونت گوگل (Vazirmatn) به‌صورت غیرمسدودکننده از اینترنت لود می‌شد،
+       ولی هر روشی که امتحان شد (media=print، بعد preload) بازم گاهی روی رفرش‌های پشت‌سرهم رفتار
+       غیریکنواخت داشت (چون نهایتاً به تایمینگ یه درخواست شبکه‌ی خارجی وابسته بود که هیچ‌وقت ۱۰۰٪
+       تضمین‌شده نیست). برای اینکه این باگ کاملاً و همیشگی از بین بره، فونت گوگل کلاً حذف شد و
+       فقط از فونت‌های خودِ سیستم/مرورگر (Tahoma برای فارسی، Segoe UI برای انگلیسی) استفاده می‌شه؛
+       این فونت‌ها از قبل روی خودِ دستگاه نصب‌اند، هیچ دانلودی لازم ندارند، پس هیچ‌وقت دیر نمی‌رسند
+       و هیچ‌وقت وسط کار عوض نمی‌شن - نه فلش، نه تأخیر، نه وابستگی به فیلتر بودن گوگل. -->
+  <link rel="stylesheet" href="{{CSS_HREF}}">
+  <script>
+    // جلوگیری از «فلش تم روشن» لحظه‌ی باز شدن سایت (مثلاً شب که باید تیره باشه):
+    // این اسکریپت همین‌جا توی <head> و قبل از رندر شدن body اجرا می‌شه، تم ذخیره‌شده یا
+    // دسته‌ی درست (روز/شب) رو فوری اعمال می‌کنه. انتخاب دقیق رنگ تصادفی نهایی همچنان
+    // توسط applySmartAutoTheme پایین صفحه انجام می‌شه؛ این فقط از فلش رنگ اشتباه جلوگیری می‌کنه.
+    (function () {
+      function applyEarlyColor(hexColor) {
+        try {
+          var c = hexColor.substring(1);
+          var rgb = parseInt(c, 16);
+          var r = (rgb >> 16) & 0xff, g = (rgb >> 8) & 0xff, b = rgb & 0xff;
+          var isDark = (0.2126 * r + 0.7152 * g + 0.0722 * b) < 128;
+          var root = document.documentElement;
+          root.style.setProperty('--bg', hexColor);
+          var tcMeta = document.querySelector('meta[name="theme-color"]'); if (tcMeta) tcMeta.setAttribute('content', hexColor);
+          root.style.setProperty('--menu-bg', hexColor);
+          var customFrame = null;
+          try { customFrame = localStorage.getItem('spotlight_cover_color'); } catch (e2) {}
+          if (isDark) {
+            root.style.setProperty('--text', '#f5f6fa');
+            root.style.setProperty('--text-muted', '#cbd5e1');
+            root.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.06)');
+            root.style.setProperty('--border', 'rgba(255, 255, 255, 0.16)');
+            root.style.setProperty('--accent', 'rgba(255, 255, 255, 0.09)');
+            if (!customFrame) {
+              root.style.setProperty('--primary', '#e84118');
+              root.style.setProperty('--primary-hover', '#c23616');
+            }
+          } else {
+            var chroma = Math.max(r, g, b) - Math.min(r, g, b);
+            var warm = r >= g && g >= b && (r - b) >= 22;
+            if (warm) {
+              root.style.setProperty('--text', '#3b2f23');
+              root.style.setProperty('--text-muted', '#6b5a48');
+              root.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.38)');
+              root.style.setProperty('--border', 'rgba(90, 60, 20, 0.18)');
+              root.style.setProperty('--accent', 'rgba(90, 60, 20, 0.08)');
+            } else if (chroma >= 14) {
+              root.style.setProperty('--text', '#2a3140');
+              root.style.setProperty('--text-muted', '#566174');
+              root.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.5)');
+              root.style.setProperty('--border', 'rgba(0, 0, 0, 0.14)');
+              root.style.setProperty('--accent', 'rgba(0, 0, 0, 0.07)');
+            } else {
+              root.style.setProperty('--text', '#2f3640');
+              root.style.setProperty('--text-muted', '#718093');
+              root.style.setProperty('--card-bg', 'rgba(0, 0, 0, 0.03)');
+              root.style.setProperty('--border', 'rgba(0, 0, 0, 0.12)');
+              root.style.setProperty('--accent', 'rgba(0, 0, 0, 0.05)');
+            }
+            if (!customFrame) {
+              root.style.setProperty('--primary', '#c95c5c');
+              root.style.setProperty('--primary-hover', '#b04949');
+            }
+          }
+          // اگه رنگ کادر اختصاصی ذخیره شده، همون‌جا روی primary اعمال کن تا فلش رنگ پیش‌فرض دیده نشه
+          if (customFrame && /^#[0-9a-fA-F]{6}$/.test(customFrame)) {
+            root.style.setProperty('--primary', customFrame);
+            // hover ساده‌تر: کمی تیره‌تر (تقریبی بدون تابع کمکی در این اسکریپت زودرس)
+            try {
+              var cf = customFrame.substring(1);
+              var crgb = parseInt(cf, 16);
+              var cr = Math.max(0, Math.round(((crgb >> 16) & 0xff) * 0.85));
+              var cg = Math.max(0, Math.round(((crgb >> 8) & 0xff) * 0.85));
+              var cb = Math.max(0, Math.round((crgb & 0xff) * 0.85));
+              root.style.setProperty('--primary-hover', '#' + [cr, cg, cb].map(function (x) { return x.toString(16).padStart(2, '0'); }).join(''));
+            } catch (e3) {}
+            root.style.setProperty('--spotlight-cover-bg', customFrame);
+          }
+        } catch (e) { /* در صورت خطا، تم پیش‌فرض CSS باقی می‌مونه؛ کل صفحه کرش نمی‌کنه */ }
+      }
+
+      try {
+        var manualOverride = localStorage.getItem('theme_manual_override');
+        if (manualOverride) {
+          // تم رنگین‌کمانی (rainbow-dark / rainbow-pastel) هگز نیست؛ رنگ شروعش رو موقتاً می‌زنیم تا فلش رنگ اشتباه پیش نیاد
+          if (/^#[0-9a-f]{6}$/i.test(manualOverride)) applyEarlyColor(manualOverride);
+          else applyEarlyColor(manualOverride === 'rainbow-dark' ? '#1a0f2e' : '#bcc2f0');
+          return;
+        }
+
+        var now = new Date();
+        var hour = now.getHours();
+        var isNight = hour >= 18 || hour < 6;
+        var period = isNight ? 'night' : 'day';
+
+        // همون منطق «بازه‌ی شب از ۱۸ تا ۶ صبح فردا» که پایین صفحه هم استفاده می‌شه
+        var anchor = new Date(now);
+        if (hour < 6) anchor.setDate(anchor.getDate() - 1);
+        var periodKey = anchor.toDateString();
+
+        var savedKey = localStorage.getItem(period + '_theme_key');
+        var savedColor = localStorage.getItem(period + '_theme_color');
+
+        if (savedKey === periodKey && savedColor) {
+          // همون تمی که قبلاً برای همین بازه انتخاب شده بود، دقیقاً همون رو اعمال کن
+          applyEarlyColor(savedColor);
+        } else {
+          // هنوز برای این بازه رنگ دقیقی انتخاب نشده (اولین بازدید یا شروع بازه‌ی جدید)؛
+          // فقط دسته‌ی درست (تیره/روشن) رو موقتاً می‌زنیم تا فلش رنگ غلط پیش نیاد،
+          // و رنگ دقیق تصادفی رو applySmartAutoTheme پایین صفحه جایگزین می‌کنه
+          applyEarlyColor(isNight ? '#121212' : '#faf6f0');
+        }
+      } catch (e) { /* لوکال‌استوریج در دسترس نبود؛ تم پیش‌فرض روشن CSS باقی می‌مونه */ }
+    })();
+  </script>
+  <!-- تبدیل خودکار اعداد فارسی/عربی به انگلیسی موقع تایپ در همه‌ی کادرهای ورودی (جستجو، شماره همراه، رمز،
+       کدها، بازه‌ی صفحات و...). این شنونده در فاز capture روی کل صفحه نصب می‌شود، یعنی قبل از اجرای
+       oninputهای هر کادر، مقدار اصلاح شده و بقیه‌ی کدها همیشه عدد انگلیسی می‌بینند. برای هر دو زبان
+       و هر سه حالت (PC، موبایل، نسخه‌ی رایانه‌ای) یکسان کار می‌کند. -->
+  <script>
+    (function () {
+      var HAS_NON_LATIN_DIGIT = /[\u06F0-\u06F9\u0660-\u0669]/;
+      var TEXT_LIKE = { '': 1, text: 1, tel: 1, search: 1, email: 1, password: 1, url: 1 };
+      function toLatinDigits(s) {
+        return s.replace(/[\u06F0-\u06F9]/g, function (c) { return c.charCodeAt(0) - 0x06F0; })
+                .replace(/[\u0660-\u0669]/g, function (c) { return c.charCodeAt(0) - 0x0660; });
+      }
+      function fixDigits(e) {
+        var el = e.target;
+        if (!el || el.tagName !== 'INPUT' || el.readOnly || e.isComposing) return;
+        var type = (el.getAttribute('type') || '').toLowerCase();
+        if (!TEXT_LIKE[type]) return;
+        var v = el.value;
+        if (!HAS_NON_LATIN_DIGIT.test(v)) return;
+        var s = null, en = null;
+        try { s = el.selectionStart; en = el.selectionEnd; } catch (_) {}
+        el.value = toLatinDigits(v);
+        try { if (s !== null) el.setSelectionRange(s, en); } catch (_) {}
+      }
+      document.addEventListener('input', fixDigits, true);
+      document.addEventListener('change', fixDigits, true);
+    })();
+  </script>
+  <!-- Enter در کادرهای فرم‌ها همیشه با «یک بار» زدن، فرم را ثبت کند؛ و ثبت دوباره‌ی پشت‌سرهم (دوبار Enter/لمس) نادیده گرفته شود -->
+  <script>
+    (function () {
+      var SKIP_TYPES = { button: 1, submit: 1, reset: 1, checkbox: 1, radio: 1, file: 1, range: 1, color: 1, image: 1 };
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' || e.isComposing || e.keyCode === 229 || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+        var el = e.target;
+        if (!el || el.tagName !== 'INPUT' || !el.form) return;
+        if (SKIP_TYPES[(el.getAttribute('type') || '').toLowerCase()]) return;
+        var form = el.form;
+        if (!form.offsetParent && form.getClientRects().length === 0) return;
+        e.preventDefault();
+        if (typeof form.requestSubmit === 'function') {
+          try { form.requestSubmit(); return; } catch (_) {}
+        }
+        var btn = form.querySelector('button[type="submit"], button:not([type]), input[type="submit"]');
+        if (btn) btn.click();
+      }, true);
+
+      var lastSubmit = new WeakMap();
+      document.addEventListener('submit', function (e) {
+        var f = e.target, now = Date.now(), prev = lastSubmit.get(f) || 0;
+        if (now - prev < 900) { e.preventDefault(); e.stopImmediatePropagation(); return; }
+        lastSubmit.set(f, now);
+      }, true);
+    })();
+  </script>
+  <!-- اتصال زودهنگام به سرورها: تا درخواست اول (ورود/ثبت‌نام) منتظر دست‌دادن TLS نماند -->
+  <link rel="preconnect" href="https://rpvpzhyxngxqztjcwcss.supabase.co" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+</head>
+<body class="{{BODY_CLASS}}">
+
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+  <aside class="side-drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <h3 data-i18n="drawerTitle">دسته‌بندی‌های منو</h3>
+      <button class="drawer-close" onclick="toggleDrawer()">✕</button>
+    </div>
+
+    <button class="menu-highlight-btn" onclick="filterBySpecial('bestsellerSite')">
+      <span>⭐</span>
+      <span data-i18n="menuBestSite">پرفروش‌ترین کتاب‌های سایت</span>
+    </button>
+    <button class="menu-highlight-btn" onclick="filterBySpecial('bestsellerWorld')">
+      <span>🌍</span>
+      <span data-i18n="menuBestWorld">پرفروش‌ترین‌ها در جهان</span>
+    </button>
+    <button class="menu-highlight-btn" onclick="filterBySpecial('bestsellerIran')">
+      <span>🔥</span>
+      <span data-i18n="menuBestIran">پرفروش‌ترین‌ها در ایران</span>
+    </button>
+
+    <div class="accordion-section" style="margin-top: 10px;">
+      <button class="accordion-btn" onclick="toggleAccordion('authorsList')">
+        <span data-i18n="labelAuthors">✍️ نام نویسنده</span>
+        <span>▾</span>
+      </button>
+      <div class="accordion-list" id="authorsList"></div>
+    </div>
+
+    <div class="accordion-section">
+      <button class="accordion-btn" onclick="toggleAccordion('categoriesList')">
+        <span data-i18n="labelCategories">📚 دسته‌بندی موضوعی</span>
+        <span>▾</span>
+      </button>
+      <div class="accordion-list" id="categoriesList">
+        <div class="accordion-item" data-v="literature" onclick="filterByCategory('literature')" data-i18n="catLiterature">ادبیات</div>
+        <div class="accordion-item" data-v="history" onclick="filterByCategory('history')" data-i18n="catHistory">تاریخ</div>
+        <div class="accordion-item" data-v="fiction" onclick="filterByCategory('fiction')" data-i18n="catFiction">داستان و رمان</div>
+        <div class="accordion-item" data-v="psychology" onclick="filterByCategory('psychology')" data-i18n="catPsychology">روان‌شناسی</div>
+        <div class="accordion-item" data-v="success" onclick="filterByCategory('success')" data-i18n="catSuccess">موفقیت</div>
+        <div class="accordion-item" data-v="philosophy" onclick="filterByCategory('philosophy')" data-i18n="catPhilosophy">فلسفه و منطق</div>
+      </div>
+    </div>
+
+    <button class="menu-highlight-btn" onclick="filterBySpecial('discounted')">
+      <span>🏷️</span>
+      <span data-i18n="menuDiscounted">تخفیفات ویژه</span>
+    </button>
+
+    <button class="menu-highlight-btn menu-saved-btn" onclick="openSavedBooksModal()">
+      <span class="saved-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#d9534f" d="M6 2h12a1 1 0 0 1 1 1v19l-7-4.2L5 22V3a1 1 0 0 1 1-1z"/></svg></span>
+      <span data-i18n="menuSavedBooks">کتاب‌های ذخیره‌شده</span>
+      <span class="saved-count-badge" id="savedBooksCount" style="display:none;"></span>
+    </button>
+
+    <button class="btn-about-drawer" onclick="openAboutModal()">
+      <span>ℹ️</span>
+      <span data-i18n="btnAboutText">درباره ما و کسب درآمد</span>
+    </button>
+  </aside>
+
+  <div class="page-frame">
+    <header>
+      <div class="header-right">
+        <a href="#" class="brand-logo-wrapper" onclick="handleLogoClick(); return false;">
+          <div class="site-logo-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 14H7v-2h7v2m3-4H7v-2h10v2m0-4H7V7h10v2z"/></svg>
+          </div>
+          <div class="brand-logo" id="brandLogo">PDF <span>مارکت</span></div>
+        </a>
+      </div>
+
+      <div class="header-tools">
+        <button class="btn-menu-toggle" onclick="toggleDrawer()">
+          <span>☰</span>
+          <span data-i18n="menuBtnText">منو</span>
+        </button>
+
+        <div id="authHeaderArea">
+          <button class="btn-login-header" id="headerContestBtn" onclick="openContestModal()" type="button"><span data-i18n="btnContest">🏆 مسابقه</span></button>
+          <button class="btn-login-header" id="headerLoginBtn" onclick="openAuthModal('login')">
+            <span>🔑</span> <span data-i18n="btnLoginRegister">ورود / ثبت‌نام</span>
+          </button>
+          <button class="btn-user-panel" id="headerUserPanelBtn" onclick="openUserPanelModal()" style="display:none;">
+            <span>👤</span> <span id="userPanelNameBtn"></span>
+          </button>
+        </div>
+
+        <button class="btn-tool" onclick="openCartModal()" id="cartHeaderBtn">
+          🛒 <span data-i18n="cartBtnText">سبد خرید</span> (<span id="cartCountBadge">0</span>)
+        </button>
+
+        <div class="dropdown-container">
+          <button class="btn-tool" onclick="toggleColorGrid()" id="colorPickerBtn">🎨</button>
+          <div class="color-menu-grid" id="bgGrid"></div>
+        </div>
+
+        <button class="btn-tool" onclick="switchPageLanguage()" id="langBtn">English</button>
+
+        <button class="btn-tool" onclick="toggleForceDesktopMode()" id="desktopModeBtn" title="نمایش نسخه رایانه‌ای">🖥️</button>
+      </div>
+    </header>
+
+    <div class="content-container">
+
+      <div class="hero-welcome">
+        <h1 data-i18n="welcomeTitle">به فروشگاه PDF مارکت مرجع PDF تمام کتاب های معتبر از نویسنده های معتبر خوش آمدید</h1>
+      </div>
+
+      <!-- مسیر صفحه برای بخش‌های فیلترشده (مثلاً تخفیفات ویژه): PDF مارکت ‹ تخفیفات ویژه -->
+      <nav class="author-breadcrumb filter-breadcrumb" id="filterBreadcrumb" aria-label="مسیر صفحه">
+        <a class="author-back-link" id="filterCrumbHome" href="{{HOME_HREF}}" onclick="handleLogoClick(); return false;"><span id="filterCrumbHomeText">PDF مارکت</span></a>
+        <span class="author-breadcrumb-sep" aria-hidden="true"></span>
+        <span class="author-breadcrumb-current" id="filterCrumbCurrent" aria-current="page"></span>
+      </nav>
+
+      <div class="filter-banner" id="activeFilterBanner">
+        <span id="activeFilterText">فیلتر فعال</span>
+        <button class="btn-clear-filter" onclick="clearFilter()" data-i18n="clearFilterBtn">نمایش همه کتاب‌ها</button>
+      </div>
+
+      <!-- ویترین پیشنهاد تصادفی -->
+      <div class="spotlight-carousel" id="spotlightBox">
+        <button class="spotlight-nav-btn" onclick="prevSpotlight()" data-i18n-title="titlePrevBook" title="کتاب قبلی" id="spotPrevBtn">›</button>
+
+        <div class="spotlight-cover">
+          <span>📖</span>
+          <h4 id="spotCoverTitle">کتاب</h4>
+        </div>
+        <div class="spotlight-info">
+          <span class="spotlight-tag" data-i18n="spotTag">✨ پیشنهاد تصادفی برای شما</span>
+          <h2 class="spotlight-title" id="spotTitle">...</h2>
+          <p class="spotlight-desc" id="spotDesc"></p>
+          <div class="card-actions" style="max-width: 420px;">
+            <button class="btn-info" id="spotBioBtn" onclick="openBookBio(books[currentSpotlight].id)" data-i18n="btnDetails">🔍 مشخصات و بیوگرافی</button>
+            <button class="btn-read" id="spotSaveBtn" onclick="toggleSaveBook(books[currentSpotlight].id)">🔖 ذخیره برای بعد</button>
+            <button class="btn-read" id="spotReadBtn" data-i18n="btnRead">مطالعه نمونه</button>
+            <button class="btn-buy" id="spotBuyBtn" onclick="addToCart(books[currentSpotlight].id)" data-i18n="btnBuy">خرید کتاب</button>
+          </div>
+        </div>
+
+        <button class="spotlight-nav-btn" onclick="nextSpotlight()" data-i18n-title="titleNextBook" title="کتاب بعدی" id="spotNextBtn">‹</button>
+      </div>
+
+      <!-- کادر افقی چهره‌ها با رندر صحیح آیکون‌ها -->
+      <div class="train-slider-wrapper">
+        <button class="train-nav-btn" onclick="scrollTrainTrack('prev')" id="trainPrevBtn" data-i18n-title="titlePrev" title="قبلی">›</button>
+        <div class="train-track-container" id="trainTrack"></div>
+        <button class="train-nav-btn" onclick="scrollTrainTrack('next')" id="trainNextBtn" data-i18n-title="titleNext" title="بعدی">‹</button>
+      </div>
+
+      <!-- نوار جستجو -->
+      <div class="search-wrapper">
+        <div class="search-container">
+          <div class="select-wrap">
+          <select class="search-filter-select" id="searchCriteria" onchange="updateSearchCriteriaUI(); handleLiveSearch(document.getElementById('searchInput').value)">
+            <option value="all" data-i18n="criteriaAll">جستجوی کلی</option>
+            <option value="genre" data-i18n="criteriaGenre">ژانر کتاب</option>
+            <option value="title" data-i18n="criteriaTitle">نام کتاب</option>
+            <option value="author" data-i18n="criteriaAuthor">نام نویسنده</option>
+            <option value="pages" data-i18n="criteriaPages">تعداد صفحات</option>
+          </select>
+          </div>
+          <input type="text" class="search-input-field" id="searchInput" name="search" placeholder="جستجو در تمام کتاب‌ها..." oninput="debouncedLiveSearch()" autocomplete="on">
+          <div class="pages-range-box" id="pagesRangeBox" style="display:none;">
+            <span class="pages-range-label" data-i18n="pagesRangeFrom">از</span>
+            <input type="text" inputmode="numeric" class="pages-range-input" id="pagesMin" autocomplete="off" oninput="debouncedLiveSearch()" data-i18n-ph="pagesRangeMinPh" placeholder="مثلاً ۱۰۰">
+            <span class="pages-range-label" data-i18n="pagesRangeTo">تا</span>
+            <input type="text" inputmode="numeric" class="pages-range-input" id="pagesMax" autocomplete="off" oninput="debouncedLiveSearch()" data-i18n-ph="pagesRangeMaxPh" placeholder="مثلاً ۳۰۰">
+            <span class="pages-range-label" data-i18n="pagesRangeUnit">صفحه</span>
+          </div>
+        </div>
+
+        <div class="search-suggestions-box" id="searchSuggestionsBox"></div>
+      </div>
+
+      <!-- نحوه نمایش و چینش -->
+      <div class="view-mode-bar">
+        <span data-i18n="viewModeLabel">نحوه نمایش و چینش:</span>
+        <div class="view-switch-box">
+          <button class="btn-view-toggle active" id="btnViewGrid" onclick="setViewMode('grid')" data-i18n-title="titleViewGrid" title="نمایش شبکه‌ای (کارت)">
+            <span>⊞</span>
+            <span data-i18n="viewGrid">شبکه‌ای</span>
+          </button>
+          <button class="btn-view-toggle" id="btnViewList" onclick="setViewMode('list')" data-i18n-title="titleViewList" title="نمایش ردیفی (لیستی)">
+            <span>☰</span>
+            <span data-i18n="viewList">ردیفی</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- فهرست کتاب‌های معروف -->
+      <div class="books-grid" id="booksCatalog"></div>
+
+      <!-- خط افقی و دکمه نمایش بیشتر -->
+      <div class="load-more-divider" id="loadMoreDivider" style="display: none;">
+        <button class="btn-load-more" onclick="loadMoreFamousBooks()" id="btnLoadMore">
+          <span>➕</span>
+          <span data-i18n="loadMoreBooksBtn">نمایش کتاب‌های بیشتر</span>
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- مودال سبد خرید -->
+  <div id="cartModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 540px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="cartModalTitle">🛒 سبد خرید و نهایی‌سازی سفارش</h3>
+        <button class="drawer-close" onclick="closeCartModal()">✕</button>
+      </div>
+
+      <div id="cartItemsContainer" style="max-height: 220px; overflow-y: auto; margin-bottom: 12px;"></div>
+
+      <div style="background:var(--card-bg); border:1px solid var(--border); padding:10px 12px; border-radius:10px; margin-bottom:12px; display:flex; gap:8px; align-items:center;">
+        <input type="text" id="cartVoucherInput" name="voucherCode" class="contact-input" placeholder="کد تخفیف خود را وارد کنید..." style="flex:1; margin:0;" autocomplete="off">
+        <button type="button" class="btn-tool" style="background:var(--primary); color:#fff; border-color:var(--primary); padding:9px 14px;" onclick="applyCartVoucher()" data-i18n="btnApplyVoucher">تایید</button>
+      </div>
+      <div id="cartVoucherFeedback" style="font-size:0.78rem; margin-bottom:10px; font-weight:700;"></div>
+
+      <div class="price-box-simple" style="margin-bottom: 14px;">
+        <span class="price-label" data-i18n="cartTotalPriceLabel">مبلغ قابل پرداخت:</span>
+        <div>
+          <span id="cartOldPriceVal" style="text-decoration: line-through; color: var(--text-muted); margin-left: 8px; display: none;"></span>
+          <span class="price-val" id="cartTotalPriceVal">۰ تومان</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button class="btn-read" style="flex:1;" onclick="closeCartModal()" data-i18n="modalClose">بستن</button>
+        <button class="btn-buy" style="flex:1.5;" onclick="checkoutCart()" data-i18n="checkoutBtn">نهایی‌سازی و خرید کتاب‌ها</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال کتاب‌های ذخیره‌شده -->
+  <div id="savedBooksModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 600px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="savedModalTitle">🔖 کتاب‌های ذخیره‌شده (برای بعد)</h3>
+        <button class="drawer-close" onclick="closeSavedBooksModal()">✕</button>
+      </div>
+
+      <div id="savedBooksListContainer" style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
+
+      <button class="btn-clear-saved" id="savedClearAllBtn" style="display:none;" onclick="clearAllSavedBooks()" data-i18n="btnClearSaved">🗑️ پاک کردن همه‌ی کتاب‌های ذخیره‌شده</button>
+
+      <button class="btn-read" style="width:100%; margin-top:14px;" onclick="closeSavedBooksModal()" data-i18n="modalClose">بستن پنجره</button>
+    </div>
+  </div>
+
+  <!-- مودال انتخاب آواتار و راهنمای شرایط قفل‌ها -->
+  <div id="avatarSelectModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 540px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h3 style="color:var(--primary); margin:0;" data-i18n="avatarModalTitle">🖼️ انتخاب آواتار پروفایل</h3>
+          <button onclick="openAvatarHelpModal()" style="background:var(--accent); border:1px solid var(--border); border-radius:50%; width:24px; height:24px; min-width:24px; font-size:0.8rem; font-weight:bold; cursor:pointer; color:var(--primary); display:flex; align-items:center; justify-content:center; padding:0;" data-i18n-title="titleAvatarGuide" title="راهنمای آواتارها" aria-label="Avatar guide">❔</button>
+        </div>
+        <button class="drawer-close" onclick="closeAvatarSelectModal()">✕</button>
+      </div>
+
+      <div style="font-size:0.84rem; color:var(--text-muted); margin-bottom:10px;" data-i18n="avatarModalDesc">
+        آواتار خود را از بین موارد آزاد انتخاب کنید یا روی آواتارهای قفل‌شده کلیک کنید تا شرایط باز کردن آن‌ها را ببینید:
+      </div>
+
+      <div class="avatar-grid-container" id="avatarGridContainer"></div>
+
+      <!-- ورودی فایل مخفی برای آواتار اختصاصی؛ فقط با کلیک روی آیتم «آواتار اختصاصی» در شبکه باز می‌شود (دیالوگ بومی سیستم‌عامل) -->
+      <input type="file" id="vipAvatarFileInput" accept="image/*" style="display:none;" onchange="handleVipAvatarFileChosen(event)">
+
+      <button class="btn-read" style="width:100%; margin-top:16px;" onclick="closeAvatarSelectModal()" data-i18n="modalClose">بستن</button>
+    </div>
+  </div>
+
+  <!-- مودال پیش‌نمایش عکس اختصاصی قبل از ارسال نهایی برای تایید مدیر -->
+  <div id="avatarPreviewModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width:380px; text-align:center;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
+        <h3 style="color:var(--primary); margin:0; font-size:1rem;" data-i18n="customAvatarTitle">✨ آواتار اختصاصی و شخصی‌سازی‌شده (مخصوص کاربر برتر)</h3>
+        <button class="drawer-close" onclick="cancelVipAvatarPreview()">✕</button>
+      </div>
+
+      <div class="avatar-preview-box"><img id="vipAvatarPreviewImg" src="" alt="Preview"></div>
+
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:10px;" data-i18n="customAvatarDesc">⚠️ قانون سایت: آپلود عکس شخصی یا چهره‌ی واقعی انسان ممنوع است. عکس شما تا زمان تایید توسط مدیر اصلی سایت، برای هیچ‌کس (حتی خودتان) نمایش داده نمی‌شود و به‌جای آن یک آواتار موقت روی پروفایلتان می‌ماند. بررسی حداکثر ۲ روز طول می‌کشد.</p>
+
+      <div style="display:flex; gap:8px;">
+        <button class="btn-info" style="flex:1;" onclick="cancelVipAvatarPreview()" data-i18n="btnCancelUpload">انصراف</button>
+        <button class="btn-buy" style="flex:1;" onclick="confirmVipAvatarUpload()" data-i18n="btnUploadCustom">ادامه و ارسال برای تأیید مدیر</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال احراز هویت -->
+  <div id="authModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width:440px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+        <h3 style="color:var(--primary); margin:0;" id="authModalHeaderTitle">ورود به حساب کاربری</h3>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-tool" onclick="switchPageLanguage()" id="authLangBtn" style="padding:4px 10px; font-size:0.75rem;">English</button>
+          <button class="drawer-close" onclick="closeAuthModal()">✕</button>
+        </div>
+      </div>
+
+      <div id="authCheckoutHint" role="status" style="display:none; background:var(--accent); border:1px dashed var(--primary); padding:10px; border-radius:8px; font-size:0.8rem; line-height:1.7; color:var(--text); margin-bottom:10px;"></div>
+
+      <div class="auth-tab-row" id="authTabHeader">
+        <button type="button" class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')" data-i18n="tabLoginTitle">ورود با رمز</button>
+        <button type="button" class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')" data-i18n="tabRegisterTitle">ثبت‌نام</button>
+      </div>
+
+      <form id="loginForm" onsubmit="handleUserPasswordLogin(event)" class="contact-form-group">
+        <input type="text" id="loginUsername" name="loginUsername" class="contact-input" placeholder="نام کاربری یا شماره همراه" required autocomplete="username">
+        <input type="tel" id="loginPassword" class="contact-input password-numeric-field" placeholder="رمز عبور" required inputmode="numeric" autocomplete="current-password" oninput="restrictInputToDigits(this)">
+        <div style="text-align:inherit; font-size:0.8rem; margin-top:-4px;">
+          <a href="#" onclick="openForgotPasswordFlow(event)" style="color:var(--primary); text-decoration:none;" data-i18n="forgotPassLink">فراموشی رمز عبور؟</a>
+        </div>
+        <button type="submit" class="btn-buy" style="padding:11px; margin-top:6px;" data-i18n="btnLoginSubmit">ورود به پنل شخصی</button>
+      </form>
+
+      <div id="registerFlow" style="display:none;">
+        <div style="background:var(--accent); border:1px dashed var(--primary); padding:10px; border-radius:8px; font-size:0.8rem; line-height:1.7; color:var(--text); margin-bottom:10px;" data-i18n="regNoticeText">
+          📢 جهت آشنایی با نحوه کارکرد سایت حتماً پس از عضویت بخش <strong>«درباره ما»</strong> را مطالعه نمایید.
+        </div>
+
+        <form id="regStep1Form" onsubmit="handleRegisterStep1(event)" class="contact-form-group">
+          <input type="text" id="regUsername" name="regUsername" class="contact-input" placeholder="نام کاربری دلخواه" required autocomplete="username">
+          <input type="tel" id="regPhone" name="regPhone" class="contact-input" placeholder="شماره همراه (هر شماره فقط ۱ بار)" required inputmode="numeric" autocomplete="tel" oninput="restrictInputToDigits(this)">
+          <input type="tel" id="regPassword" class="contact-input password-numeric-field" placeholder="رمز عبور (فقط عدد، حداقل ۶ رقم)" required minlength="6" inputmode="numeric" autocomplete="new-password" oninput="restrictInputToDigits(this)">
+          <button type="submit" class="btn-buy" style="padding:10px;" id="btnRegStep1" data-i18n="btnRegNext">مرحله بعد</button>
+        </form>
+
+        <form id="regStep2Form" onsubmit="handleRegisterStep2(event)" class="contact-form-group" style="display:none;">
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.7;" data-i18n="regRefPrompt">
+            اگر کد معرف دارید وارد کنید در غیر این صورت خالی بزارید و تایید رو بزنید:
+          </p>
+          <input type="text" id="regReferralCodeInput" name="referralCode" class="contact-input" placeholder="کد معرف (اختیاری)" autocomplete="off">
+          <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnRegConfirm">تأیید و تکمیل ثبت‌نام</button>
+        </form>
+      </div>
+
+      <div id="forgotFlow" style="display:none;">
+        <form id="forgotStep1Form" onsubmit="handleSendForgotOtp(event)" class="contact-form-group">
+          <input type="tel" id="forgotPhone" name="forgotPhone" class="contact-input" placeholder="شماره همراه ثبت‌شده در سایت" required inputmode="numeric" autocomplete="tel" oninput="restrictInputToDigits(this)">
+          <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnSendForgotOtp">ارسال کد پیامکی بازیابی</button>
+        </form>
+
+        <div id="simulatedSmsBanner" class="sms-simulation-box" style="display:none;"></div>
+
+        <form id="forgotStep2Form" onsubmit="handleResetPasswordSubmit(event)" class="contact-form-group" style="display:none;">
+          <input type="text" id="forgotOtpInput" name="forgotOtp" autocomplete="one-time-code" class="contact-input" placeholder="کد پیامک‌شده" required maxlength="6" inputmode="numeric" oninput="restrictInputToDigits(this)" style="text-align:center; font-size:1.1rem; letter-spacing:3px;">
+          <input type="tel" id="forgotNewPassword" class="contact-input password-numeric-field" placeholder="رمز عبور جدید (فقط عدد، حداقل ۶ رقم)" required minlength="6" inputmode="numeric" autocomplete="new-password" oninput="restrictInputToDigits(this)">
+          <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnResetPassword">ثبت رمز جدید و ورود</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال تغییر نام کاربری -->
+  <div id="changeUsernameModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width:440px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="changeUserModalTitle">تغییر نام کاربری (هر ۲۴ ساعت ۱ بار)</h3>
+        <button class="drawer-close" onclick="closeChangeUsernameModal()">✕</button>
+      </div>
+
+      <div id="simulatedUserChangeSmsBanner" class="sms-simulation-box" style="display:none;"></div>
+
+      <form id="changeUserPhoneForm" onsubmit="handleSendChangeUserOtp(event)" class="contact-form-group">
+        <p style="font-size:0.85rem; color:var(--text-muted);" data-i18n="changeUserPhoneHint">
+          جهت امنیت حساب، لطفاً شماره تلفن همراه خود را جهت دریافت کد تأیید پیامکی وارد نمایید:
+        </p>
+        <input type="tel" id="changeUserPhoneInput" class="contact-input" data-i18n-ph="phChangeUserPhone" placeholder="شماره همراه شما" required readonly>
+        <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnSendChangeOtp">ارسال کد تأیید پیامک</button>
+      </form>
+
+      <form id="changeUserOtpForm" onsubmit="handleVerifyChangeUserOtp(event)" class="contact-form-group" style="display:none;">
+        <input type="text" id="changeUserOtpInput" name="changeUserOtp" class="contact-input" placeholder="کد پیامک‌شده" required maxlength="6" inputmode="numeric" autocomplete="one-time-code" oninput="restrictInputToDigits(this)" style="text-align:center; font-size:1.15rem; letter-spacing:3px;">
+        <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnVerifyChangeOtp">تأیید کد پیامک</button>
+      </form>
+
+      <form id="changeUserFinalForm" onsubmit="handleFinalizeNewUsername(event)" class="contact-form-group" style="display:none;">
+        <input type="text" id="changeUserNewUsernameInput" name="newUsername" class="contact-input" placeholder="نام کاربری جدید" required autocomplete="off">
+        <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnSaveNewUsername">ذخیره نام کاربری جدید</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- مودال تأیید شماره همراه جهت تسویه حساب -->
+  <div id="phoneVerifyModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width:480px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="phoneVerifyModalTitle">تأیید شماره همراه جهت تسویه حساب نقدی</h3>
+        <button class="drawer-close" onclick="closePhoneVerifyModal()">✕</button>
+      </div>
+
+      <div style="background:rgba(201, 92, 92, 0.08); border:1px dashed var(--primary); padding:12px; border-radius:10px; font-size:0.84rem; line-height:1.8; color:var(--text); margin-bottom:14px;" data-i18n="phoneVerifyExplanation">
+        کاربر گرامی، جهت حفظ امنیت مالی، احراز مالکیت حساب و امکان‌پذیر شدن تسویه حساب و برداشت پورسانت‌ها به شماره شبای بانکی، تأیید شماره همراه با کد پیامکی برای هر حساب الزامی است.
+      </div>
+
+      <div id="simulatedPhoneVerifySmsBanner" class="sms-simulation-box" style="display:none;"></div>
+
+      <form id="phoneVerifySendForm" onsubmit="handleSendPhoneVerifyOtp(event)" class="contact-form-group">
+        <input type="tel" id="phoneVerifyDisplayInput" class="contact-input" readonly>
+        <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnSendVerifySms">📩 ارسال کد تأیید پیامکی</button>
+      </form>
+
+      <form id="phoneVerifyConfirmForm" onsubmit="handleConfirmPhoneVerifyOtp(event)" class="contact-form-group" style="display:none;">
+        <input type="text" id="phoneVerifyOtpInput" name="phoneVerifyOtp" class="contact-input" placeholder="کد ۴ رقمی پیامک‌شده" required maxlength="6" inputmode="numeric" autocomplete="one-time-code" oninput="restrictInputToDigits(this)" style="text-align:center; font-size:1.2rem; letter-spacing:3px;">
+        <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnConfirmPhoneOtp">تأیید نهایی شماره همراه</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- مودال وضعیت تراکنش‌ها -->
+  <div id="walletTransactionsModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 640px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="txModalTitle">📊 وضعیت تراکنش‌های کیف پول</h3>
+        <button class="drawer-close" onclick="closeWalletTransactionsModal()">✕</button>
+      </div>
+
+      <div class="tx-filter-row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; background:var(--card-bg); padding:12px; border-radius:12px; border:1px solid var(--border);">
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="btn-tool tx-type-btn active" id="filterTxAll" onclick="setTxTypeFilter('all')" data-i18n="txFilterAll">همه</button>
+          <button type="button" class="btn-tool tx-type-btn" id="filterTxDeposit" onclick="setTxTypeFilter('deposit')" data-i18n="txFilterDeposit">واریزها</button>
+          <button type="button" class="btn-tool tx-type-btn" id="filterTxWithdraw" onclick="setTxTypeFilter('withdraw')" data-i18n="txFilterWithdraw">برداشت‌ها</button>
+          <select id="txTypeSelect" onchange="setTxTypeFilter(this.value)" style="background:var(--menu-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:6px 10px; font-size:0.78rem; font-family:inherit;">
+            <option value="all" data-i18n="txFilterAll">همه</option>
+            <option value="deposit" data-i18n="txFilterDeposit">واریزها</option>
+            <option value="withdraw" data-i18n="txFilterWithdraw">برداشت‌ها</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap:6px; align-items:center;">
+          <label style="font-size:0.78rem; color:var(--text-muted);" data-i18n="txTimeLabel">بازه زمانی:</label>
+          <select id="txTimePeriodSelect" onchange="renderAdvancedTransactions()" style="background:var(--menu-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:6px 10px; font-size:0.78rem; font-family:inherit;">
+            <option value="all" data-i18n="txTimeAll">همه زمان‌ها</option>
+            <option value="day" data-i18n="txTimeDay">روز جاری</option>
+            <option value="month" data-i18n="txTimeMonth">یک ماه اخیر</option>
+            <option value="year" data-i18n="txTimeYear">یک سال اخیر</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="font-size:0.86rem; font-weight:700; color:var(--primary); margin-bottom:10px; background:rgba(201,92,92,0.06); padding:8px 12px; border-radius:8px;" id="txSummaryReportTitle"></div>
+
+      <div style="max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;" id="advancedTransactionsListContainer"></div>
+
+      <button class="btn-read" style="width:100%; margin-top:16px; padding:10px;" onclick="closeWalletTransactionsModal()" data-i18n="modalClose">بستن پنجره</button>
+    </div>
+  </div>
+
+  <!-- مودال راهنمای مختص زیرمجموعه‌ها -->
+  <!-- راهنمای آواتارها (از دکمه ❔ داخل انتخاب آواتار باز می‌شود؛ متن همان بخش «درباره ما» است) -->
+  <div id="avatarHelpModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 520px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="avatarHelpTitle">❓ راهنمای آواتارها</h3>
+        <button class="drawer-close" onclick="closeAvatarHelpModal()">✕</button>
+      </div>
+
+      <div style="font-size:0.88rem; line-height:1.9; color:var(--text);">
+        <p data-i18n="aboutF6Desc">آواتار همان تصویر پروفایل شماست. ۶ آواتار رایگان از ابتدا در اختیار شماست و ۱۹ آواتار ویژه‌ی قفل‌شده را با فعالیت در سایت باز می‌کنید.<br>۱. <strong>باز کردن آواتارها:</strong> آواتارهای قفل‌شده به‌ترتیب و یکی‌یکی باز می‌شوند. برای باز شدن آواتارِ نوبت‌دار باید از همان لحظه‌ی رسیدن نوبتش، کتاب جدید بخرید، ساعت مطالعه جمع کنید و زیرمجموعه دعوت کنید (کارهای قبل از رسیدن نوبت حساب نمی‌شود). هرچه جلوتر بروید شرط‌ها سخت‌تر می‌شود و آخرین آواتارها امی و لونا هستند. روی هر آواتار قفل‌شده بزنید تا شرطش را ببینید.<br>۲. <strong>آواتار اختصاصی ✨:</strong> با باز کردن حداقل ۹ آواتار وارد رقابت ماهانه می‌شوید. نفر اول هر ماه (بر اساس خرید کتاب، دعوت زیرمجموعه، دقایق مطالعه و دقایق حضور در سایت، به همین ترتیب اولویت) از لحظه‌ی اعلام نتیجه (نیمه‌شب روز یکی‌مانده به آخر ماه) تا اعلام نفر بعدی می‌تواند تصویر دلخواه خودش را روی پروفایل بگذارد.<br>۳. <strong>قانون تصویر:</strong> آپلود عکس شخصی یا چهره‌ی واقعی ممنوع است و هر تصویر قبل از نمایش توسط مدیر سایت بررسی می‌شود (حداکثر ۲ روز).</p>
+      </div>
+
+      <button class="btn-read" style="width:100%; margin-top:16px;" onclick="closeAvatarHelpModal()" data-i18n="modalClose">بستن</button>
+    </div>
+  </div>
+
+  <div id="referralHelpModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 520px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="refHelpTitle">❓ راهنمای کسب درآمد و زیرمجموعه‌گیری</h3>
+        <button class="drawer-close" onclick="closeReferralHelpModal()">✕</button>
+      </div>
+
+      <div style="font-size:0.88rem; line-height:1.9; color:var(--text); display:flex; flex-direction:column; gap:10px;">
+        <p data-i18n="refHelpDesc1">سیستم پاداش سایت بر پایه دو لایه بالاسری طراحی شده است: زیرمجموعه مستقیم (لایه اول) ۲۵٪ پورسانت که یکی‌درمیان با بونوس کتاب مشترک به ۳۰٪ می‌رسد. زیرمجموعه غیرمستقیم (لایه دوم) نیز ۱۰٪ پورسانت به همراه دارد.</p>
+        <p data-i18n="refHelpDesc2"><strong>چگونگی جذب:</strong> کافی است لینک دعوت خود را برای دوستانتان بفرستید یا از آن‌ها بخواهید کد معرف اختصاصی شما را هنگام ثبت‌نام وارد کنند.</p>
+      </div>
+
+      <button class="btn-read" style="width:100%; margin-top:16px;" onclick="closeReferralHelpModal()" data-i18n="modalClose">بستن</button>
+    </div>
+  </div>
+
+  <!-- مودال پنل شخصی کاربر -->
+  <div id="userPanelModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 740px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="panelHeading">👤 پنل شخصی کاربر</h3>
+        <button class="drawer-close" onclick="closeUserPanelModal()">✕</button>
+      </div>
+
+      <button class="menu-highlight-btn" style="margin-top:14px; margin-bottom:8px; border-color:var(--primary); background:rgba(201, 92, 92, 0.08);" onclick="openAboutModal()">
+        <span>📘</span>
+        <span data-i18n="btnPanelAbout">هر آن چیزی که باید بدانید (درباره ما)</span>
+      </button>
+
+      <div class="user-panel-grid">
+        <div class="user-panel-card">
+          <span class="user-panel-card-title" data-i18n="panelUserCardTitle">👤 مشخصات کاربر</span>
+          <div style="display:flex; align-items:center; justify-content:flex-start; gap:12px; margin-top:4px;">
+            <div class="profile-avatar-wrapper" onclick="openAvatarSelectModal()" data-i18n-title="titleChangeAvatar" title="تغییر آواتار پروفایل">
+              <span id="userAvatarDisplay">👤</span>
+            </div>
+            <div>
+              <div style="display:flex; align-items:center;">
+                <strong id="panelUserUsername" style="font-size:1.1rem; color:var(--primary);"></strong>
+                <button class="btn-edit-pencil" onclick="triggerUsernameChangeFlow()" data-i18n-title="titleEditUsername" title="ویرایش نام کاربری">✏️</button>
+              </div>
+            </div>
+          </div>
+          
+          <div style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:6px;">
+            <span id="panelUserPhone" style="font-size:0.82rem; color:var(--text-muted);">شماره: -</span>
+            <span id="panelPhoneVerifyBadge" class="phone-verify-badge unverified">⚠️ تأیید نشده</span>
+            <button id="btnVerifyPhoneTrigger" class="btn-verify-phone-trigger" onclick="openPhoneVerifyModal()" data-i18n="btnVerifyPhone">تأیید شماره تلفن</button>
+          </div>
+
+          <span id="panelRegisterDate" style="font-size:0.8rem; color:var(--primary); font-weight:700; margin-top:4px; border-top:1px dashed var(--border); padding-top:4px;">تاریخ عضویت: -</span>
+        </div>
+
+        <div class="user-panel-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="user-panel-card-title" data-i18n="panelRefCardTitle">👥 وضعیت زیرمجموعه‌ها</span>
+            <button onclick="openReferralHelpModal()" style="background:var(--accent); border:1px solid var(--border); border-radius:50%; width:22px; height:22px; font-size:0.75rem; font-weight:bold; cursor:pointer; color:var(--primary); display:flex; align-items:center; justify-content:center;" data-i18n-title="titleRefGuide" title="راهنمای قوانین زیرمجموعه‌ها">❔</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.85rem;" data-i18n="panelTotalRefsLabel">کل افراد دعوت‌شده:</span>
+            <strong class="user-panel-card-val" id="panelTotalReferralsCount">۰ نفر</strong>
+          </div>
+          <div style="margin-top:6px; border-top:1px dashed var(--border); padding-top:6px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
+              <span data-i18n="panelBatchLabel">پیشرفت دوره ۱۰ نفره فعلی:</span>
+              <strong id="panelReferralProgressText" style="color:var(--primary);">۰ از ۱۰ نفر</strong>
+            </div>
+            <div style="width:100%; background:var(--menu-bg); height:8px; border-radius:10px; overflow:hidden; border:1px solid var(--border); margin-top:4px;">
+              <div id="panelReferralProgressBar" style="width:0%; background:var(--primary); height:100%; transition:width 0.4s;"></div>
+            </div>
+            <span style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:4px;" data-i18n="panelTierNotice">به ازای هر ۱۰ نفری که از طریق شما عضو شوند، یک کد تخفیف پلکانی جدید به لیست کدهای تخفیف پنل شما اضافه می‌شود. شرایط بازگشایی آواتارها مستقل از این پاداش است و در بخش «انتخاب آواتار» نمایش داده می‌شود.</span>
+          </div>
+        </div>
+
+        <div class="user-panel-card">
+          <span class="user-panel-card-title" data-i18n="panelWalletCardTitle">💰 موجودی کیف پول و درآمد</span>
+          <span class="user-panel-card-val" id="panelUserWallet">۰ تومان</span>
+          <span style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;" data-i18n="panelCashoutLimit">سقف برداشت نقدی: ۱,۰۰۰,۰۰۰ تومان</span>
+          <button class="btn-info" style="width:100%; padding:6px; font-size:0.8rem;" onclick="openWalletTransactionsModal()">
+            <span>📊</span> <span data-i18n="btnViewTxStatus">وضعیت تراکنش‌ها</span>
+          </button>
+        </div>
+
+        <div class="user-panel-card">
+          <span class="user-panel-card-title" data-i18n="panelReadCardTitle">⏱️ زمان کل مطالعه کتاب‌ها</span>
+          <span class="user-panel-card-val" id="panelTotalReadingDisplay">۰ دقیقه</span>
+          <span style="font-size:0.75rem; color:var(--text-muted);" data-i18n="panelReadingRewardHint">رسیدن به ۵۰ ساعت = ۴۰٪ هدیه مطالعه</span>
+          <span id="panelReadingPendingNote" style="display:none; font-size:0.75rem; color:#c98a1b; line-height:1.6;"></span>
+        </div>
+      </div>
+
+      <div class="user-panel-card" id="panelInboxCard" style="margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <span class="user-panel-card-title" id="panelInboxTitle">📩 پیام از مدیریت</span>
+          <button class="btn-info" id="panelInboxReadAllBtn" style="padding:3px 10px; font-size:0.72rem; display:none;" onclick="markAllInboxRead()">خوانده شد</button>
+        </div>
+        <div id="panelInboxList" style="max-height:240px; overflow-y:auto; margin-top:6px;"></div>
+      </div>
+
+      <div class="user-panel-card" id="panelPrizeCard" style="margin-bottom:14px; display:none;">
+        <span class="user-panel-card-title">🎁 جوایز مسابقه</span>
+        <div id="panelPrizeBody" style="font-size:0.84rem; line-height:1.9;"></div>
+      </div>
+
+      <div class="user-panel-card" id="panelChampionCard" style="margin-bottom:14px;">
+        <span class="user-panel-card-title" id="panelChampionTitle">🏆 رقابت آواتار اختصاصی</span>
+        <div id="panelChampionBody" style="font-size:0.84rem; line-height:1.9;"></div>
+      </div>
+
+      <div class="user-panel-card" style="margin-bottom:14px;">
+        <span class="user-panel-card-title" data-i18n="panelVouchersTitle">🎁 کدهای تخفیف شما</span>
+        <div style="background:rgba(201, 92, 92, 0.08); border:1px dashed var(--primary); padding:6px 10px; border-radius:8px; font-size:0.76rem; color:var(--text); margin-top:2px;" data-i18n="panelVoucherRule">
+          ⚠️ <strong>قانون تخفیف‌ها:</strong> طبق طراحی و مقررات سایت، نمی‌توانید همزمان دو تخفیف با درصد یکسان داشته باشید؛ با دریافت تخفیف مشابه جدید، یکی از آنها می‌سوزد.
+        </div>
+        <div class="vouchers-scroll-container" id="panelVouchersListContainer"></div>
+      </div>
+
+      <div class="user-panel-card" style="margin-bottom:14px;">
+        <span class="user-panel-card-title" data-i18n="panelRefLinkTitle">🔗 کد معرف و لینک دعوت اختصاصی شما</span>
+        <div class="referral-box-row">
+          <input type="text" id="referralCodeInput" class="referral-input-display" readonly>
+          <button class="btn-copy-code" style="padding:6px 12px;" onclick="copyToClipboard(document.getElementById('referralCodeInput').value, this)" data-i18n="btnCopyCode">کپی کد</button>
+        </div>
+        <div class="referral-box-row" style="margin-top:6px;">
+          <input type="text" id="referralLinkInput" class="referral-input-display" readonly>
+          <button class="btn-copy-code" style="padding:6px 12px;" onclick="copyToClipboard(document.getElementById('referralLinkInput').value, this)" data-i18n="btnCopyLink">کپی لینک</button>
+        </div>
+      </div>
+
+      <!-- قفسه کتاب‌ها با قابلیت حذف و جستجوی کوچک -->
+      <div class="user-panel-card" style="margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span class="user-panel-card-title" data-i18n="panelShelfTitle">📚 قفسه کتاب‌های شما</span>
+          
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <input type="text" id="shelfSearchInput" name="shelfSearch" placeholder="جستجو در کتاب‌ها..." oninput="renderUserShelf()" autocomplete="on" style="background:var(--menu-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:4px 8px; font-size:0.76rem; font-family:inherit; width:125px;">
+
+            <div style="display:flex; align-items:center; gap:4px;">
+              <label style="font-size:0.78rem; color:var(--text-muted);" data-i18n="shelfSelectLabel">وضعیت:</label>
+              <select id="userShelfFilterSelect" onchange="filterUserShelfBySelect(this.value)" style="background:var(--menu-bg); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:4px 8px; font-size:0.78rem; font-family:inherit;">
+                <option value="all" data-i18n="optShelfAll">همه کتاب‌ها</option>
+                <option value="reading" data-i18n="optShelfReading">📖 در حال خواندن</option>
+                <option value="finished" data-i18n="optShelfFinished">✅ خوانده‌شده</option>
+                <option value="unread" data-i18n="optShelfUnread">⏳ خوانده‌نشده</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="panelPurchasedBooksList" style="margin-top:6px; min-height:50px;"></div>
+      </div>
+
+      <div class="user-panel-card" style="margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span class="user-panel-card-title">📊 <span data-i18n="panelTableTitle">تاریخچه مطالعه</span></span>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <div style="display:flex; gap:4px; align-items:center;">
+              <label style="font-size:0.75rem; color:var(--text-muted);" data-i18n="filterDateLabel">انتخاب تاریخ:</label>
+              <input type="text" id="readingDateSpecificInput" name="readingDate" autocomplete="on" placeholder="۱۴۰۳/۰۶/۲۷" oninput="renderReadingHistoryChart()" style="background:var(--menu-bg); border:1px solid var(--border); color:var(--text); border-radius:5px; padding:2px 6px; font-size:0.75rem; width:85px; font-family:inherit;">
+            </div>
+            <div style="display:flex; gap:4px; align-items:center;">
+              <label style="font-size:0.75rem; color:var(--text-muted);" data-i18n="tableUnitLabel">واحد:</label>
+              <select id="readingTimeUnitSelect" onchange="renderReadingHistoryChart()" style="background:var(--menu-bg); border:1px solid var(--border); color:var(--text); border-radius:5px; padding:2px 6px; font-size:0.75rem; font-family:inherit;">
+                <option value="minutes" data-i18n="optUnitMin">دقیقه</option>
+                <option value="hours" data-i18n="optUnitHour">ساعت</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="reading-chart-container" id="readingHistoryChartBox"></div>
+      </div>
+
+      <button class="btn-info" style="width:100%; padding:10px; margin-bottom:14px; font-size:0.88rem;" onclick="goToSupportModalFromPanel()">
+        <span>✍️</span> <span data-i18n="btnPanelAsk">سوال، نظر یا پیشنهادی دارید؟ (پشتیبانی و بازخورد)</span>
+      </button>
+
+      <div style="display:flex; justify-content:space-between; gap:10px;">
+        <button class="btn-read" style="flex:1;" onclick="closeUserPanelModal()" data-i18n="modalClose">بستن</button>
+        <button class="btn-tool" style="color:#e84118; border-color:rgba(232,65,24,0.3);" onclick="handleUserLogout()" data-i18n="btnLogout">خروج از حساب</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="welcomeEntryModal" class="modal-backdrop" style="display:none;">
+    <div class="modal-window" style="text-align:center;">
+      <div style="font-size:2.4rem; margin-bottom:8px;">📚✨</div>
+      <h2 style="color:var(--primary); margin-bottom:10px;" data-i18n="entryWelcomeTitle">خوش آمدید به PDF مارکت</h2>
+      <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:14px; line-height:1.8;" data-i18n="entryWelcomeDesc">
+        مرجع اختصاصی برترین کتاب‌های دیجیتال؛ با مطالعه آنلاین و آفلاین، اشتراک‌گذاری با دوستان و ثبت‌نام در سایت، از تخفیف‌های ویژه و هدایای نقدی بهره‌مند شوید.
+      </p>
+
+      <div id="newUserAlertBox" class="new-user-alert" style="display:none; text-align:inherit;">
+        <strong data-i18n="newAlertHead">📢 راهنمای مهم برای شما (کاربر گرامی تازه‌وارد):</strong>
+        <p style="margin-top:4px;" data-i18n="newAlertBody">
+          ۱. لطفاً از منوی بالای صفحه بخش <strong>«درباره ما»</strong> را مطالعه کنید.<br>
+          ۲. برای دسترسی به پنل کاربری، <strong>حتماً در سایت ثبت‌نام نمایید.</strong>
+        </p>
+      </div>
+
+      <button class="btn-buy" style="width:100%; padding:12px; font-size:1rem;" onclick="closeWelcomeEntryModal()" data-i18n="btnEntryStart">
+        ورود و گشت‌وگذار در فروشگاه
+      </button>
+    </div>
+  </div>
+
+  <!-- مودال مشخصات کتاب -->
+  <div id="bookBioModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 640px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <h3 id="bioModalTitle" style="color:var(--primary); margin:0;" data-i18n="bioModalTitle">معرفی و مشخصات کتاب</h3>
+        <button class="drawer-close" onclick="closeBookBio()">✕</button>
+      </div>
+
+      <div class="book-bio-layout">
+        <div class="book-bio-cover">
+          <span>📖</span>
+          <h4 id="bioCoverTitle">جلد کتاب</h4>
+        </div>
+        <div class="book-bio-meta">
+          <div><strong data-i18n="authorLabel">نویسنده:</strong> <span id="bioAuthor" style="font-weight:700;"></span></div>
+          <div>
+            <strong data-i18n="genreLabel">ژانر:</strong> 
+            <span id="bioGenreBadge" class="genre-tag" onclick="filterByGenreFromBio()"></span>
+          </div>
+          <div><strong data-i18n="publisherLabel">ناشر:</strong> <span id="bioPublisher"></span></div>
+          <div><strong data-i18n="translatorLabel">مترجم:</strong> <span id="bioTranslator"></span></div>
+          <div><strong data-i18n="criteriaPages">تعداد صفحات:</strong> <span id="bioPages"></span></div>
+          <div style="color:var(--primary); font-weight:bold; margin-top:4px; font-size: 1.05rem;">
+            <span data-i18n="finalTotalPriceLabel">قیمت کل:</span> <span id="bioPrice"></span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <strong style="font-size:0.9rem;" data-i18n="bioSummaryTitle">📝 درباره و بیوگرافی این کتاب:</strong>
+        <div class="book-bio-summary" id="bioSummaryText"></div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:16px;">
+        <button class="btn-read" id="bioReadBtn" style="flex:1;" data-i18n="btnRead">مطالعه نمونه</button>
+        <button class="btn-buy" id="bioBuyBtn" style="flex:1.2;" data-i18n="btnBuy">خرید کتاب</button>
+        <button class="btn-read" style="flex:0.8;" onclick="closeBookBio()" data-i18n="modalClose">بستن</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="authorProfileModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 860px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <h3 style="color:var(--primary); margin:0;" data-i18n="authorProfileHeading">پروفایل نویسنده</h3>
+        <button class="drawer-close" onclick="closeAuthorProfile()">✕</button>
+      </div>
+
+      <div class="book-bio-layout">
+        <div class="author-profile-cover" id="authorProfileAvatar"></div>
+        <div class="book-bio-meta">
+          <h3 id="authorProfileName" style="margin:0 0 2px; color:var(--text);"></h3>
+          <div><strong data-i18n="authorLifespanLabel">سال تولد – وفات</strong>: <span id="authorProfileLifespan"></span></div>
+          <div><strong data-i18n="authorNationalityLabel">ملیت</strong>: <span id="authorProfileNationality"></span></div>
+          <div><strong data-i18n="authorGenreLabel">سبک و ژانر ادبی</strong>: <span id="authorProfileGenre"></span></div>
+          <div id="authorProfileAwardsRow"><strong data-i18n="authorAwardsLabel">دستاوردها و جایگاه</strong>: <span id="authorProfileAwards"></span></div>
+        </div>
+      </div>
+
+      <div id="authorProfileQuoteBox" style="display:none; background:var(--accent); border-inline-start:3px solid var(--primary); padding:10px 14px; border-radius:8px; font-style:italic; margin:12px 0; font-size:0.88rem;"></div>
+
+      <div>
+        <strong style="font-size:0.9rem;" data-i18n="authorBioTitle">📝 درباره نویسنده:</strong>
+        <div class="book-bio-summary" id="authorProfileBio"></div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <strong style="font-size:0.95rem; color:var(--primary);" id="authorProfileBooksHeading"></strong>
+        <div class="books-grid" id="authorProfileBooksGrid" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="readerModal" class="modal-backdrop">
+    <div class="modal-window">
+      <h3 id="readerHeading" style="color:var(--primary); margin-bottom:8px;">مطالعه فصل اول</h3>
+      <div class="reader-sample-canvas" id="readerBodyText"></div>
+      <button class="btn-read" style="width:100%;" onclick="closeReader()" data-i18n="modalClose">بستن پنجره</button>
+    </div>
+  </div>
+
+  <!-- مسابقه‌ی ماهانه (برای همه) -->
+  <div id="contestModal" class="modal-backdrop" style="display:none;">
+    <div class="modal-window">
+      <div id="contestHero"></div>
+      <div id="contestTabs" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;"></div>
+      <div id="contestBody" style="font-size:0.86rem; line-height:1.9;"></div>
+      <div id="contestRegisterBox" style="display:none; margin-top:12px;"></div>
+      <div style="margin-top:14px;"><button class="btn-read" style="width:100%;" onclick="closeContestModal()" data-i18n="modalClose">بستن</button></div>
+    </div>
+  </div>
+
+  <!-- درباره ما -->
+  <div id="aboutModal" class="modal-backdrop">
+    <div class="modal-window">
+      <h3 style="color:var(--primary); margin-bottom:16px;" data-i18n="aboutHeading">درباره PDF مارکت</h3>
+      
+      <div class="about-feature-grid">
+        <div class="feature-item">
+          <div class="feature-icon">📁</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF1Title">کتاب‌های PDF دسته‌بندی‌شده در پنل شخصی</h4>
+            <p data-i18n="aboutF1Desc">تمامی کتاب‌های خریداری‌شده را به صورت PDF منظم و دسته‌بندی‌شده برای همیشه در پنل شخصی خود دارید و هر زمان بخواهید می‌توانید آن‌ها را بخوانید.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">💰</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF2Title">نحوه کسب درآمد</h4>
+            <p data-i18n="aboutF2Desc">
+              سیستم پاداش سایت بر پایه دو لایه بالاسری طراحی شده است:<br>
+              ۱. <strong>زیرمجموعه مستقیم (لایه اول):</strong> با معرفی هر کاربر جدید، بابت هر خریدی که او انجام دهد <strong>۲۵٪ پورسانت مستقیم</strong> دریافت می‌کنید.<br>
+              ۲. <strong>بونوس کتاب مشترک (۳۰٪):</strong> اگر زیرمجموعه مستقیم شما کتابی را تهیه کند که خودتان قبلاً آن را خریده‌اید (لازم نیست آن را خوانده باشید)، این خرید واجد شرایط بونوس می‌شود؛ اما پورسانت شما <strong>یکی‌درمیان</strong> به ۳۰٪ افزایش می‌یابد (یعنی از هر دو خریدِ واجد شرایط، فقط دومی به ۳۰٪ می‌رسد و بقیه همان ۲۵٪ باقی می‌ماند). سایر خریدهای زیرمجموعه، که کتابشان را شما نخریده‌اید، همیشه ۲۵٪ است. (این افزایش درصد فقط مختص یک لایه بالاسری مستقیم است و به لایه دوم نمی‌رسد).<br>
+              ۳. <strong>زیرمجموعه غیرمستقیم (لایه دوم):</strong> اگر زیرمجموعه شما فرد جدیدی را دعوت کند، شما از خریدهای آن فرد جدید نیز <strong>۱۰٪ پورسانت</strong> دریافت می‌کنید.<br>
+              ۴. <strong>محدودیت توزیع پاداش:</strong> پورسانت خریدها همیشه <strong>تنها به ۲ لایه بالاسری</strong> تعلق می‌گیرد و برای لایه‌های بعدی (لایه سوم به بعد) سودی به شما نخواهد رسید.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">🔗</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF2bTitle">چگونگی ثبت و جذب زیرمجموعه</h4>
+            <p data-i18n="aboutF2bDesc">
+              برای اینکه فردی به عنوان زیرمجموعه شما ثبت شود و پورسانت خریدهایش به کیف پول شما واریز گردد، فقط کافی است یکی از دو روش زیر انجام شود:<br>
+              ۱. <strong>ثبت‌نام از طریق لینک اختصاصی:</strong> لینک دعوت خود را از پنل کاربری کپی کرده و برای دوستتان بفرستید؛ با کلیک روی آن و ثبت‌نام، او خودکار زیرمجموعه شما می‌شود.<br>
+              ۲. <strong>وارد کردن کد معرف:</strong> اگر دوستتان مستقیماً وارد سایت شد، به او بگویید هنگام ثبت‌نام، <strong>کد معرف اختصاصی شما</strong> (موجود در پنل شخصی‌تان) را در کادر مربوطه وارد کند.<br>
+              با انجام هر کدام از این دو راه، سیستم بلافاصله او را به عنوان زیرمجموعه شما شناسایی می‌کند.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">🎁</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF3Title">تخفیف‌های پنل کاربری، مطالعه و مناسبت‌ها</h4>
+            <p data-i18n="aboutF3Desc">
+              به محض ثبت‌نام، ۵ کوپن تخفیف اول شما (به ترتیب ۵۰٪، ۴۰٪، ۳۰٪، ۲۰٪ و ۱۰٪) در پنل شخصی قرار می‌گیرد. همچنین به ازای هر ۵۰ ساعت مطالعه تاییدشده در سایت، یک کد تخفیف ویژه ۴۰٪ هدیه مطالعه دریافت می‌کنید. این کوپن‌ها بدون انقضا هستند؛ اما توجه داشته باشید که نمی‌توانید همزمان دو کوپن هم‌درصد نگهداری کنید و دریافت کوپن مشابه جدید، قبلی را می‌سوزاند. تخفیف‌های مناسبتی (مانند ۲۰٪ جشن‌های ملی) نیاز به کوپن ندارند و خودکار روی قیمت کتاب‌ها فعال می‌شوند.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">📈</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF4Title">تخفیف‌های پلکانی شبکه دعوت</h4>
+            <p data-i18n="aboutF4Desc">
+              علاوه بر پورسانت‌های نقدی، به ازای هر ۱۰ نفری که از طریق لینک یا کد اختصاصی شما ثبت‌نام کنند، یک کد تخفیف پلکانی جدید به لیست کدهای تخفیف پنل شما اضافه می‌شود تا هر زمان که خواستید از آن استفاده کنید.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">💳</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF5Title">تسویه حساب و خرید رایگان کتاب</h4>
+            <p data-i18n="aboutF5Desc">پورسانت‌های شما با رسیدن به سقف ۱ میلیون تومان قابل برداشت نقدی به شماره شبای بانکی خواهد بود. همچنین می‌توانید بدون نیاز به برداشت، با موجودی کیف پول خود مستقیماً کتاب تهیه کرده و خریدها را کاملاً رایگان انجام دهید.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">🖼️</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF6Title">آواتارها؛ تصویر پروفایل و نماد پیشرفت شما</h4>
+            <p data-i18n="aboutF6Desc">آواتار همان تصویر پروفایل شماست. ۶ آواتار رایگان از ابتدا در اختیار شماست و ۱۹ آواتار ویژه‌ی قفل‌شده را با فعالیت در سایت باز می‌کنید.<br>۱. <strong>باز کردن آواتارها:</strong> آواتارهای قفل‌شده به‌ترتیب و یکی‌یکی باز می‌شوند. برای باز شدن آواتارِ نوبت‌دار باید از همان لحظه‌ی رسیدن نوبتش، کتاب جدید بخرید، ساعت مطالعه جمع کنید و زیرمجموعه دعوت کنید (کارهای قبل از رسیدن نوبت حساب نمی‌شود). هرچه جلوتر بروید شرط‌ها سخت‌تر می‌شود و آخرین آواتارها امی و لونا هستند. روی هر آواتار قفل‌شده بزنید تا شرطش را ببینید.<br>۲. <strong>آواتار اختصاصی ✨:</strong> با باز کردن حداقل ۹ آواتار وارد رقابت ماهانه می‌شوید. نفر اول هر ماه (بر اساس خرید کتاب، دعوت زیرمجموعه، دقایق مطالعه و دقایق حضور در سایت، به همین ترتیب اولویت) از لحظه‌ی اعلام نتیجه (نیمه‌شب روز یکی‌مانده به آخر ماه) تا اعلام نفر بعدی می‌تواند تصویر دلخواه خودش را روی پروفایل بگذارد.<br>۳. <strong>قانون تصویر:</strong> آپلود عکس شخصی یا چهره‌ی واقعی ممنوع است و هر تصویر قبل از نمایش توسط مدیر سایت بررسی می‌شود (حداکثر ۲ روز).</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🏆</div>
+          <div class="feature-text">
+            <h4 data-i18n="aboutF7Title">مسابقه‌ی ماهانه و جوایز</h4>
+            <p data-i18n="aboutF7Desc">هر ماه یک مسابقه برگزار می‌شود و سه نفر برتر جایزه می‌گیرند.<br>۱. <strong>چطور برنده شوم؟</strong> در هر ماه، خرید کتاب، دعوت دوستان و مطالعه در سایت برایت امتیاز می‌آورد (به همین ترتیب اهمیت دارند). برای شرکت در مسابقه باید حداقل ۹ آواتار را باز کرده باشی.<br>۲. <strong>نتیجه کی اعلام می‌شود؟</strong> مسابقه تا ساعت ۱۲ شبِ روز یکی‌مانده به آخر ماه ادامه دارد و بلافاصله بعد از آن سه نفر برتر اعلام می‌شوند.<br>۳. <strong>جایزه‌ها چیست؟</strong> نفر اول: ۱۰ زیرمجموعه‌ی هدیه + کد تخفیف ۱۵٪ + گذاشتن عکس دلخواه روی پروفایل. نفر دوم: ۷ زیرمجموعه‌ی هدیه + کد تخفیف ۱۵٪. نفر سوم: ۴ زیرمجموعه‌ی هدیه + کد تخفیف ۱۰٪.<br>۴. <strong>زیرمجموعه‌ی هدیه یعنی چه؟</strong> کسانی که بدون کد معرف ثبت‌نام می‌کنند، خودکار و تصادفی زیرمجموعه‌ی برندگان می‌شوند و از خریدشان مثل بقیه‌ی زیرمجموعه‌ها پورسانت می‌گیری. فقط برای تخفیف پلکانی و باز شدن آواتارها حساب نمی‌شوند.<br>۵. <strong>اگر برندگان ماه قبل زیرمجموعه‌هایشان کامل نشده باشد؟</strong> آن ماه فقط کد تخفیف داده می‌شود و جایزه‌ی زیرمجموعه بعداً جبران نمی‌شود.<br>۶. <strong>نفر اول را کجا ببینم؟</strong> اگر هنوز ثبت‌نام نکرده‌ای، از دکمه‌ی «🏆 مسابقه» بالای صفحه. بعد از ثبت‌نام، در بخش «رقابت آواتار اختصاصی» پنل شخصی‌ات. نام، آمار و دستاوردهای نفر اول و علایقش (بعد از تأیید مدیر) همان‌جا نمایش داده می‌شود.<br>۷. <strong>علایق نفر اول:</strong> نفر اول می‌تواند یک متن کوتاه (حداکثر ۱۵۰ کاراکتر) درباره‌ی علایقش بنویسد. فقط یک بار می‌شود نوشت و بعد از تأیید مدیر دیگر قابل تغییر نیست، مگر اینکه رد شود.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="support-box">
+        <h4 style="color:var(--primary); margin-bottom:6px;" data-i18n="supportTitle">سوالی ذهن شما را درباره عملکرد سایت مشغول کرده است؟</h4>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;" data-i18n="supportDesc">اگر سوال، نظر یا پیشنهادی دارید، با ما در میان بگذارید.</p>
+        <button class="btn-buy" style="max-width:240px; margin:0 auto;" onclick="openQuestionModal('question')" data-i18n="btnAskQuestion">✍️ پرسش و بازخورد</button>
+      </div>
+
+      <div style="margin-top:14px;">
+        <button class="btn-read" style="width:100%;" onclick="closeAboutModal()" data-i18n="modalClose">بستن</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال پرسش و نظرات -->
+  <div id="questionModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width:520px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
+        <h3 style="color:var(--primary); margin:0;" id="supportModalTitle" data-i18n="supportModalTitle">ارسال پیام به پشتیبانی</h3>
+        <button class="drawer-close" onclick="closeQuestionModal()">✕</button>
+      </div>
+
+      <div class="auth-tab-row">
+        <button type="button" class="auth-tab-btn active" id="tabSupportQuestion" onclick="switchSupportTab('question')" data-i18n="tabSupportQ">❓ طرح سوال عمومی</button>
+        <button type="button" class="auth-tab-btn" id="tabSupportFeedback" onclick="switchSupportTab('feedback')" data-i18n="tabSupportF">💡 نظرات و پیشنهادات (اعضا)</button>
+      </div>
+
+      <div id="supportQuestionSection">
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;" data-i18n="supportQDesc">
+          سوال خود را درباره سایت، نحوه خرید یا درآمدزایی مطرح نمایید.
+        </p>
+        <form onsubmit="handleQuestionSubmit(event)" class="contact-form-group">
+          <input type="text" id="askName" name="name" class="contact-input" placeholder="نام و نام خانوادگی" required autocomplete="name">
+          <input type="text" id="askContact" name="contact" class="contact-input" placeholder="ایمیل یا شماره همراه جهت دریافت پاسخ" required autocomplete="on">
+          <textarea id="askMessage" name="message" class="contact-textarea" placeholder="متن سوال شما..." required autocomplete="on"></textarea>
+          <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnSubmitQ">تایید و ارسال سوال</button>
+        </form>
+      </div>
+
+      <div id="supportFeedbackSection" style="display:none;">
+        <div id="feedbackNotLoggedInBox" style="display:none; text-align:center; padding:16px 8px;">
+          <div style="font-size:2rem; margin-bottom:6px;">🔒</div>
+          <p style="font-size:0.88rem; color:var(--primary); font-weight:700; margin-bottom:10px;" data-i18n="feedbackLoginNotice">
+            ثبت نظرات و پیشنهادات درباره عملکرد سایت فقط برای کاربران عضو امکان‌پذیر است.
+          </p>
+          <button class="btn-buy" onclick="closeQuestionModal(); openAuthModal('login');" data-i18n="btnLoginOrReg">ورود یا ثبت‌نام در سایت</button>
+        </div>
+
+        <form id="feedbackForm" onsubmit="handleFeedbackSubmit(event)" class="contact-form-group" style="display:none;">
+          <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:6px;">
+            <span data-i18n="feedbackGreeting">کاربر گرامی</span> <strong id="feedbackUserBadge" style="color:var(--primary);"></strong><span data-i18n="commaSep">،</span> <span data-i18n="feedbackPrompt">خوشحال می‌شویم نقطه نظرات و پیشنهادات خود را بنویسید:</span>
+          </p>
+          <textarea id="feedbackMessage" name="feedback" class="contact-textarea" placeholder="نظرات، پیشنهادات و انتقادات شما درباره عملکرد فروشگاه و پنل کاربری..." required minlength="10" autocomplete="on"></textarea>
+          <button type="submit" class="btn-buy" style="padding:10px;" data-i18n="btnSubmitFeedback">ثبت و ارسال پیشنهاد به مدیریت</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="images/avatars/avatar-svgs.js"></script>
+  <!-- supabase به‌صورت غیرمسدودکننده (async) لود می‌شود تا اگر CDN کند/فیلتر بود سایت هنگ نکند -->
+  <script>
+    window.__PAGE_DATA = {
+      authors: {{AUTHORS_JSON}},
+      featured: {{FEATURED_JSON}},
+      genreGroups: {{GENRE_GROUPS_JSON}},
+      books: {{BOOKS_JSON}},
+      pageLang: {{PAGE_LANG_JSON}},
+      altUrl: {{ALT_URL_JSON}}
+    };
+  </script>
+  <script src="{{JS_HREF}}"></script>
+<!-- نشانگر «در حال انجام» روی دکمه‌ی فرم‌های ورود/ثبت‌نام/بازیابی تا کاربر موقع انتظار شبکه فکر نکند دکمه کار نکرده -->
+<script>
+  (function () {
+    var NAMES = ['handleUserPasswordLogin', 'handleRegisterStep1', 'handleRegisterStep2', 'handleSendForgotOtp', 'handleResetPasswordSubmit'];
+    NAMES.forEach(function (name) {
+      var orig = window[name];
+      if (typeof orig !== 'function') return;
+      window[name] = async function (e) {
+        var form = e && e.target && e.target.tagName === 'FORM' ? e.target : null;
+        var btn = form ? form.querySelector('button[type="submit"], button:not([type])') : null;
+        var html = null;
+        if (btn) {
+          html = btn.innerHTML;
+          btn.disabled = true;
+          btn.style.opacity = '0.7';
+          btn.textContent = '⏳ ...';
+        }
+        try { return await orig.apply(this, arguments); }
+        finally {
+          if (btn) { btn.innerHTML = html; btn.disabled = false; btn.style.opacity = ''; }
+        }
+      };
+    });
+  })();
+</script>
+  <!-- بازخورد فوری روی دکمه‌های ورود/ثبت‌نام/بازیابی: تا جواب سرور نیامده، دکمه «در حال پردازش…» نشان می‌دهد
+       و غیرفعال می‌شود؛ پس کاربر فکر نمی‌کند کلیکش ثبت نشده و دوباره نمی‌زند. منطق خود توابع تغییری نکرده. -->
+  <script>
+    (function () {
+      ['handleUserPasswordLogin', 'handleRegisterStep1', 'handleRegisterStep2', 'handleSendForgotOtp',
+       'handleResetPasswordSubmit', 'handleSendChangeUserOtp', 'handleSendPhoneVerifyOtp'].forEach(function (name) {
+        var orig = window[name];
+        if (typeof orig !== 'function') return;
+        window[name] = function (e) {
+          var form = e && e.target && e.target.tagName === 'FORM' ? e.target : null;
+          var btn = form ? form.querySelector('button[type="submit"], button:not([type]), input[type="submit"]') : null;
+          var res;
+          try { res = orig.apply(this, arguments); } catch (err) { throw err; }
+          if (!btn || !res || typeof res.then !== 'function') return res;
+          var oldHtml = btn.innerHTML, oldDis = btn.disabled;
+          btn.disabled = true;
+          btn.style.opacity = '0.7';
+          btn.textContent = (typeof currentLang !== 'undefined' && currentLang === 'en') ? '⏳ Processing…' : '⏳ در حال پردازش…';
+          var done = function () { btn.disabled = oldDis; btn.style.opacity = ''; btn.innerHTML = oldHtml; };
+          res.then(done, done);
+          return res;
+        };
+      });
+    })();
+  </script>
+</body>
+</html>

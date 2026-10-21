@@ -1,0 +1,5 @@
+# فایل‌های ظاهر و برنامه‌ی سایت یک سال توی مرورگر می‌مونن.
+# آدرسشون شماره‌ی نسخه داره (?v=...)، پس با هر تغییر فایل، مرورگر نسخه‌ی تازه رو می‌گیره.
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

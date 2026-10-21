@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}" dir="{{DIR}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#faf6f0">
+  {{SEO_HEAD}}
+  <link rel="stylesheet" href="{{CSS_HREF}}">
+</head>
+<body class="{{BODY_CLASS}}">
+  <header class="book-site-header">
+    <a class="book-site-name" href="{{HOME_HREF}}">{{SITE_NAME}}</a>
+    {{ALT_LANG}}
+  </header>
+
+  <main class="content-container book-page">
+    <nav class="author-breadcrumb" aria-label="{{L_BREADCRUMB}}">{{BREADCRUMB}}</nav>
+    <article>
+      <h1 class="author-page-name book-title">{{TITLE}}</h1>
+      {{FACTS}}
+      {{DESC}}
+      {{CTA}}
+      {{BIO}}
+    </article>
+    {{OTHERS}}
+  </main>
+</body>
+</html>

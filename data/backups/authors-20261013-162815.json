@@ -1,0 +1,242 @@
+[
+    {
+        "id": "au1",
+        "slug": "dostoevsky",
+        "name": {
+            "fa": "فئودور داستایوفسکی",
+            "en": "Fyodor Dostoevsky"
+        },
+        "avatarEmoji": "🧔🏻‍♂️",
+        "birthYear": 1821,
+        "deathYear": 1881,
+        "nationality": {
+            "fa": "روسیه",
+            "en": "Russia"
+        },
+        "genre": {
+            "fa": "رمان روان‌شناختی و فلسفی",
+            "en": "Psychological & Philosophical Fiction"
+        },
+        "genreGroup": "psychological_fiction",
+        "awards": {
+            "fa": "یکی از تأثیرگذارترین رمان‌نویسان تاریخ ادبیات جهان؛ آثارش پایه‌گذار رمان مدرن روان‌شناختی محسوب می‌شود.",
+            "en": "Widely regarded as one of the most influential novelists in world literature; his work laid the foundation for the modern psychological novel."
+        },
+        "quote": {
+            "fa": "«زیبایی جهان را نجات خواهد داد.»",
+            "en": "\"Beauty will save the world.\""
+        },
+        "bio": {
+            "fa": "فئودور میخائیلوویچ داستایوفسکی در ۳۰ اکتبر ۱۸۲۱ در مسکو به دنیا آمد و در ۲۸ ژانویه ۱۸۸۱ در سن‌پترزبورگ درگذشت. او یکی از تأثیرگذارترین رمان‌نویسان تاریخ ادبیات جهان و از پایه‌گذاران رمان روان‌شناختی مدرن به‌شمار می‌رود. پدرش پزشک بیمارستان فقرا بود و مادرش زنی مذهبی و اهل کتاب؛ فضای کودکی او آمیخته با فقر شهری، ایمان ارتدکس و ادبیات کلاسیک روس و اروپایی بود. پس از مرگ مادر و کشته‌شدن پدر، وارد دانشکده مهندسی نظامی شد، اما علاقه اصلی‌اش همیشه ادبیات ماند. نخستین رمانش «مردم فقیر» (۱۸۴۶) او را یک‌شبه به شهرت رساند و توجه منتقدانی چون ویساریون بلینسکی را جلب کرد. در سال ۱۸۴۹ به جرم عضویت در حلقه پتراشفسکی و خواندن نامه‌ای انتقادی دستگیر شد، به اعدام محکوم گردید و در آخرین لحظه حکم به چهار سال کار اجباری در سیبری و خدمت اجباری نظامی تغییر یافت. این تجربه، به‌همراه سال‌های تبعید، جهان‌بینی او را دگرگون کرد و مضامینی چون رنج، گناه، ایمان، آزادی اراده و رستگاری را به مرکز آثارش آورد. پس از بازگشت، با رمان‌هایی چون «یادداشت‌های زیرزمینی»، «جنایت و مکافات»، «ابله»، «شیاطین» و سرانجام «برادران کارامازوف» جایگاه خود را به‌عنوان یکی از ستون‌های ادبیات جهان تثبیت کرد. آثار داستایوفسکی کاوشی عمیق در لایه‌های تاریک روان انسان، تضاد میان ایمان و شک، فقر و کرامت، و معنای رنج است. تأثیر او بر نیچه، کافکا، کامو، سارتر، فروید و نسل‌های بعدی نویسندگان و فیلسوفان انکارناپذیر است و رمان‌هایش تا امروز از پرمخاطب‌ترین و پرترجمه‌ترین آثار کلاسیک جهان باقی مانده‌اند.",
+            "en": "Fyodor Mikhailovich Dostoevsky was born in Moscow on 30 October 1821 and died in St. Petersburg on 28 January 1881. He is widely regarded as one of the most influential novelists in world literature and a founder of the modern psychological novel. His father was a doctor at a hospital for the poor and his mother a devout, book-loving woman; his childhood mixed urban poverty, Orthodox faith and classical Russian and European literature. After his mother’s death and his father’s murder, he entered a military engineering academy, though literature remained his true passion. His first novel, Poor Folk (1846), made him famous overnight and drew the attention of critics such as Vissarion Belinsky. In 1849 he was arrested for membership in the Petrashevsky Circle and for reading a critical letter, sentenced to death, and only at the last moment had the sentence commuted to four years of hard labour in Siberia followed by compulsory military service. That experience, together with the years of exile, transformed his worldview and placed suffering, guilt, faith, free will and redemption at the centre of his later work. After his return he secured his place among the pillars of world literature with novels such as Notes from Underground, Crime and Punishment, The Idiot, Demons and finally The Brothers Karamazov. Dostoevsky’s fiction is a profound exploration of the dark layers of the human psyche, the conflict between faith and doubt, poverty and dignity, and the meaning of suffering. His influence on Nietzsche, Kafka, Camus, Sartre, Freud and later generations of writers and philosophers is undeniable, and his novels remain among the most widely read and translated classics in the world."
+        },
+        "readingOrder": {
+            "fa": {
+                "summary": "📚 از کجا شروع کنیم؟ ترتیب کتاب‌ها برای تازه‌کارها",
+                "body": "<p>اگر تازه می‌خواهید با دنیای داستایوفسکی آشنا شوید، بهتر است از آثار کوتاه‌تر یا قابل‌دسترس‌تر شروع کنید و بعد به شاهکارهای بلندتر برسید. ترتیب پیشنهادی زیر برای خوانندگان تازه‌کار طراحی شده است:</p><ol style=\"margin:12px 0 8px; padding-right:22px; line-height:1.9;\"><li><strong>یادداشت‌های زیرزمینی</strong> — ورود کوتاه و قدرتمند به ذهن و فلسفه‌ی داستایوفسکی (اختیاری اما بسیار مفید).</li><li><strong>جنایت و مکافات</strong> — بهترین نقطه شروع برای اکثر خوانندگان؛ کاوش وجدان، گناه و رستگاری.</li><li><strong>ابله</strong> — پرتره‌ای از انسان خوب در جهان فاسد؛ رمانی روان‌شناختی و عاطفی.</li><li><strong>شیاطین (تسخیرشدگان)</strong> — رمانی سیاسی و ایدئولوژیک درباره‌ی افراط‌گرایی و انقلاب.</li><li><strong>برادران کارامازوف</strong> — اوج کار داستایوفسکی؛ رمان فلسفی درباره‌ی ایمان، شک، خانواده و آزادی.</li></ol><p style=\"margin-top:10px;\">پس از این پنج اثر می‌توانید به سراغ «قمارباز»، «همزاد»، «شب‌های روشن» و سایر آثار کوتاه‌تر او بروید.</p>"
+            },
+            "en": {
+                "summary": "📚 Where to Start? Suggested Reading Order for Beginners",
+                "body": "<p>If you are new to Dostoevsky, it is best to begin with shorter or more accessible works and then move on to the longer masterpieces. The following order is designed for first-time readers:</p><ol style=\"margin:12px 0 8px; padding-left:22px; line-height:1.9;\"><li><strong>Notes from Underground</strong> — a short, powerful entry into Dostoevsky’s mind and philosophy (optional but highly recommended).</li><li><strong>Crime and Punishment</strong> — the best starting point for most readers; an exploration of conscience, guilt and redemption.</li><li><strong>The Idiot</strong> — a portrait of a good man in a corrupt world; a psychological and emotional novel.</li><li><strong>Demons (The Possessed)</strong> — a political and ideological novel about extremism and revolution.</li><li><strong>The Brothers Karamazov</strong> — Dostoevsky’s crowning achievement; a philosophical novel on faith, doubt, family and freedom.</li></ol><p style=\"margin-top:10px;\">After these five works you can move on to The Gambler, The Double, White Nights and his other shorter works.</p>"
+            }
+        }
+    },
+    {
+        "id": "au2",
+        "name": {
+            "fa": "آنتوان دو سنت‌اگزوپری",
+            "en": "Antoine de Saint-Exupéry"
+        },
+        "avatarEmoji": "✈️",
+        "birthYear": 1900,
+        "deathYear": 1944,
+        "nationality": {
+            "fa": "فرانسه",
+            "en": "France"
+        },
+        "genre": {
+            "fa": "ادبیات فلسفی و سفرنامه‌ هوانوردی",
+            "en": "Philosophical Fiction & Aviation Memoir"
+        },
+        "genreGroup": "philosophy_meaning",
+        "awards": {
+            "fa": "کتاب «شازده کوچولو»ی او یکی از پرفروش‌ترین و پرترجمه‌ترین کتاب‌های تاریخ نشر جهان است.",
+            "en": "\"The Little Prince\" is one of the best-selling and most-translated books in publishing history."
+        },
+        "quote": {
+            "fa": "«آنچه اساسی است، با چشم دیده نمی‌شود.»",
+            "en": "\"What is essential is invisible to the eye.\""
+        },
+        "bio": {
+            "fa": "سنت‌اگزوپری نویسنده و خلبان فرانسوی بود که تجربه‌های خود از پرواز و بیابان را به آثاری شاعرانه و فلسفی تبدیل کرد. شهرت جهانی او مدیون کتاب «شازده کوچولو» است، اثری ساده در ظاهر اما عمیق در مضمون درباره‌ی دوستی، عشق و معنای زندگی. او در جریان یک پرواز شناسایی در جنگ جهانی دوم بر فراز دریای مدیترانه ناپدید شد و هرگز یافت نشد.",
+            "en": "Saint-Exupéry was a French writer and pilot who turned his experiences of flight and the desert into poetic, philosophical prose. He is best known worldwide for The Little Prince, a deceptively simple story about friendship, love and the meaning of life. He disappeared without a trace during a reconnaissance flight over the Mediterranean in World War II."
+        }
+    },
+    {
+        "id": "au3",
+        "name": {
+            "fa": "جورج اورول",
+            "en": "George Orwell"
+        },
+        "avatarEmoji": "🖋️",
+        "birthYear": 1903,
+        "deathYear": 1950,
+        "nationality": {
+            "fa": "بریتانیا",
+            "en": "United Kingdom"
+        },
+        "genre": {
+            "fa": "رمان سیاسی و دیستوپیایی",
+            "en": "Political & Dystopian Fiction"
+        },
+        "genreGroup": "political_dystopian",
+        "awards": {
+            "fa": "مجله تایم رمان «۱۹۸۴» او را یکی از صد رمان برتر انگلیسی‌زبان قرن بیستم برشمرده است؛ واژه‌هایی مثل «برادر بزرگ» از آثار او وارد زبان روزمره جهان شده‌اند.",
+            "en": "Time magazine named \"1984\" one of the 100 best English-language novels of the 20th century; terms like \"Big Brother\" from his work have entered everyday global language."
+        },
+        "quote": {
+            "fa": "«جنگ یعنی صلح.»",
+            "en": "\"War is Peace.\""
+        },
+        "bio": {
+            "fa": "جورج اورول (نام اصلی: اریک آرتور بلر) نویسنده و روزنامه‌نگار انگلیسی بود که با آثار سیاسی خود درباره‌ی توتالیتاریسم، سانسور و دستکاری حقیقت، به یکی از تأثیرگذارترین نویسندگان قرن بیستم تبدیل شد. رمان‌های «۱۹۸۴» و «قلعه حیوانات» او همچنان از پرخواننده‌ترین و بحث‌برانگیزترین آثار ادبیات سیاسی جهان به شمار می‌روند.",
+            "en": "George Orwell (born Eric Arthur Blair) was an English novelist and journalist whose political writing on totalitarianism, censorship and the manipulation of truth made him one of the most influential authors of the 20th century. His novels 1984 and Animal Farm remain among the most widely read and debated works of political literature in the world."
+        },
+        "slug": "georgeorwell",
+        "photo": "images/authors/georgeorwell.jpg"
+    },
+    {
+        "id": "au4",
+        "name": {
+            "fa": "جیمز کلیر",
+            "en": "James Clear"
+        },
+        "avatarEmoji": "💡",
+        "birthYear": 1986,
+        "deathYear": null,
+        "nationality": {
+            "fa": "آمریکا",
+            "en": "United States"
+        },
+        "genre": {
+            "fa": "روان‌شناسی رفتاری و خودیاری",
+            "en": "Behavioral Psychology & Self-Help"
+        },
+        "genreGroup": "self_help",
+        "awards": {
+            "fa": "کتاب «عادت‌های اتمی»ی او بیش از ۲۰ میلیون نسخه در سراسر جهان فروخته و سال‌ها در فهرست پرفروش‌های نیویورک‌تایمز باقی مانده است.",
+            "en": "\"Atomic Habits\" has sold over 20 million copies worldwide and spent years on the New York Times bestseller list."
+        },
+        "quote": {
+            "fa": "به گفته‌ی خودش، هر کاری که انجام می‌دهید، رأیی است به شخصیتی که می‌خواهید باشید.",
+            "en": "\"Every action you take is a vote for the person you wish to become.\""
+        },
+        "bio": {
+            "fa": "جیمز کلیر نویسنده و سخنران آمریکایی و از شناخته‌شده‌ترین کارشناسان دنیا در حوزه‌ی عادت‌ها و تغییر رفتار است. کتاب «عادت‌های اتمی» (۲۰۱۸) او با تمرکز بر قدرت تغییرات کوچک و پیوسته، یکی از پرفروش‌ترین کتاب‌های خودیاری دهه‌ی اخیر شده است. او همچنین نویسنده‌ی خبرنامه‌ی محبوب «۳-۲-۱» درباره‌ی عادت‌ها و تصمیم‌گیری است.",
+            "en": "James Clear is an American writer and speaker, widely regarded as one of the leading voices on habits and behavior change. His 2018 book Atomic Habits, which emphasizes the power of small, consistent improvements, has become one of the best-selling self-help books of the past decade. He also writes the popular \"3-2-1\" newsletter on habits and decision-making."
+        }
+    },
+    {
+        "id": "au5",
+        "slug": "hedayat",
+        "name": {
+            "fa": "صادق هدایت",
+            "en": "Sadegh Hedayat"
+        },
+        "avatarEmoji": "👓",
+        "birthYear": 1903,
+        "deathYear": 1951,
+        "nationality": {
+            "fa": "ایران",
+            "en": "Iran"
+        },
+        "genre": {
+            "fa": "ادبیات سوررئال و روان‌شناختی فارسی",
+            "en": "Persian Surrealist & Psychological Fiction"
+        },
+        "genreGroup": "surrealist_literature",
+        "awards": {
+            "fa": "او را پدر داستان‌نویسی نوین ایران می‌دانند؛ رمان «بوف کور»ش یکی از تأثیرگذارترین و ترجمه‌شده‌ترین آثار ادبیات معاصر فارسی در جهان است.",
+            "en": "Widely regarded as the father of modern Persian fiction; his novel \"The Blind Owl\" is one of the most influential and translated works of contemporary Persian literature."
+        },
+        "bio": {
+            "fa": "صادق هدایت نویسنده، مترجم و پژوهشگر ایرانی و یکی از بنیان‌گذاران داستان‌نویسی مدرن فارسی بود. مشهورترین اثرش، رمان «بوف کور»، با فضایی سوررئال و کابوس‌وار، به کاوش در تنهایی، اضطراب و لایه‌های پنهان ذهن انسان می‌پردازد. هدایت در سال ۱۹۵۱ در پاریس درگذشت، اما تأثیر او بر ادبیات فارسی همچنان پابرجاست.",
+            "en": "Sadegh Hedayat was an Iranian writer, translator and researcher, considered one of the founders of modern Persian fiction. His most famous work, The Blind Owl, explores isolation, anxiety and the hidden layers of the human mind through a surreal, nightmarish narrative. Hedayat died in Paris in 1951, but his influence on Persian literature remains profound."
+        },
+        "photo": "images/authors/hedayat.jpg"
+    },
+    {
+        "id": "au6",
+        "name": {
+            "fa": "ویکتور فرانکل",
+            "en": "Viktor Frankl"
+        },
+        "avatarEmoji": "🧠",
+        "birthYear": 1905,
+        "deathYear": 1997,
+        "nationality": {
+            "fa": "اتریش",
+            "en": "Austria"
+        },
+        "genre": {
+            "fa": "روان‌شناسی و معنادرمانی",
+            "en": "Psychology & Logotherapy"
+        },
+        "genreGroup": "philosophy_meaning",
+        "awards": {
+            "fa": "بنیان‌گذار مکتب «معنادرمانی» در روان‌شناسی؛ کتابش «انسان در جست‌وجوی معنا» یکی از تأثیرگذارترین کتاب‌های غیرداستانی قرن بیستم شناخته شده است.",
+            "en": "Founder of the school of \"Logotherapy\" in psychology; his book \"Man's Search for Meaning\" is regarded as one of the most influential non-fiction books of the 20th century."
+        },
+        "quote": {
+            "fa": "«همه‌چیز را می‌توان از انسان گرفت، جز یک چیز: واپسین آزادی او، یعنی انتخاب نگرش خود در هر شرایطی.»",
+            "en": "\"Everything can be taken from a man but one thing: the last of the human freedoms — to choose one's attitude in any given set of circumstances.\""
+        },
+        "bio": {
+            "fa": "ویکتور فرانکل عصب‌شناس، روان‌پزشک و بازمانده‌ی هولوکاست اهل اتریش بود. او بر پایه‌ی تجربه‌ی خود در اردوگاه‌های کار اجباری نازی‌ها، مکتب «معنادرمانی» را بنا نهاد؛ رویکردی روان‌شناختی که بر جست‌وجوی معنا به‌عنوان نیروی محرک اصلی زندگی انسان تأکید دارد. کتاب «انسان در جست‌وجوی معنا»ی او همچنان یکی از پرخواننده‌ترین آثار روان‌شناسی در جهان است.",
+            "en": "Viktor Frankl was an Austrian neurologist, psychiatrist and Holocaust survivor. Drawing on his experience in Nazi concentration camps, he founded logotherapy, a school of psychotherapy centered on the search for meaning as life's primary motivating force. His book Man's Search for Meaning remains one of the most widely read works of psychology in the world."
+        },
+        "slug": "viktor-frankl",
+        "metaDescription": {
+            "fa": "بیوگرافی کامل ویکتور فرانکل، روان‌پزشک اتریشی و بنیان‌گذار معنادرمانی. زندگی‌نامه، جمله‌ی معروف و کتاب‌های PDF او از جمله «انسان در جست‌وجوی معنا».",
+            "en": "Viktor Frankl biography: Austrian psychiatrist and founder of logotherapy. Life story, famous quote and PDF books, including Man's Search for Meaning."
+        },
+        "photo": "images/authors/viktor-frankl.jpg"
+    },
+    {
+        "id": "au7",
+        "slug": "garcia-marquez",
+        "name": {
+            "fa": "گابریل گارسیا مارکز",
+            "en": "Gabriel García Márquez"
+        },
+        "avatarEmoji": "📖",
+        "birthYear": 1927,
+        "deathYear": 2014,
+        "nationality": {
+            "fa": "کلمبیا",
+            "en": "Colombia"
+        },
+        "genre": {
+            "fa": "رئالیسم جادویی و رمان مدرن آمریکای لاتین",
+            "en": "Magical Realism & Latin American Fiction"
+        },
+        "genreGroup": "surrealist_literature",
+        "awards": {
+            "fa": "برنده‌ی جایزه‌ی نوبل ادبیات ۱۹۸۲ و جایزه‌ی بین‌المللی رومولو گایگوس (۱۹۷۲)؛ «صد سال تنهایی» یکی از تأثیرگذارترین رمان‌های قرن بیستم به زبان اسپانیایی شناخته می‌شود.",
+            "en": "Winner of the 1982 Nobel Prize in Literature and the 1972 Rómulo Gallegos Prize; One Hundred Years of Solitude is regarded as one of the most influential Spanish-language novels of the 20th century."
+        },
+        "quote": {
+            "fa": "«زندگی آن نیست که آدم زیسته، بلکه آن است که به یاد می‌آورد و چگونه به یاد می‌آورد تا آن را روایت کند.»",
+            "en": "\"Life is not what one lived, but what one remembers and how one remembers it in order to recount it.\""
+        },
+        "bio": {
+            "fa": "گابریل خوسه گارسیا مارکز در ۶ مارس ۱۹۲۷ در آراکاتاکای کلمبیا به دنیا آمد و در ۱۷ آوریل ۲۰۱۴ در مکزیکوسیتی درگذشت. او که کار خود را با روزنامه‌نگاری آغاز کرد، به یکی از بزرگ‌ترین نویسندگان قرن بیستم و چهره‌ی شاخص «رئالیسم جادویی» تبدیل شد؛ سبکی که در آن امر خارق‌العاده با زندگی روزمره درمی‌آمیزد. رمان «صد سال تنهایی» (۱۹۶۷) که سرگذشت خانواده‌ی بوئندیا و شهر خیالی ماکوندو را روایت می‌کند، او را به شهرت جهانی رساند. از دیگر آثار مهم او «عشق در سال‌های وبا»، «پاییز پدرسالار» و «کسی به سرهنگ نامه نمی‌نویسد» است. گارسیا مارکز در سال ۱۹۸۲ جایزه‌ی نوبل ادبیات را دریافت کرد.",
+            "en": "Gabriel José García Márquez was born on 6 March 1927 in Aracataca, Colombia, and died on 17 April 2014 in Mexico City. Beginning his career as a journalist, he became one of the greatest writers of the 20th century and the leading figure of \"magical realism\", a style in which the extraordinary blends seamlessly with everyday life. His novel One Hundred Years of Solitude (1967), the saga of the Buendía family and the fictional town of Macondo, made him world famous. His other major works include Love in the Time of Cholera, The Autumn of the Patriarch and No One Writes to the Colonel. García Márquez received the Nobel Prize in Literature in 1982."
+        },
+        "metaDescription": {
+            "fa": "بیوگرافی کامل گابریل گارسیا مارکز، نویسنده‌ی کلمبیایی و برنده‌ی نوبل ادبیات ۱۹۸۲. زندگی‌نامه، جمله‌ی معروف و کتاب‌های PDF او از جمله «صد سال تنهایی».",
+            "en": "Gabriel García Márquez biography: Colombian Nobel laureate and master of magical realism. Life story, famous quote and his PDF books."
+        },
+        "photo": "images/authors/garcia-marquez.jpg"
+    }
+]
