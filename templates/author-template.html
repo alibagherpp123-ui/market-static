@@ -264,12 +264,13 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 </head>
 <body class="{{BODY_CLASS}}">
+  <a class="a11y-skip-link" href="#mainContent">رفتن به محتوای اصلی</a>
 
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
   <aside class="side-drawer" id="sideDrawer">
     <div class="drawer-header">
       <h3 data-i18n="drawerTitle">دسته‌بندی‌های منو</h3>
-      <button class="drawer-close" onclick="toggleDrawer()">✕</button>
+      <button class="drawer-close" onclick="toggleDrawer()" aria-label="بستن پنجره">✕</button>
     </div>
 
     <button class="menu-highlight-btn" onclick="filterBySpecial('bestsellerSite')">
@@ -330,7 +331,7 @@
       <div class="header-right">
         <a href="#" class="brand-logo-wrapper" onclick="handleLogoClick(); return false;">
           <div class="site-logo-icon">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 14H7v-2h7v2m3-4H7v-2h10v2m0-4H7V7h10v2z"/></svg>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-5 14H7v-2h7v2m3-4H7v-2h10v2m0-4H7V7h10v2z"/></svg>
           </div>
           <div class="brand-logo" id="brandLogo">PDF <span>مارکت</span></div>
         </a>
@@ -353,21 +354,21 @@
         </div>
 
         <button class="btn-tool" onclick="openCartModal()" id="cartHeaderBtn">
-          🛒 <span data-i18n="cartBtnText">سبد خرید</span> (<span id="cartCountBadge">0</span>)
+          🛒 <span data-i18n="cartBtnText">سبد خرید</span> (<span id="cartCountBadge" aria-live="polite" aria-atomic="true">0</span>)
         </button>
 
         <div class="dropdown-container">
-          <button class="btn-tool" onclick="toggleColorGrid()" id="colorPickerBtn">🎨</button>
+          <button class="btn-tool" onclick="toggleColorGrid()" id="colorPickerBtn" aria-label="انتخاب رنگ سایت و جلد" aria-controls="bgGrid" aria-expanded="false">🎨</button>
           <div class="color-menu-grid" id="bgGrid"></div>
         </div>
 
         <button class="btn-tool" onclick="switchPageLanguage()" id="langBtn">English</button>
 
-        <button class="btn-tool" onclick="toggleForceDesktopMode()" id="desktopModeBtn" title="نمایش نسخه رایانه‌ای">🖥️</button>
+        <button class="btn-tool" onclick="toggleForceDesktopMode()" id="desktopModeBtn" aria-pressed="false" aria-label="نمایش نسخه رایانه‌ای" title="نمایش نسخه رایانه‌ای">🖥️</button>
       </div>
     </header>
 
-    <div class="content-container">
+    <div class="content-container" id="mainContent" role="main" tabindex="-1">
       <!--MAIN_START-->
       <nav class="author-breadcrumb" id="authorBreadcrumb" aria-label="{{L_BREADCRUMB}}">
         <a class="author-back-link" id="authorBackLink" href="{{HOME_HREF}}"><span class="author-back-arrow" aria-hidden="true"></span><span id="authorBreadcrumbHome">{{SITE_NAME}}</span></a>
@@ -433,7 +434,7 @@
     <div class="modal-window" style="max-width: 540px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="cartModalTitle">🛒 سبد خرید و نهایی‌سازی سفارش</h3>
-        <button class="drawer-close" onclick="closeCartModal()">✕</button>
+        <button class="drawer-close" onclick="closeCartModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div id="cartItemsContainer" style="max-height: 220px; overflow-y: auto; margin-bottom: 12px;"></div>
@@ -464,7 +465,7 @@
     <div class="modal-window" style="max-width: 600px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="savedModalTitle">🔖 کتاب‌های ذخیره‌شده (برای بعد)</h3>
-        <button class="drawer-close" onclick="closeSavedBooksModal()">✕</button>
+        <button class="drawer-close" onclick="closeSavedBooksModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div id="savedBooksListContainer" style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
@@ -483,7 +484,7 @@
           <h3 style="color:var(--primary); margin:0;" data-i18n="avatarModalTitle">🖼️ انتخاب آواتار پروفایل</h3>
           <button onclick="openAvatarHelpModal()" style="background:var(--accent); border:1px solid var(--border); border-radius:50%; width:24px; height:24px; min-width:24px; font-size:0.8rem; font-weight:bold; cursor:pointer; color:var(--primary); display:flex; align-items:center; justify-content:center; padding:0;" data-i18n-title="titleAvatarGuide" title="راهنمای آواتارها" aria-label="Avatar guide">❔</button>
         </div>
-        <button class="drawer-close" onclick="closeAvatarSelectModal()">✕</button>
+        <button class="drawer-close" onclick="closeAvatarSelectModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div style="font-size:0.84rem; color:var(--text-muted); margin-bottom:10px;" data-i18n="avatarModalDesc">
@@ -504,7 +505,7 @@
     <div class="modal-window" style="max-width:380px; text-align:center;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
         <h3 style="color:var(--primary); margin:0; font-size:1rem;" data-i18n="customAvatarTitle">✨ آواتار اختصاصی و شخصی‌سازی‌شده (مخصوص کاربر برتر)</h3>
-        <button class="drawer-close" onclick="cancelVipAvatarPreview()">✕</button>
+        <button class="drawer-close" onclick="cancelVipAvatarPreview()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div class="avatar-preview-box"><img id="vipAvatarPreviewImg" src="" alt="Preview"></div>
@@ -525,7 +526,7 @@
         <h3 style="color:var(--primary); margin:0;" id="authModalHeaderTitle">ورود به حساب کاربری</h3>
         <div style="display:flex; align-items:center; gap:8px;">
           <button type="button" class="btn-tool" onclick="switchPageLanguage()" id="authLangBtn" style="padding:4px 10px; font-size:0.75rem;">English</button>
-          <button class="drawer-close" onclick="closeAuthModal()">✕</button>
+          <button class="drawer-close" onclick="closeAuthModal()" aria-label="بستن پنجره">✕</button>
         </div>
       </div>
 
@@ -588,7 +589,7 @@
     <div class="modal-window" style="max-width:440px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="changeUserModalTitle">تغییر نام کاربری (هر ۲۴ ساعت ۱ بار)</h3>
-        <button class="drawer-close" onclick="closeChangeUsernameModal()">✕</button>
+        <button class="drawer-close" onclick="closeChangeUsernameModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div id="simulatedUserChangeSmsBanner" class="sms-simulation-box" style="display:none;"></div>
@@ -618,7 +619,7 @@
     <div class="modal-window" style="max-width:480px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="phoneVerifyModalTitle">تأیید شماره همراه جهت تسویه حساب نقدی</h3>
-        <button class="drawer-close" onclick="closePhoneVerifyModal()">✕</button>
+        <button class="drawer-close" onclick="closePhoneVerifyModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div style="background:rgba(201, 92, 92, 0.08); border:1px dashed var(--primary); padding:12px; border-radius:10px; font-size:0.84rem; line-height:1.8; color:var(--text); margin-bottom:14px;" data-i18n="phoneVerifyExplanation">
@@ -644,7 +645,7 @@
     <div class="modal-window" style="max-width: 640px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="txModalTitle">📊 وضعیت تراکنش‌های کیف پول</h3>
-        <button class="drawer-close" onclick="closeWalletTransactionsModal()">✕</button>
+        <button class="drawer-close" onclick="closeWalletTransactionsModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div class="tx-filter-row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; background:var(--card-bg); padding:12px; border-radius:12px; border:1px solid var(--border);">
@@ -684,7 +685,7 @@
     <div class="modal-window" style="max-width: 520px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="avatarHelpTitle">❓ راهنمای آواتارها</h3>
-        <button class="drawer-close" onclick="closeAvatarHelpModal()">✕</button>
+        <button class="drawer-close" onclick="closeAvatarHelpModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div style="font-size:0.88rem; line-height:1.9; color:var(--text);">
@@ -699,7 +700,7 @@
     <div class="modal-window" style="max-width: 520px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="refHelpTitle">❓ راهنمای کسب درآمد و زیرمجموعه‌گیری</h3>
-        <button class="drawer-close" onclick="closeReferralHelpModal()">✕</button>
+        <button class="drawer-close" onclick="closeReferralHelpModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div style="font-size:0.88rem; line-height:1.9; color:var(--text); display:flex; flex-direction:column; gap:10px;">
@@ -716,7 +717,7 @@
     <div class="modal-window" style="max-width: 740px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="panelHeading">👤 پنل شخصی کاربر</h3>
-        <button class="drawer-close" onclick="closeUserPanelModal()">✕</button>
+        <button class="drawer-close" onclick="closeUserPanelModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <button class="menu-highlight-btn" style="margin-top:14px; margin-bottom:8px; border-color:var(--primary); background:rgba(201, 92, 92, 0.08);" onclick="openAboutModal()">
@@ -899,7 +900,7 @@
     <div class="modal-window" style="max-width: 640px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
         <h3 id="bioModalTitle" style="color:var(--primary); margin:0;" data-i18n="bioModalTitle">معرفی و مشخصات کتاب</h3>
-        <button class="drawer-close" onclick="closeBookBio()">✕</button>
+        <button class="drawer-close" onclick="closeBookBio()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div class="book-bio-layout">
@@ -939,7 +940,7 @@
     <div class="modal-window" style="max-width: 860px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
         <h3 style="color:var(--primary); margin:0;" data-i18n="authorProfileHeading">پروفایل نویسنده</h3>
-        <button class="drawer-close" onclick="closeAuthorProfile()">✕</button>
+        <button class="drawer-close" onclick="closeAuthorProfile()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div class="book-bio-layout">
@@ -1070,7 +1071,7 @@
     <div class="modal-window" style="max-width:520px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:12px;">
         <h3 style="color:var(--primary); margin:0;" id="supportModalTitle" data-i18n="supportModalTitle">ارسال پیام به پشتیبانی</h3>
-        <button class="drawer-close" onclick="closeQuestionModal()">✕</button>
+        <button class="drawer-close" onclick="closeQuestionModal()" aria-label="بستن پنجره">✕</button>
       </div>
 
       <div class="auth-tab-row">
