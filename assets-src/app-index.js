@@ -1108,7 +1108,7 @@
           avatarDisp.innerHTML = '⏳';
         } else if (currentActiveUser.avatar) {
           if (currentActiveUser.avatar.startsWith('data:image') || currentActiveUser.avatar.startsWith('http')) {
-            avatarDisp.innerHTML = `<img class="custom-photo" src="${escapeHtml(currentActiveUser.avatar)}" alt="Avatar">`;
+            avatarDisp.innerHTML = `<img class="custom-photo" decoding="async" src="${escapeHtml(currentActiveUser.avatar)}" alt="Avatar">`;
             if (avatarWrapperEl) avatarWrapperEl.classList.add('has-photo');
             if (avatarWrapperEl) avatarWrapperEl.classList.add('custom-photo-wrap');
           } else if (currentActiveUser.avatar === '✨' || currentActiveUser.avatar === '⏳') {
@@ -2563,7 +2563,7 @@
       const prevName = monthNameOf(rec.basedOnMonth, currentLang);
       let html = `<div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">`;
       html += hasPhoto
-        ? `<img src="${escapeHtml(u.avatar)}" alt="" style="width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid #ffd86b;">`
+        ? `<img src="${escapeHtml(u.avatar)}" alt="" decoding="async" style="width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid #ffd86b;">`
         : `<div style="width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; background:rgba(255,216,107,0.18); border:2px dashed #ffd86b;">👑</div>`;
       html += `<div><div style="font-size:0.74rem; color:var(--text-muted);">${fa ? `نفر اول مسابقه‌ی ${prevName}` : `#1 of the ${prevName} contest`}</div>`;
       html += `<div style="font-size:1.05rem; font-weight:700;">${escapeHtml(rec.username || u.username || '')}</div>`;
@@ -3226,7 +3226,7 @@
         // آیتم‌های وضعیتی مثل «در حال بررسی» و «آواتار اختصاصی» همون آیکون خودشون رو دارن
         const isCharacterAvatar = !item.isImg && !item.isPending && item.type !== 'vip';
         const glyphInner = item.isImg
-          ? `<img class="custom-photo" src="${escapeHtml(item.icon)}" style="width:100%; height:100%; border-radius:22%;">`
+          ? `<img class="custom-photo" decoding="async" src="${escapeHtml(item.icon)}" style="width:100%; height:100%; border-radius:22%;">`
           : isCharacterAvatar
             ? avatarImgHtml(item.icon)
             : `<span>${item.icon}</span>`;
@@ -5230,6 +5230,7 @@
       else if (specialType === 'bestsellerIran') label = t.menuBestIran;
       else if (specialType === 'bestsellerWorld') label = t.menuBestWorld;
       else if (specialType === 'discounted') label = t.menuDiscounted;
+      else if (specialType === 'newest') label = currentLang === 'en' ? 'Newest' : 'جدیدترین‌ها';
 
       const banner = document.getElementById('activeFilterBanner');
       banner.style.display = 'flex';
@@ -5552,7 +5553,11 @@
         } else if (activeFilter.kind === 'category') {
           baseList = baseList.filter(b => b.category === activeFilter.categoryKey);
         } else if (activeFilter.kind === 'special') {
-          if (activeFilter.type === 'bestsellerSite') sortMetric = 'salesSite';
+          if (activeFilter.type === 'newest') {
+            // جدیدترین‌ها: کتاب‌های دارای شماره‌ی newSeq، از جدیدترین؛ فقط ۱۰۰ مورد آخر
+            baseList = baseList.filter(b => Number(b.newSeq) > 0).sort((a, b) => Number(b.newSeq) - Number(a.newSeq)).slice(0, 100);
+          }
+          else if (activeFilter.type === 'bestsellerSite') sortMetric = 'salesSite';
           else if (activeFilter.type === 'bestsellerIran') sortMetric = 'salesIran';
           else if (activeFilter.type === 'bestsellerWorld') sortMetric = 'salesWorld';
           else if (activeFilter.type === 'discounted') {
@@ -6194,6 +6199,7 @@
           else if (activeFilter.type === 'bestsellerIran') label = t.menuBestIran;
           else if (activeFilter.type === 'bestsellerWorld') label = t.menuBestWorld;
           else if (activeFilter.type === 'discounted') label = t.menuDiscounted;
+          else if (activeFilter.type === 'newest') label = currentLang === 'en' ? 'Newest' : 'جدیدترین‌ها';
 
           setFilterLabel(label);
           document.getElementById('searchInput').placeholder = `${t.searchInBestPrefix}${label}...`;

@@ -72,4 +72,35 @@ foreach ($booksFile['data'] as $b) {
         echo sm_url($en, array(), $booksLastmod);
     }
 }
+// صفحه‌های فیلتر (پرفروش‌ها، جدیدترین‌ها، تخفیفات، دسته‌ها) در هر دو زبان
+$filtersLastmod = date('Y-m-d');
+foreach (filter_pages() as $key => $p) {
+    $fa = filter_url($base, $key, 'fa');
+    $en = filter_url($base, $key, 'en');
+    $alts = array('fa' => $fa, 'en' => $en, 'x-default' => $fa);
+    echo sm_url($fa, $alts, $filtersLastmod);
+    echo sm_url($en, $alts, $filtersLastmod);
+}
+// ترکیب دو فیلتر (مثلاً ادبیات + یک ناشر): فقط ترکیب‌هایی که حداقل ۳ کتاب دارند
+$comboMin = 3;
+$comboLastmod = date('Y-m-d');
+$faIx = combo_index('fa');
+$enIx = combo_index('en');
+$comboKeys = array_unique(array_merge(array_keys($faIx['pairs']), array_keys($enIx['pairs'])));
+foreach ($comboKeys as $k) {
+    $ids = explode("\n", $k);
+    $faCount = isset($faIx['pairs'][$k]) ? $faIx['pairs'][$k] : 0;
+    $enCount = isset($enIx['pairs'][$k]) ? $enIx['pairs'][$k] : 0;
+    $fa = ($faCount >= $comboMin) ? combo_url($base, 'fa', $ids) : null;
+    $en = ($enCount >= $comboMin) ? combo_url($base, 'en', $ids) : null;
+    if ($fa !== null && $en !== null) {
+        $alts = array('fa' => $fa, 'en' => $en, 'x-default' => $fa);
+        echo sm_url($fa, $alts, $comboLastmod);
+        echo sm_url($en, $alts, $comboLastmod);
+    } elseif ($fa !== null) {
+        echo sm_url($fa, array(), $comboLastmod);
+    } elseif ($en !== null) {
+        echo sm_url($en, array(), $comboLastmod);
+    }
+}
 echo "</urlset>\n";

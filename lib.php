@@ -228,8 +228,14 @@ function json_for_script($raw) {
 
 // آدرس فایل ظاهر/برنامه‌ی سایت همراه شماره‌ی نسخه (از زمان آخرین تغییر فایل).
 // مرورگر این فایل‌ها را یک بار می‌گیرد و نگه می‌دارد؛ وقتی فایل عوض شود، شماره عوض می‌شود و نسخه‌ی تازه گرفته می‌شود.
+// مسیر پوشه‌ی سایت (مثلاً /pdf-market-static یا خالی در ریشه) تا دارایی‌ها در صفحه‌های /fa/x/y/ هم درست باز شوند.
+function site_base_path() {
+    $d = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+    return rtrim($d, '/');
+}
+
 function asset_href($rel) {
-    return $rel . '?v=' . (int)@filemtime(__DIR__ . '/' . $rel);
+    return site_base_path() . '/' . $rel . '?v=' . (int)@filemtime(__DIR__ . '/' . $rel);
 }
 
 // محافظ آدرس سایت (برای وقتی که سایت منتشر شده).
@@ -441,4 +447,241 @@ function featured_public_json() {
         }
     }
     return json_encode($out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
+}
+
+// ---- صفحات فیلتر (پرفروش‌ها، جدیدترین‌ها، تخفیفات، دسته‌ها) با آدرس واقعی دوزبانه ----
+// آدرس: /fa/پرفروش‌ترین‌های-سایت/   و   /en/best-sellers-on-site/
+// js: چه فیلتری در صفحه‌ی برنامه (app-index.js) اعمال شود.
+function filter_pages() {
+    $p = array();
+    $p['bestsellerSite'] = array('slug' => array('fa' => 'پرفروش‌ترین‌های-سایت', 'en' => 'best-sellers-on-site'),
+        'title' => array('fa' => 'پرفروش‌ترین کتاب‌های سایت', 'en' => 'Best Sellers on Our Site'),
+        'desc' => array('fa' => 'فهرست پرفروش‌ترین کتاب‌های PDF مارکت، بر اساس تعداد خرید در همین سایت.',
+            'en' => 'The best-selling PDF books on PDF Market, ranked by purchases on this site.'),
+        'js' => array('kind' => 'special', 'type' => 'bestsellerSite'));
+    $p['bestsellerIran'] = array('slug' => array('fa' => 'پرفروش‌ترین‌های-ایران', 'en' => 'best-sellers-in-iran'),
+        'title' => array('fa' => 'پرفروش‌ترین کتاب‌های ایران', 'en' => 'Best Sellers in Iran'),
+        'desc' => array('fa' => 'کتاب‌های پرفروش در ایران، با نسخه‌ی PDF در PDF مارکت.',
+            'en' => 'Best-selling books in Iran, available as PDF editions on PDF Market.'),
+        'js' => array('kind' => 'special', 'type' => 'bestsellerIran'));
+    $p['bestsellerWorld'] = array('slug' => array('fa' => 'پرفروش‌ترین‌های-جهان', 'en' => 'best-sellers-in-the-world'),
+        'title' => array('fa' => 'پرفروش‌ترین کتاب‌های جهان', 'en' => 'Best Sellers in the World'),
+        'desc' => array('fa' => 'کتاب‌های پرفروش جهان، با نسخه‌ی PDF در PDF مارکت.',
+            'en' => 'World best-selling books, available as PDF editions on PDF Market.'),
+        'js' => array('kind' => 'special', 'type' => 'bestsellerWorld'));
+    $p['newest'] = array('slug' => array('fa' => 'جدیدترین‌ها', 'en' => 'newest-books'),
+        'title' => array('fa' => 'جدیدترین کتاب‌ها', 'en' => 'Newest Books'),
+        'desc' => array('fa' => 'جدیدترین کتاب‌های اضافه‌شده به PDF مارکت.',
+            'en' => 'The newest books added to PDF Market.'),
+        'js' => array('kind' => 'special', 'type' => 'newest'));
+    $p['discounted'] = array('slug' => array('fa' => 'تخفیفات-ویژه', 'en' => 'special-discounts'),
+        'title' => array('fa' => 'تخفیفات ویژه', 'en' => 'Special Discounts'),
+        'desc' => array('fa' => 'کتاب‌های PDF با تخفیف ویژه در PDF مارکت.',
+            'en' => 'PDF books with special discounts on PDF Market.'),
+        'js' => array('kind' => 'special', 'type' => 'discounted'));
+    $cats = array(
+        'literature' => array('ادبیات', 'literature', 'Literature'),
+        'history' => array('تاریخ', 'history', 'History'),
+        'fiction' => array('داستان-و-رمان', 'fiction', 'Fiction and Novels'),
+        'psychology' => array('روانشناسی', 'psychology', 'Psychology'),
+        'success' => array('موفقیت', 'success', 'Success'),
+        'philosophy' => array('فلسفه-و-منطق', 'philosophy', 'Philosophy and Logic'),
+    );
+    foreach ($cats as $key => $c) {
+        $p['cat-' . $key] = array('slug' => array('fa' => $c[0], 'en' => $c[1]),
+            'title' => array('fa' => 'کتاب‌های ' . $c[0], 'en' => $c[2] . ' Books'),
+            'desc' => array('fa' => 'کتاب‌های PDF در دسته‌ی ' . $c[0] . ' در PDF مارکت.',
+                'en' => 'PDF books in the ' . $c[2] . ' category on PDF Market.'),
+            'js' => array('kind' => 'category', 'categoryKey' => $key));
+    }
+    return $p;
+}
+
+// پیدا کردن صفحه‌ی فیلتر از روی زبان و اسم آدرس (مثلاً fa + پرفروش‌ترین‌های-سایت)
+function filter_find($lang, $slug) {
+    foreach (filter_pages() as $key => $p) {
+        if ($p['slug'][$lang] === $slug) { $p['key'] = $key; $p['lang'] = $lang; return $p; }
+    }
+    return null;
+}
+
+// آدرس کامل یک صفحه‌ی فیلتر در یک زبان
+function filter_url($base, $key, $lang) {
+    $pages = filter_pages();
+    return $base . '/' . $lang . '/' . rawurlencode($pages[$key]['slug'][$lang]) . '/';
+}
+
+// بخش لینک‌های متنی (قابل خزیدن برای گوگل) که پایین هر صفحه می‌آید
+function filter_links_html($base, $lang, $current = null) {
+    $isEn = ($lang === 'en');
+    $h = '<nav class="seo-links" aria-label="' . ($isEn ? 'Browse books' : 'مرور کتاب‌ها') . '" style="max-width:1100px;margin:30px auto;padding:16px;font-size:14px;line-height:2;">' . "\n";
+    $h .= '<ul style="list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;">' . "\n";
+    foreach (filter_pages() as $key => $p) {
+        $h .= '<li><a href="' . e(filter_url($base, $key, $lang)) . '">' . e($p['title'][$lang]) . '</a></li>' . "\n";
+    }
+    $h .= '</ul>' . "\n" . '</nav>' . "\n";
+    return $h;
+}
+
+// ---- ترکیب دو فیلتر با آدرس دو بخشی: /fa/ادبیات/انتشارات-خوارزمی/ ----
+// هر «بخش» یک فیلتر است: پرفروش‌ها، جدیدترین‌ها، دسته، ژانر، ناشر، مترجم، نویسنده.
+// شناسه‌ی هر بخش مثل "publisher|انتشارات خوارزمی" است (همان نام فارسی، در هر دو زبان یکی است).
+// فقط ترکیب‌های هم‌زمان: ترکیب دو پرفروش (مثلاً سایت + ایران) حذف می‌شود چون مجموعه‌اش همان است.
+function combo_special_labels() {
+    return array(
+        'bestsellerSite'  => array('fa' => 'پرفروش‌ترین‌های سایت', 'en' => 'Best Sellers on Our Site'),
+        'bestsellerIran'  => array('fa' => 'پرفروش‌ترین‌های ایران', 'en' => 'Best Sellers in Iran'),
+        'bestsellerWorld' => array('fa' => 'پرفروش‌ترین‌های جهان', 'en' => 'Best Sellers in the World'),
+        'newest'          => array('fa' => 'جدیدترین‌ها', 'en' => 'Newest Books'),
+    );
+}
+
+function combo_category_labels() {
+    return array(
+        'literature' => array('fa' => 'ادبیات', 'en' => 'Literature'),
+        'history'    => array('fa' => 'تاریخ', 'en' => 'History'),
+        'fiction'    => array('fa' => 'داستان و رمان', 'en' => 'Fiction and Novels'),
+        'psychology' => array('fa' => 'روانشناسی', 'en' => 'Psychology'),
+        'success'    => array('fa' => 'موفقیت', 'en' => 'Success'),
+        'philosophy' => array('fa' => 'فلسفه و منطق', 'en' => 'Philosophy and Logic'),
+    );
+}
+
+// اسم آدرس یک بخش: فاصله و علامت‌های خاص به خط تیره
+function combo_slug($s) {
+    $s = trim((string)$s);
+    $s = preg_replace('/[\s\/\\\\?#%&]+/u', '-', $s);
+    return trim($s, '-');
+}
+
+// همه‌ی بخش‌های یک کتاب در یک زبان (هر بخش: شناسه، اسم آدرس، برچسب، و اطلاعات برای برنامه)
+function combo_book_tokens($b, $lang) {
+    static $groups = null;
+    if ($groups === null) $groups = all_genre_groups();
+    $pages = filter_pages();
+    $sl = combo_special_labels();
+    $cl = combo_category_labels();
+    $out = array();
+    foreach (array('bestsellerSite', 'bestsellerIran', 'bestsellerWorld') as $t) {
+        $out[] = array('id' => 'special|' . $t, 'dim' => 'special', 'slug' => $pages[$t]['slug'][$lang],
+            'label' => $sl[$t], 'js' => array('kind' => 'special', 'type' => $t));
+    }
+    if ((int)(isset($b['newSeq']) ? $b['newSeq'] : 0) > 0) {
+        $out[] = array('id' => 'special|newest', 'dim' => 'special', 'slug' => $pages['newest']['slug'][$lang],
+            'label' => $sl['newest'], 'js' => array('kind' => 'special', 'type' => 'newest'));
+    }
+    $cat = isset($b['category']) ? (string)$b['category'] : '';
+    if (isset($cl[$cat]) && isset($pages['cat-' . $cat])) {
+        $out[] = array('id' => 'category|' . $cat, 'dim' => 'category', 'slug' => $pages['cat-' . $cat]['slug'][$lang],
+            'label' => $cl[$cat], 'js' => array('kind' => 'category', 'categoryKey' => $cat));
+    }
+    $gg = isset($b['genreGroup']) ? (string)$b['genreGroup'] : '';
+    if ($gg !== '' && isset($groups[$gg])) {
+        $gfa = isset($groups[$gg]['fa']) ? (string)$groups[$gg]['fa'] : '';
+        $gen = isset($groups[$gg]['en']) ? (string)$groups[$gg]['en'] : '';
+        $gval = $lang === 'en' ? $gen : $gfa;
+        if (combo_slug($gval) !== '') {
+            $out[] = array('id' => 'genreGroup|' . $gg, 'dim' => 'genreGroup', 'slug' => combo_slug($gval),
+                'label' => array('fa' => $gfa, 'en' => $gen), 'js' => array('kind' => 'genreGroup', 'groupKey' => $gg));
+        }
+    }
+    foreach (array('publisher', 'translator', 'author') as $dim) {
+        if (!isset($b[$dim]) || !is_array($b[$dim])) continue;
+        $fa = trim((string)(isset($b[$dim]['fa']) ? $b[$dim]['fa'] : ''));
+        $en = trim((string)(isset($b[$dim]['en']) ? $b[$dim]['en'] : ''));
+        $val = $lang === 'en' ? $en : $fa;
+        if ($fa === '' || combo_slug($val) === '') continue;
+        $out[] = array('id' => $dim . '|' . $fa, 'dim' => $dim, 'slug' => combo_slug($val),
+            'label' => array('fa' => $fa, 'en' => $en), 'js' => array('kind' => 'entity', 'type' => $dim));
+    }
+    return $out;
+}
+
+// فهرست کامل بخش‌ها و ترکیب‌ها برای یک زبان (یک بار در هر درخواست ساخته می‌شود)
+// pairs: کلید "شناسه1\nشناسه2" => تعداد کتاب‌هایی که هر دو بخش را دارند
+function combo_index($lang) {
+    static $cache = array();
+    if (isset($cache[$lang])) return $cache[$lang];
+    $booksFile = load_data('books');
+    $meta = array(); $pairs = array(); $slugCount = array();
+    foreach ($booksFile['data'] as $bk) {
+        if (!is_array($bk)) continue;
+        $ids = array();
+        foreach (combo_book_tokens($bk, $lang) as $t) {
+            $meta[$t['id']] = $t;
+            $ids[$t['id']] = true;
+        }
+        $list = array_keys($ids);
+        sort($list, SORT_STRING);
+        $n = count($list);
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = $i + 1; $j < $n; $j++) {
+                $x = $list[$i]; $y = $list[$j];
+                if (strpos($x, 'special|bestseller') === 0 && strpos($y, 'special|bestseller') === 0) continue;
+                $k = $x . "\n" . $y;
+                $pairs[$k] = isset($pairs[$k]) ? $pairs[$k] + 1 : 1;
+            }
+        }
+    }
+    foreach ($meta as $id => $t) {
+        $slugCount[$t['slug']] = isset($slugCount[$t['slug']]) ? $slugCount[$t['slug']] + 1 : 1;
+    }
+    // اسم آدرس تکراری (دو بخش با یک اسم) قابل استفاده نیست تا آدرس اشتباه باز نشود
+    $usable = array(); $bySlug = array();
+    foreach ($meta as $id => $t) {
+        if ($slugCount[$t['slug']] === 1) { $usable[$id] = true; $bySlug[$t['slug']] = $id; }
+    }
+    return $cache[$lang] = array('meta' => $meta, 'pairs' => $pairs, 'usable' => $usable, 'bySlug' => $bySlug);
+}
+
+// پیدا کردن ترکیب از روی دو اسم آدرس. اگر ترتیب دو بخش با ترتیب استاندارد نباشد، canonical=false می‌شود (بعد به آدرس استاندارد می‌رود)
+function combo_find($lang, $sa, $sb) {
+    $ix = combo_index($lang);
+    if (!isset($ix['bySlug'][$sa]) || !isset($ix['bySlug'][$sb])) return null;
+    $ia = $ix['bySlug'][$sa]; $ib = $ix['bySlug'][$sb];
+    if ($ia === $ib) return null;
+    $ids = array($ia, $ib);
+    sort($ids, SORT_STRING);
+    $key = $ids[0] . "\n" . $ids[1];
+    return array('lang' => $lang, 'ids' => $ids, 'count' => isset($ix['pairs'][$key]) ? $ix['pairs'][$key] : 0,
+        'canonical' => ($ids[0] === $ia));
+}
+
+// آدرس استاندارد یک ترکیب در یک زبان (اگر آن زبان این بخش‌ها را ندارد null)
+function combo_url($base, $lang, $ids) {
+    $ix = combo_index($lang);
+    foreach ($ids as $id) {
+        if (!isset($ix['usable'][$id])) return null;
+    }
+    return $base . '/' . $lang . '/' . rawurlencode($ix['meta'][$ids[0]]['slug']) . '/' . rawurlencode($ix['meta'][$ids[1]]['slug']) . '/';
+}
+
+// اطلاعات صفحه‌ی ترکیب (عنوان، توضیح، و فیلترهایی که برنامه باید اعمال کند)
+function combo_route($combo) {
+    $lang = $combo['lang'];
+    $ix = combo_index($lang);
+    $parts = array();
+    foreach ($combo['ids'] as $id) {
+        $t = $ix['meta'][$id];
+        $p = $t['js'];
+        $p['label'] = $t['label'];
+        $parts[] = $p;
+    }
+    $joined = $parts[0]['label'][$lang] . ' + ' . $parts[1]['label'][$lang];
+    $desc = $lang === 'en'
+        ? 'PDF books: ' . $joined . ' on PDF Market.'
+        : 'کتاب‌های PDF ' . $joined . ' در PDF مارکت.';
+    return array('combo' => true, 'lang' => $lang, 'key' => null, 'ids' => $combo['ids'],
+        'count' => $combo['count'], 'canonical' => $combo['canonical'],
+        'title' => array($lang => $joined), 'desc' => array($lang => $desc),
+        'js' => array('kind' => 'combo', 'parts' => $parts));
+}
+
+// آدرس صفحه‌ی فیلتر یا ترکیب در یک زبان (برای canonical و hreflang)
+function route_url($base, $route, $lang) {
+    if (!empty($route['combo'])) {
+        $u = combo_url($base, $lang, $route['ids']);
+        return $u !== null ? $u : home_page_url($base, $lang);
+    }
+    return filter_url($base, $route['key'], $lang);
 }

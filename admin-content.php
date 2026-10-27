@@ -154,6 +154,7 @@ function content_handle_post($action) {
         $c['title']['fa'] = ($c['title']['fa'] ?? '') . ' (کپی)';
         $c['title']['en'] = ($c['title']['en'] ?? '') . ' (Copy)';
         $c['isFamous'] = false;
+        unset($c['newSeq']); // کپی به‌طور خودکار جدیدترین نمی‌شود
         unset($c['pdf']); // فایل PDF کپی نمی‌شود
         $c['salesSite'] = 0; $c['salesIran'] = 0; $c['salesWorld'] = 0;
         $books[] = $c;
@@ -222,6 +223,10 @@ function content_handle_post($action) {
         $b['pages'] = (int)$pages;
         $b['totalPrice'] = (int)$price;
         $b['isFamous'] = (post('isFamous') === '1');
+        // شماره‌ی ترتیب «جدیدترین»: هر کتاب تازه‌ی تیک‌خورده، بزرگ‌ترین شماره را می‌گیرد (بزرگ‌تر = جدیدتر)
+        if (post('newArrival') === '1') {
+            if (empty($b['newSeq'])) { $maxSeq = 0; foreach ($books as $ob) $maxSeq = max($maxSeq, (int)($ob['newSeq'] ?? 0)); $b['newSeq'] = $maxSeq + 1; }
+        } else { unset($b['newSeq']); }
         $b['desc'] = $d ? $d : array('fa' => '', 'en' => '');
         // بیوگرافی بلند جدا از توضیح کوتاه است و هیچ‌وقت خودکار با آن بازنویسی نمی‌شود.
         // اگر ادمین چیزی نوشته باشد همان ذخیره می‌شود. اگر هر دو کادر را خالی گذاشته باشد، خودش انتخاب می‌کند (bio_empty):
@@ -584,7 +589,8 @@ function content_book_edit() {
        . '<div><label>ناشر (انگلیسی)</label><input type="text" class="ltr" name="publisher_en" value="' . e($v('publisher_en', $b['publisher']['en'] ?? '')) . '"></div></div>'
        . '<div class="row"><div><label>مترجم (فارسی)</label><input type="text" name="translator_fa" value="' . e($v('translator_fa', $b['translator']['fa'] ?? '')) . '"></div>'
        . '<div><label>مترجم (انگلیسی)</label><input type="text" class="ltr" name="translator_en" value="' . e($v('translator_en', $b['translator']['en'] ?? '')) . '"></div></div>'
-       . '<label style="font-weight:400;margin-top:14px"><input type="checkbox" name="isFamous" value="1"' . (($old !== null ? (isset($old['isFamous']) && $old['isFamous'] === '1') : !empty($b['isFamous'])) ? ' checked' : '') . '> کتاب معروف (در سایت برجسته می‌شود)</label>';
+       . '<label style="font-weight:400;margin-top:14px"><input type="checkbox" name="isFamous" value="1"' . (($old !== null ? (isset($old['isFamous']) && $old['isFamous'] === '1') : !empty($b['isFamous'])) ? ' checked' : '') . '> کتاب معروف (در سایت برجسته می‌شود)</label>'
+       . '<label style="font-weight:400;margin-top:8px"><input type="checkbox" name="newArrival" value="1"' . (($old !== null ? (isset($old['newArrival']) && $old['newArrival'] === '1') : !empty($b['newSeq'])) ? ' checked' : '') . '> ثبت به‌عنوان کتاب جدید (در بخش «جدیدترین‌ها»؛ فقط ۱۰۰ کتاب آخر نمایش داده می‌شود)</label>';
     fs('توضیح');
     echo '<label>توضیح (فارسی)</label><textarea name="desc_fa">' . e($v('desc_fa', $b['desc']['fa'] ?? '')) . '</textarea>'
        . '<label>توضیح (انگلیسی) <span class="hint">— اختیاری</span></label><textarea class="ltr" name="desc_en">' . e($v('desc_en', $b['desc']['en'] ?? '')) . '</textarea>';

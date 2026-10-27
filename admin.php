@@ -1113,28 +1113,26 @@ function layout_start($title) {
        . '.login h1{font-size:1.2rem;margin:0 0 4px}.login .btn{width:100%;margin-top:18px}'
        // ---- موبایل: سایدبار → نوار پایین ----
        . '@media(max-width:860px){.fs{grid-template-columns:1fr;gap:12px}.formcard{padding:6px 18px 4px}}'
-       . '.morebtn{display:none}'
+       . '.morebtn{display:none}.adm-menubtn{display:none}'
        . '@media(max-width:760px){'
-       .   '.side{inset:auto 0 0 0;width:auto;flex-direction:row;padding:6px calc(6px + var(--sr)) calc(6px + env(safe-area-inset-bottom)) calc(6px + var(--sl));border-top:1px solid rgba(255,255,255,.1);gap:2px}'
-       .   '.brand{display:none}.snav{flex-direction:row;flex:1;margin:0;border:0;padding:0;gap:2px;min-width:0}'
-       .   '.snav a,.morebtn{display:flex;align-items:center;flex-direction:column;gap:2px;justify-content:center;padding:6px 2px;font-size:.68rem;text-align:center;min-height:52px;min-width:0;flex:1 1 0;width:auto;position:relative;border-radius:10px;color:var(--sidet);background:none;border:0;font-family:inherit;cursor:pointer;text-decoration:none}'
-       .   '.morebtn[aria-expanded=true]{background:rgba(255,255,255,.1);color:#fff}'
-       .   '.morebtn{flex:0 0 17%}'
-       .   '.sfoot{display:none;position:fixed;right:calc(8px + var(--sr));left:calc(8px + var(--sl));bottom:calc(68px + env(safe-area-inset-bottom));background:var(--side);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:6px;margin:0;flex-direction:column;gap:2px;box-shadow:0 14px 40px rgba(0,0,0,.45);z-index:30}'
-       .   '.side.more .sfoot{display:flex}.side.more{z-index:40}'
+       .   '.side{position:fixed;top:0;bottom:0;right:0;left:auto;width:min(290px,84vw);transform:translateX(105%);visibility:hidden;transition:transform .25s ease,visibility .25s;padding:calc(16px + var(--st)) 12px calc(16px + env(safe-area-inset-bottom)) calc(12px + var(--sr));box-shadow:-10px 0 30px rgba(0,0,0,.35);z-index:40;overflow-y:auto;overscroll-behavior:contain}'
+       .   '.side.open{transform:none;visibility:visible}.brand{padding:2px 8px 18px}.snav{flex-direction:column;gap:3px;margin:0;flex:0 0 auto}'
+       .   '.snav a{display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:48px;font-size:.95rem;border-radius:10px;color:var(--sidet);text-decoration:none;width:100%}'
+       .   '.adm-scrim{display:none;position:fixed;inset:0;background:rgba(10,12,18,.5);z-index:35}.adm-scrim.on{display:block}'
+       .   '.adm-menubtn{display:inline-flex;position:fixed;top:calc(10px + var(--st));right:calc(10px + var(--sr));z-index:30;align-items:center;gap:7px;min-height:42px;padding:0 14px;border:1px solid var(--b);border-radius:10px;background:var(--card);color:var(--t);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(20,24,33,.15)}'
+       .   '.adm-menubtn .ic{width:20px;height:20px}'
+       .   '.sfoot{display:flex;position:static;margin-top:auto;border-top:1px solid rgba(255,255,255,.09);padding-top:12px;gap:3px}'
        .   '.sfoot a,.sfoot button{flex-direction:row;justify-content:flex-start;gap:12px;padding:12px 14px;min-height:48px;font-size:.92rem;width:100%}'
        .   '.sfoot .lg{display:inline}.sfoot .sh{display:none}'
-       .   '.snav a.on{box-shadow:inset 0 3px 0 var(--p)}'
+       .   '.snav a.on{box-shadow:inset -3px 0 0 var(--p)}'
        // لیبل‌های نوار پایین هیچ‌وقت با «…» بریده نشوند: اگر جا نبود، می‌شکنند؛ روی گوشی‌های باریک فونت و فاصله کمی کوچک‌تر می‌شود
        .   '.side .snav a span{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.3;overflow-wrap:break-word}'
-       .   '.main{margin:0;padding:calc(18px + var(--st)) calc(16px + var(--sr)) calc(96px + env(safe-area-inset-bottom)) calc(16px + var(--sl))}.ph h1{font-size:1.35rem}'
+       .   '.main{margin:0;padding:calc(64px + var(--st)) calc(16px + var(--sr)) calc(96px + env(safe-area-inset-bottom)) calc(16px + var(--sl))}.ph h1{font-size:1.35rem}'
        .   '.row{grid-template-columns:1fr}.shelf{grid-template-columns:repeat(2,1fr);gap:12px}.ac .acts{flex-direction:column}'
-       .   '.adm-themebox{right:calc(12px + var(--sr));left:calc(12px + var(--sl));bottom:calc(76px + env(safe-area-inset-bottom));width:auto}'
-       .   '.actions{bottom:calc(66px + env(safe-area-inset-bottom));right:0;left:0;width:auto;padding:10px calc(16px + var(--sr)) 10px calc(16px + var(--sl))}.formcard{margin-bottom:110px}'
+       .   '.adm-themebox{right:calc(12px + var(--sr));left:calc(12px + var(--sl));bottom:calc(12px + env(safe-area-inset-bottom));width:auto}'
+       .   '.actions{bottom:0;right:0;left:0;width:auto;padding:10px calc(16px + var(--sr)) calc(10px + env(safe-area-inset-bottom)) calc(16px + var(--sl))}.formcard{margin-bottom:110px}'
        .   'input[type=text],input[type=password],input[type=number],select,textarea{font-size:16px}'
        .   '.review-card>div:last-child{flex-direction:row!important;width:100%}.review-card>div:last-child .btn{flex:1}}'
-       . '@media(max-width:400px){.side{padding-left:calc(3px + var(--sl));padding-right:calc(3px + var(--sr));gap:0}.snav{gap:0}.snav a,.morebtn{font-size:.64rem;padding:6px 0}.morebtn{flex:0 0 14%}}'
-       . '@media(max-width:340px){.snav a,.morebtn{font-size:.6rem}.snav a .ic,.morebtn .ic{width:18px;height:18px}}'
        . '.sh{display:none}@media(max-width:760px){.lg{display:none}.sh{display:inline}.stats{gap:8px}.stat{padding:5px 12px}.stat b{font-size:1.1rem}.stat span{font-size:.78rem}}'
        // ---- داشبورد و کاربران ----
        . '.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}'
@@ -1159,7 +1157,7 @@ function layout_start($title) {
        . '.lb-in{background:var(--card);color:var(--t);border-radius:14px;max-width:560px;width:100%;max-height:100%;overflow:auto;padding:14px}'
        . '.lb-in img{width:100%;max-height:62vh;max-height:62dvh;object-fit:contain;border-radius:10px;background:rgba(128,128,128,.2);display:block}.lb-acts{display:flex;gap:10px;margin-top:12px}.lb-acts .btn{flex:1}'
        . '@media(max-width:860px){.two{grid-template-columns:1fr}}'
-       . '@media(max-width:760px){.snav a .badge{position:absolute;top:2px;left:calc(50% - 24px);margin:0}.urow{flex-wrap:wrap}.kpi b{font-size:1.4rem}}'
+       . '@media(max-width:760px){.urow{flex-wrap:wrap}.kpi b{font-size:1.4rem}}'
        // ---- امنیت ----
        . '.keybox{direction:ltr;font-family:Consolas,monospace;font-size:1.2rem;letter-spacing:2px;background:var(--inp);border:1px dashed var(--b);border-radius:10px;padding:12px 14px;word-break:break-all;user-select:all;margin:8px 0}'
        . '.btns{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.card form{margin:0}.card .row{margin-top:0}.sec-note{background:rgba(180,83,9,.1);border:1px solid rgba(180,83,9,.35);border-radius:10px;padding:10px 14px;font-size:.84rem;margin:12px 0}'
@@ -1204,12 +1202,6 @@ function layout_start($title) {
        .   '.msg a{display:inline-block;padding:12px 6px;margin:-12px -6px}'
        .   '.rj-list label{min-height:44px;display:flex;align-items:center}}'
        // ---- نوار پایین فرم‌ها در گوشی: جمع‌وجورتر + با اسکرول به پایین نوار ناوبری مخفی می‌شود (با اسکرول به بالا برمی‌گردد) ----
-       . '@media(max-width:760px){html.hasact .side{padding-top:3px;padding-bottom:calc(3px + env(safe-area-inset-bottom))}'
-       .   'html.hasact .snav a,html.hasact .morebtn{min-height:46px}'
-       .   'html.hasact .actions{bottom:calc(53px + env(safe-area-inset-bottom));padding-top:8px;padding-bottom:8px}'
-       .   'html.hasact .side,html.hasact .actions{transition:transform .2s ease,bottom .2s ease}'
-       .   'html.hasact.navhide .side{transform:translateY(100%)}'
-       .   'html.hasact.navhide .actions{bottom:0;padding-bottom:calc(8px + env(safe-area-inset-bottom))}}'
        . '@media(prefers-reduced-motion:reduce){html.hasact .side,html.hasact .actions{transition:none}}'
        . feedback_css()
        . '</style></head><body>';
@@ -1218,7 +1210,10 @@ function layout_start($title) {
 function shell_open($active) {
     global $SHELL;
     $SHELL = true;
-    echo '<div class="app"><aside class="side">'
+    // گوشی: منوی کناری یک کشوی بسته است و با دکمه‌ی «منو» باز می‌شود؛ دسکتاپ همان سایدبار ثابت است
+    echo '<div class="app">'
+       . '<button type="button" class="adm-menubtn" id="admMenuBtn" aria-expanded="false" aria-controls="admSide"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>منو</span></button>'
+       . '<aside class="side" id="admSide">'
        . '<div class="brand"><div class="brand-mark">' . icon('book') . '</div><div><b>PDF مارکت</b><small>پنل مدیریت</small></div></div>'
        . '<nav class="snav"><a href="admin.php"' . ($active === 'home' ? ' class="on"' : '') . '>' . icon('home') . '<span>داشبورد</span></a>'
        . '<a href="admin.php?a=list"' . ($active === 'authors' ? ' class="on"' : '') . '>' . icon('book') . '<span>نویسنده‌ها</span></a>'
@@ -1226,16 +1221,16 @@ function shell_open($active) {
        . '<a href="admin.php?a=featured"' . ($active === 'featured' ? ' class="on"' : '') . '>' . icon('users') . '<span class="lg">کادر چهره‌ها</span><span class="sh">چهره‌ها</span></a>'
        . '<a href="admin.php?a=users"' . ($active === 'users' ? ' class="on"' : '') . '>' . icon('users') . '<span>کاربران</span><i class="badge" id="navUsersBadge" hidden></i></a>'
        . '<a href="admin.php?a=security"' . ($active === 'security' ? ' class="on"' : '') . '>' . icon('shield') . '<span>امنیت</span></a></nav>'
-       . '<button type="button" class="morebtn" id="admMoreBtn" aria-expanded="false" aria-controls="admSfoot">' . icon('more') . '<span>بیشتر</span></button>'
        . '<div class="sfoot" id="admSfoot"><a href="index.html" target="_blank">' . icon('site') . '<span class="lg">مشاهده‌ی سایت</span><span class="sh">سایت</span></a>'
        . '<button type="button" id="admThemeBtn">' . icon('theme') . '<span>رنگ پنل</span></button>'
        . '<a href="admin.php?a=logout">' . icon('logout') . '<span>خروج</span></a></div></aside>'
-       // منوی «بیشتر» فقط در موبایل: سایت / رنگ پنل / خروج داخل یک پنجره‌ی کوچک باز می‌شوند
-       . '<script>(function(){var s=document.querySelector(".side"),b=document.getElementById("admMoreBtn"),t=document.getElementById("admThemeBtn");if(!s||!b)return;'
-       . 'function set(o){s.classList.toggle("more",o);b.setAttribute("aria-expanded",o?"true":"false");}'
-       . 'b.addEventListener("click",function(e){e.stopPropagation();set(!s.classList.contains("more"));});'
-       . 'if(t)t.addEventListener("click",function(){set(false);});'
-       . 'document.addEventListener("click",function(e){if(s.classList.contains("more")&&!s.contains(e.target))set(false);'
+       . '<div class="adm-scrim" id="admScrim"></div>'
+       // منوی کشویی گوشی: با دکمه «منو» باز، با انتخاب یک گزینه، کلیک بیرون یا Escape بسته می‌شود
+       . '<script>(function(){var s=document.getElementById("admSide"),m=document.getElementById("admMenuBtn"),sc=document.getElementById("admScrim"),t=document.getElementById("admThemeBtn");if(!s||!m)return;'
+       . 'function set(o){s.classList.toggle("open",o);sc.classList.toggle("on",o);m.setAttribute("aria-expanded",o?"true":"false");}'
+       . 'm.addEventListener("click",function(e){e.stopPropagation();set(!s.classList.contains("open"));});'
+       . 's.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("a,button"))set(false);});'
+       . 'document.addEventListener("click",function(e){if(s.classList.contains("open")&&!s.contains(e.target))set(false);'
        . 'var tb=document.getElementById("admThemeBox");if(tb&&tb.classList.contains("open")&&window.matchMedia("(max-width:760px)").matches&&!tb.contains(e.target)&&!(t&&t.contains(e.target)))tb.classList.remove("open");});'
        . 'document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});})();</script><main class="main">';
 }
@@ -1388,19 +1383,11 @@ echo '<script>(function(){var C=["#faf6f0","#ffffff","#f8f4ec","#f0f0f2","#fffdf
 // دکمه‌ی برگشتِ گوشی: اول منوی «بیشتر» / پنجره‌ی رنگ پنل را می‌بندد، نه اینکه صفحه را ترک کند
 echo <<<'JS'
 <script>(function(){
-  var s=document.querySelector(".side"),b=document.getElementById("admMoreBtn"),tb=document.getElementById("admThemeBox");
+  var s=document.querySelector(".side"),tb=document.getElementById("admThemeBox");
   var de=document.documentElement;
   function initAct(){
     if(!s||!document.querySelector(".actions"))return;
     de.classList.add("hasact");
-    var last=window.pageYOffset||0,mq=window.matchMedia("(max-width:760px)");
-    window.addEventListener("scroll",function(){
-      var y=window.pageYOffset||0,d=y-last;
-      if(Math.abs(d)<10)return;
-      last=y;
-      var open=s.classList.contains("more")||(tb&&tb.classList.contains("open"));
-      de.classList.toggle("navhide",mq.matches&&d>0&&y>80&&!open);
-    },{passive:true});
   }
   /* این اسکریپت قبل از محتوای صفحه چاپ می‌شود؛ پس تا DOM کامل نشده نوار «ذخیره/انصراف» دیده نمی‌شود */
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initAct);else initAct();
@@ -1430,10 +1417,11 @@ echo <<<'JS'
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initPick);else initPick();
   if(!window.history||!history.pushState||!window.MutationObserver||(!s&&!tb))return;
   var pushed=false;
-  function anyOpen(){return !!((s&&s.classList.contains("more"))||(tb&&tb.classList.contains("open")));}
+  function anyOpen(){return !!((s&&s.classList.contains("open"))||(tb&&tb.classList.contains("open")));}
   function closeAll(){
-    if(s)s.classList.remove("more");
-    if(b)b.setAttribute("aria-expanded","false");
+    if(s)s.classList.remove("open");
+    var sc=document.getElementById("admScrim");if(sc)sc.classList.remove("on");
+    var mb=document.getElementById("admMenuBtn");if(mb)mb.setAttribute("aria-expanded","false");
     if(tb)tb.classList.remove("open");
   }
   var chkT=null;

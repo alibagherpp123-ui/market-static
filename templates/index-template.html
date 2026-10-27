@@ -97,6 +97,7 @@
        این فونت‌ها از قبل روی خودِ دستگاه نصب‌اند، هیچ دانلودی لازم ندارند، پس هیچ‌وقت دیر نمی‌رسند
        و هیچ‌وقت وسط کار عوض نمی‌شن - نه فلش، نه تأخیر، نه وابستگی به فیلتر بودن گوگل. -->
   <link rel="stylesheet" href="{{CSS_HREF}}">
+  <style>#activeFilterBanner{display:none!important}</style>
   <script>
     // جلوگیری از «فلش تم روشن» لحظه‌ی باز شدن سایت (مثلاً شب که باید تیره باشه):
     // این اسکریپت همین‌جا توی <head> و قبل از رندر شدن body اجرا می‌شه، تم ذخیره‌شده یا
@@ -283,6 +284,10 @@
     <button class="menu-highlight-btn" onclick="filterBySpecial('bestsellerIran')">
       <span>🔥</span>
       <span data-i18n="menuBestIran">پرفروش‌ترین‌ها در ایران</span>
+    </button>
+    <button class="menu-highlight-btn" onclick="filterBySpecial('newest')">
+      <span>🆕</span>
+      <span>جدیدترین‌ها</span>
     </button>
 
     <div class="accordion-section" style="margin-top: 10px;">
@@ -1175,7 +1180,7 @@
     </div>
   </div>
 
-  <script src="images/avatars/avatar-svgs.js"></script>
+  <script src="{{BASE}}/images/avatars/avatar-svgs.js"></script>
   <!-- supabase به‌صورت غیرمسدودکننده (async) لود می‌شود تا اگر CDN کند/فیلتر بود سایت هنگ نکند -->
   <script>
     window.__PAGE_DATA = {
@@ -1238,5 +1243,6 @@
       });
     })();
   </script>
+{{SEO_LINKS}}
 </body>
 </html>

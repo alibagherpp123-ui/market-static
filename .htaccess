@@ -9,6 +9,10 @@ RewriteRule ^en\.html$ index.php [L]
 # صفحه‌ی مستقل هر کتاب: book-1-crime-and-punishment.html  و  en-book-1-crime-and-punishment.html
 RewriteRule ^book-([a-z0-9]+)(-[a-z0-9-]*)?\.html$ book.php?id=$1 [L,QSA]
 RewriteRule ^en-book-([a-z0-9]+)(-[a-z0-9-]*)?\.html$ book.php?id=$1 [L,QSA]
+# صفحه‌های فیلتر دوزبانه: /fa/پرفروش‌ترین‌های-سایت/  و  /en/best-sellers-on-site/
+RewriteRule ^(fa|en)/([^/]+)/?$ index.php?l=$1&f=$2 [L,QSA]
+# ترکیب دو فیلتر: /fa/ادبیات/انتشارات-خوارزمی/
+RewriteRule ^(fa|en)/([^/]+)/([^/]+)/?$ index.php?l=$1&f=$2&f2=$3 [L,QSA]
 RewriteRule ^sitemap\.xml$ sitemap.php [L]
 RewriteRule ^robots\.txt$ robots.php [L]
 
