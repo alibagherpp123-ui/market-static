@@ -1,6 +1,26 @@
 # آدرس‌های تمیز: author-hedayat.html  ->  author.php?slug=hedayat
 DirectoryIndex index.php index.html
+# نمایش فهرست فایل‌های پوشه‌ها (مثل /data/ و /assets/) را خاموش کن؛ اگر فایل index نباشد، سرور لیست فایل‌ها را نشان می‌دهد
+Options -Indexes
+# پنهان کردن نسخه‌ی PHP (هدر X-Powered-By) و امضای Apache در صفحه‌های خطا؛ هدر Server فقط از تنظیمات خود سرور قابل تغییر است
+ServerSignature Off
+<IfModule mod_headers.c>
+  Header unset X-Powered-By
+  # به مرورگر می‌گوید نوع فایل‌ها را حدس نزند و همان نوعی که سرور اعلام کرده را به کار ببرد
+  Header always set X-Content-Type-Options "nosniff"
+  # جلوگیری از نمایش سایت داخل قاب سایت‌های دیگر؛ فقط خود همین سایت اجازه‌ی قاب گرفتن دارد
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # فقط نام سایت (نه آدرس کامل صفحه) را به سایت‌های مقصد می‌فرستد، وقتی کاربر از این سایت به جای دیگری می‌رود
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
 RewriteEngine On
+# فقط روش‌های لازم سایت (GET, HEAD, POST, OPTIONS) را قبول کن؛ بقیه مثل TRACK با 405 رد می‌شوند
+RewriteCond %{REQUEST_METHOD} !^(GET|HEAD|POST|OPTIONS)$
+RewriteRule .* - [R=405,L]
+# بستن دسترسی مستقیم به پوشهٔ داخلی گیت و تمام فایل‌های آن
+# این قانون باید قبل از قانون‌های تبدیل آدرس صفحه‌ها باشد.
+RewriteRule (^|/)\.git(/|$) - [F,L,NC]
+
 RewriteRule ^index\.html$ index.php [L]
 RewriteRule ^author-([a-z0-9-]+)\.html$ author.php?slug=$1 [L,QSA]
 # نسخه‌ی انگلیسی: en-author-hedayat.html و en.html (صفحه‌ی اصلی انگلیسی)
