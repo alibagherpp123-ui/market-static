@@ -97,6 +97,7 @@ $html = strtr($template, array(
     '{{DIR}}' => $isEn ? 'ltr' : 'rtl',
     '{{BODY_CLASS}}' => $isEn ? 'en-mode' : '',
     '{{PAGE_LANG_JSON}}' => json_encode($lang),
+    '{{BASE_JSON}}' => json_encode(site_base_path()),
     '{{ALT_URL_JSON}}' => json_encode($route !== null ? ($isEn ? $urlFa : $urlEn) : ($isEn ? 'index.html' : 'en.html')),
     '{{SEO_LINKS}}' => ($route !== null ? '<section class="seo-page-title" style="max-width:1100px;margin:30px auto 0;padding:0 16px;"><h1 style="font-size:20px;">' . e($route['title'][$lang]) . '</h1><p style="font-size:14px;">' . e($desc) . '</p></section>' . "\n" : '') . filter_links_html($base, $lang),
     '{{AUTHORS_JSON}}' => authors_public_json($authorsFile['data']),

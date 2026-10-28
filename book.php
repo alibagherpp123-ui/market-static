@@ -221,6 +221,7 @@ $replace = array(
     '{{BODY_CLASS}}' => $isEn ? 'en-mode' : '',
     '{{HOME_HREF}}' => $homeHref,
     '{{PAGE_LANG_JSON}}' => json_encode($lang),
+    '{{BASE_JSON}}' => json_encode(site_base_path()),
     '{{ALT_URL_JSON}}' => json_encode($altFile),
     '{{NAME_FA_JSON}}' => json_encode(($author !== null && isset($author['name']['fa'])) ? $author['name']['fa'] : $siteNameFa, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS),
     '{{NAME_EN_JSON}}' => json_encode(($author !== null && isset($author['name']['en'])) ? $author['name']['en'] : $siteNameEn, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS),

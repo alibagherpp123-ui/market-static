@@ -230,6 +230,7 @@ $replace = array(
     '{{BODY_CLASS}}' => $isEn ? 'en-mode' : '',
     '{{HOME_HREF}}' => $isEn ? 'en.html' : 'index.html',
     '{{PAGE_LANG_JSON}}' => json_encode($lang),
+    '{{BASE_JSON}}' => json_encode(site_base_path()),
     '{{ALT_URL_JSON}}' => json_encode(($isEn ? 'author-' : 'en-author-') . $slug . '.html'),
     '{{L_LIFESPAN}}' => e($L('سال تولد – وفات:', 'Born – Died:')),
     '{{L_NATIONALITY}}' => e($L('ملیت:', 'Nationality:')),
